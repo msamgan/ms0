@@ -56,9 +56,10 @@ export default function Welcome({}) {
                                 type="text"
                                 name="url"
                                 id="url"
-                                placeholder="paste your url here"
+                                placeholder="Paste your url here"
+                                autoFocus={true}
                                 onChange={(e) => setUrl(e.target.value)}
-                                className="flex flex-1 border sm:text-sm rounded-md focus:ring-inset border-gray-300 text-gray-800 bg-gray-100 focus:ring-sky-600"
+                                className="flex flex-1 border text-lg rounded-md focus:ring-inset border-gray-300 text-gray-800 bg-white focus:ring-sky-600"
                             />
                         </div>
                         <p className="py-2 text-lg text-start text-gray-600">
@@ -95,7 +96,7 @@ export default function Welcome({}) {
                                 </div>
                                 <div className="p-4 flex-1">
                                     <h3 className="text-xl font-bold text-start">Error</h3>
-                                    <p className="text-lg text-gray-600 text-start">{error}</p>
+                                    <p className="text-lg text-red-600 font-bold text-start">{error}</p>
                                 </div>
                                 <button className="absolute top-2 right-2">
                                     <svg
@@ -118,7 +119,7 @@ export default function Welcome({}) {
                             <div className={"w-full"}>
                                 <div className="flex items-center justify-between p-6 border-l-8 sm:py-8 border-sky-600 bg-gray-50 text-gray-800">
                                     <span
-                                        className={"cursor-pointer"}
+                                        className={"cursor-pointer text-lg font-bold text-start"}
                                         onClick={() => {
                                             navigator.clipboard.writeText(shortUrl)
                                             setNotification("copied to clipboard")
