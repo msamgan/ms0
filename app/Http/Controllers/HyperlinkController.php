@@ -40,7 +40,7 @@ class HyperlinkController extends Controller
         Hyperlink::create([
             'url' => $request->get('url'),
             'shot_slug' => $shotSlug,
-            'last_visit' => now()
+            'last_visit' => now(),
         ]);
 
         return response()->json([
@@ -71,6 +71,7 @@ class HyperlinkController extends Controller
             $hyperlink->visits = $hyperlink->visits + 1;
             $hyperlink->last_visit = now();
             $hyperlink->save();
+
             return redirect($hyperlink->url);
         }
 
