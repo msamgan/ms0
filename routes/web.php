@@ -7,10 +7,7 @@ use Inertia\Inertia;
 
 Route::get('/', function () {
     return Inertia::render('Welcome');
-});
-
-Route::post('/api/shorten', [HyperlinkController::class, 'store'])->name('api.shorten');
-Route::get('/{shot_slug}', [HyperlinkController::class, 'show'])->name('show');
+})->name('home');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -23,3 +20,7 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__ . '/auth.php';
+
+Route::post('/api/shorten', [HyperlinkController::class, 'store'])->name('api.shorten');
+Route::get('/api/docs', [HyperlinkController::class, 'apiDocs'])->name('api_docs');
+Route::get('/{shot_slug}', [HyperlinkController::class, 'show'])->name('show');

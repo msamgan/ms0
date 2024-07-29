@@ -1,7 +1,9 @@
-import {Head} from "@inertiajs/react"
-import {useState} from "react"
+import { Head } from "@inertiajs/react"
+import { useState } from "react"
+import Header from "@/Components/Header.jsx"
+import Footer from "@/Components/Footer.jsx";
 
-export default function Welcome({}) {
+export default function Welcome({ }) {
     const [url, setUrl] = useState("")
     const [error, setError] = useState(null)
     const [shortUrl, setShortUrl] = useState(null)
@@ -42,14 +44,12 @@ export default function Welcome({}) {
 
     return (
         <>
-            <Head title="Welcome"/>
+            <Head title="Welcome" />
+            <Header />
 
-            <section className="bg-gray-100 text-gray-800 h-96">
-                <div
-                    className="container mx-auto flex flex-col items-center px-4 py-16 text-center md:px-10 lg:px-32 xl:max-w-4xl">
-
-                    <img src="/ms0_logo.png" className="w-48 h-48" alt={'logo'}/>
-
+            <section className="bg-gray-100 text-gray-800 mb-28">
+                <div className="container mx-auto flex flex-col items-center px-4 text-center md:px-10 lg:px-32 xl:max-w-4xl">
+                    <img src="/ms0_logo.png" className="w-48 h-48" alt={"logo"} />
                     <h1 className="text-3xl font-bold leading-none sm:text-3xl">
                         You know what to do, right?
                         <span className="text-sky-600"> Shorten It</span>
@@ -67,7 +67,7 @@ export default function Welcome({}) {
                             />
                         </div>
                         <p className="py-2 text-lg text-start text-gray-600">
-                            All the URLs will be removed after 6 months of inactivity.
+                            All the URLs will be deactivated after 6 months of inactivity.
                         </p>
                         <div className="flex flex-wrap justify-end">
                             <button
@@ -81,10 +81,8 @@ export default function Welcome({}) {
 
                     <div className={"mt-6 w-full"}>
                         {error && (
-                            <div
-                                className="flex items-center rounded shadow-md overflow-hidden relative bg-gray-50 text-gray-800 w-full">
-                                <div
-                                    className="self-stretch flex items-center px-3 flex-shrink-0 bg-gray-300 text-sky-600">
+                            <div className="flex items-center rounded shadow-md overflow-hidden relative bg-gray-50 text-gray-800 w-full">
+                                <div className="self-stretch flex items-center px-3 flex-shrink-0 bg-gray-300 text-sky-600">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         fill="none"
@@ -123,8 +121,7 @@ export default function Welcome({}) {
 
                         {shortUrl && (
                             <div className={"w-full"}>
-                                <div
-                                    className="flex items-center justify-between p-6 border-l-8 sm:py-8 border-sky-600 bg-gray-50 text-gray-800">
+                                <div className="flex items-center justify-between p-6 border-l-8 sm:py-8 border-sky-600 bg-gray-50 text-gray-800">
                                     <span
                                         className={"cursor-pointer text-lg font-bold text-start"}
                                         onClick={() => {
@@ -143,24 +140,28 @@ export default function Welcome({}) {
                             </div>
                         )}
                     </div>
+
+                    <div className="container flex flex-col justify-start text-start py-8">
+                        <h2 className="text-2xl font-semibold sm:text-4xl">Why Register?</h2>
+                        <ol className="list-decimal text-gray-900 list-inside text-lg mt-5">
+                            <li className={"leading-7"}>
+                                First, and most simple answer is to get access to APIs
+                            </li>
+                            <li className={"leading-7"}>
+                                With registration you get to track your shortened links, how many times they
+                                have been used, when they were used last etc...
+                            </li>
+                            <li className={"leading-7"}>
+                                As mentioned above, the links will be deactivated after 6 months of inactivity,
+                                but if you are a registered user, you can reactivate the link at any time
+                            </li>
+                            <li className={"leading-7"}>Never loose a short link again</li>
+                        </ol>
+                    </div>
                 </div>
             </section>
 
-            <footer className="px-4 divide-y bg-gray-100 text-gray-800 mt-96">
-                <p className={"py-2 text-lg text-center text-gray-600"}>
-                    Show some love by starting a project on{" "}
-                    <a className={"text-sky-600"} href={"https://github.com/msamgan/ms0"}>
-                        GitHub
-                    </a>
-                </p>
-                <div className="py-2 text-lg text-center text-gray-600">
-                    © {new Date().getFullYear()}. All rights reserved. Made with ❤️ by{" "}
-                    <a className={"text-sky-600"} href={"https://msamgan.com"}>
-                        {" "}
-                        msamgan
-                    </a>
-                </div>
-            </footer>
+            <Footer />
         </>
     )
 }

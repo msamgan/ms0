@@ -9,6 +9,8 @@ use App\Shortener;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class HyperlinkController extends Controller
 {
@@ -100,5 +102,10 @@ class HyperlinkController extends Controller
     public function destroy(Hyperlink $hyperlink)
     {
         //
+    }
+
+    public function apiDocs(): Response
+    {
+        return Inertia::render('ApiDocs');
     }
 }
