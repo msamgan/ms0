@@ -1,5 +1,4 @@
 import { useState } from "react"
-import ApplicationLogo from "@/Components/ApplicationLogo"
 import Dropdown from "@/Components/Dropdown"
 import NavLink from "@/Components/NavLink"
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink"
@@ -60,6 +59,7 @@ export default function AuthenticatedLayout({ user, header, children }) {
 
                                     <Dropdown.Content>
                                         <Dropdown.Link href={route("profile.edit")}>Profile</Dropdown.Link>
+                                        <Dropdown.Link href={route("api_docs")}>APIs</Dropdown.Link>
                                         <Dropdown.Link href={route("logout")} method="post" as="button">
                                             Log Out
                                         </Dropdown.Link>
