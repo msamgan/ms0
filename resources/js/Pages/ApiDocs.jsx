@@ -2,7 +2,7 @@ import { Head } from "@inertiajs/react"
 import Header from "@/Components/Header.jsx"
 import Footer from "@/Components/Footer.jsx"
 
-export default function ApiDocs({ isAuthenticated, token }) {
+export default function ApiDocs({ isAuthenticated, token, api_endpoint }) {
     return (
         <>
             <Head title="Api Docs" />
@@ -23,7 +23,7 @@ export default function ApiDocs({ isAuthenticated, token }) {
                     </p>
 
                     <h2 className="text-lg mt-8 font-semibold leading-none sm:text-lg">Endpoint</h2>
-                    <code className="mt-2">POST /api/shorten</code>
+                    <code className="mt-2">POST {api_endpoint}</code>
 
                     <h2 className="text-lg mt-8 font-semibold leading-none sm:text-lg">Headers</h2>
                     <code className="mt-2 whitespace-pre-wrap">

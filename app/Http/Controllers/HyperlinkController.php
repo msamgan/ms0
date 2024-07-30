@@ -138,7 +138,8 @@ class HyperlinkController extends Controller
     {
         return Inertia::render('ApiDocs', [
             'isAuthenticated' => auth()->check(),
-            'token' => auth()->user()->access_token,
+            'token' => auth()->user()->access_token ?? null,
+            'api_endpoint' => route('api.reduce'),
         ]);
     }
 

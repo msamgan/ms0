@@ -36,7 +36,7 @@ require __DIR__ . '/auth.php';
 Route::post('/api/shorten', [HyperlinkController::class, 'store'])->name('api.shorten');
 Route::get('/api-documentation', [HyperlinkController::class, 'apiDocs'])->name('api_docs');
 
-Route::middleware('access-token-check')->post('/api/reduce', [HyperlinkController::class, 'reduce']);
+Route::middleware('access-token-check')->post('/api/reduce', [HyperlinkController::class, 'reduce'])->name('api.reduce');
 
 
 // this is the route that redirects the user to the original URL, this has to be the last route
