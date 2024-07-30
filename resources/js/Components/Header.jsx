@@ -1,6 +1,6 @@
 import { Link } from "@inertiajs/react"
 
-export default function Header() {
+export default function Header({ isAuthenticated = false }) {
     const linkClass = "flex items-center px-4 -mb-1 border-b-2 border-transparent"
     const linkActiveClass = "flex items-center px-4 -mb-1 border-b-2 border-indigo-400"
 
@@ -17,24 +17,38 @@ export default function Header() {
                             Home
                         </Link>
                     </li>
-                    <li className="flex">
-                        <Link
-                            rel="noopener noreferrer"
-                            href={route("register")}
-                            className={route().current("register") ? linkActiveClass : linkClass}
-                        >
-                            Register
-                        </Link>
-                    </li>
-                    <li className="flex">
-                        <Link
-                            rel="noopener noreferrer"
-                            href={route("login")}
-                            className={route().current("login") ? linkActiveClass : linkClass}
-                        >
-                            Login
-                        </Link>
-                    </li>
+                    {isAuthenticated ? (
+                        <li className="flex">
+                            <Link
+                                rel="noopener noreferrer"
+                                href={route("dashboard")}
+                                className={route().current("register") ? linkActiveClass : linkClass}
+                            >
+                                Dashboard
+                            </Link>
+                        </li>
+                    ) : (
+                        <>
+                            <li className="flex">
+                                <Link
+                                    rel="noopener noreferrer"
+                                    href={route("register")}
+                                    className={route().current("register") ? linkActiveClass : linkClass}
+                                >
+                                    Register
+                                </Link>
+                            </li>
+                            <li className="flex">
+                                <Link
+                                    rel="noopener noreferrer"
+                                    href={route("login")}
+                                    className={route().current("login") ? linkActiveClass : linkClass}
+                                >
+                                    Login
+                                </Link>
+                            </li>
+                        </>
+                    )}
                     <li className="flex">
                         <Link
                             rel="noopener noreferrer"

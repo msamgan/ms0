@@ -1,12 +1,12 @@
 import { Head } from "@inertiajs/react"
 import Header from "@/Components/Header.jsx"
-import Footer from "@/Components/Footer.jsx";
+import Footer from "@/Components/Footer.jsx"
 
-export default function ApiDocs() {
+export default function ApiDocs({ isAuthenticated, token }) {
     return (
         <>
             <Head title="Api Docs" />
-            <Header />
+            <Header isAuthenticated={isAuthenticated} />
 
             <section className="bg-gray-100 text-gray-800">
                 <div className="container mx-auto flex flex-col items-center px-4 text-center md:px-10 lg:px-32 xl:max-w-4xl">
@@ -26,9 +26,20 @@ export default function ApiDocs() {
                     <code className="mt-2">POST /api/shorten</code>
 
                     <h2 className="text-lg mt-8 font-semibold leading-none sm:text-lg">Headers</h2>
-                    <code className="mt-2">
-                        Authorization: Bearer <i>token</i>
+                    <code className="mt-2 whitespace-pre-wrap">
+                        Authorization: Bearer{" "}
+                        {isAuthenticated ? (
+                            <span
+                                className={"cursor-pointer"}
+                                onClick={() => navigator.clipboard.writeText(token)}
+                            >
+                                {token}
+                            </span>
+                        ) : (
+                            "<i>token</i>"
+                        )}
                     </code>
+                    {isAuthenticated && <small className="text-xs mt-2">click the access token to copy</small>}
 
                     <h2 className="text-lg mt-8 font-semibold leading-none sm:text-lg">Body</h2>
                     <code className="mt-2 whitespace-pre-wrap">

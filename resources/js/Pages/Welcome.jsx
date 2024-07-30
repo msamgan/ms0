@@ -1,9 +1,9 @@
 import { Head } from "@inertiajs/react"
 import { useState } from "react"
 import Header from "@/Components/Header.jsx"
-import Footer from "@/Components/Footer.jsx";
+import Footer from "@/Components/Footer.jsx"
 
-export default function Welcome({ }) {
+export default function Welcome({ isAuthenticated, user }) {
     const [url, setUrl] = useState("")
     const [error, setError] = useState(null)
     const [shortUrl, setShortUrl] = useState(null)
@@ -45,7 +45,7 @@ export default function Welcome({ }) {
     return (
         <>
             <Head title="Welcome" />
-            <Header />
+            <Header isAuthenticated={isAuthenticated} />
 
             <section className="bg-gray-100 text-gray-800 mb-28">
                 <div className="container mx-auto flex flex-col items-center px-4 text-center md:px-10 lg:px-32 xl:max-w-4xl">
@@ -141,23 +141,34 @@ export default function Welcome({ }) {
                         )}
                     </div>
 
-                    <div className="container flex flex-col justify-start text-start py-8">
-                        <h2 className="text-2xl font-semibold sm:text-4xl">Why Register?</h2>
-                        <ol className="list-decimal text-gray-900 list-inside text-lg mt-5">
-                            <li className={"leading-7"}>
-                                First, and most simple answer is to get access to APIs
-                            </li>
-                            <li className={"leading-7"}>
-                                With registration you get to track your shortened links, how many times they
-                                have been used, when they were used last etc...
-                            </li>
-                            <li className={"leading-7"}>
-                                As mentioned above, the links will be deactivated after 6 months of inactivity,
-                                but if you are a registered user, you can reactivate the link at any time
-                            </li>
-                            <li className={"leading-7"}>Never loose a short link again</li>
-                        </ol>
-                    </div>
+                    {isAuthenticated ? (
+                        <div className="container flex flex-col justify-start text-start py-8">
+                            <h2 className="text-2xl font-semibold sm:text-4xl">Welcome, {user.name}</h2>
+                            <p className="text-lg mt-5">
+                                We are glad you are here. You can now track your shortened links, how many times
+                                they have been used, when they were used last etc...
+                            </p>
+                        </div>
+                    ) : (
+                        <div className="container flex flex-col justify-start text-start py-8">
+                            <h2 className="text-2xl font-semibold sm:text-4xl">Why Register?</h2>
+                            <ol className="list-decimal text-gray-900 list-inside text-lg mt-5">
+                                <li className={"leading-7"}>
+                                    First, and most simple answer is to get access to APIs
+                                </li>
+                                <li className={"leading-7"}>
+                                    With registration you get to track your shortened links, how many times they
+                                    have been used, when they were used last etc...
+                                </li>
+                                <li className={"leading-7"}>
+                                    As mentioned above, the links will be deactivated after 6 months of
+                                    inactivity, but if you are a registered user, you can reactivate the link at
+                                    any time
+                                </li>
+                                <li className={"leading-7"}>Never loose a short link again</li>
+                            </ol>
+                        </div>
+                    )}
                 </div>
             </section>
 

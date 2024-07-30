@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreHyperlinkRequest;
 use App\Http\Requests\UpdateHyperlinkRequest;
+use App\Methods;
 use App\Models\Hyperlink;
 use App\Shortener;
 use Illuminate\Http\JsonResponse;
@@ -11,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
+use Random\RandomException;
 
 class HyperlinkController extends Controller
 {
@@ -106,6 +108,24 @@ class HyperlinkController extends Controller
 
     public function apiDocs(): Response
     {
-        return Inertia::render('ApiDocs');
+        return Inertia::render('ApiDocs', [
+            'isAuthenticated' => auth()->check(),
+            'token' => auth()->user()->access_token,
+        ]);
+    }
+
+    /**
+     * @throws RandomException
+     */
+    public function regenerateToken(): JsonResponse
+    {
+        $user = auth()->user();
+        $user->access_token = Methods::generateAccessToken();
+        $user->save();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Token regenerated successfully',
+        ]);
     }
 }

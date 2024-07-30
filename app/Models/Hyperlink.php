@@ -14,6 +14,7 @@ class Hyperlink extends Model
     use HasFactory, HasUuids;
 
     protected $fillable = [
+        'user_id',
         'url',
         'shot_slug',
         'visits',
