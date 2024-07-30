@@ -10,14 +10,14 @@ class Shortener
 
     const MAX_LENGTH = 4;
 
-    public static function shorten(string $url): string
+    public static function shorten(): string
     {
         $uuid = substr(str_shuffle(str_repeat(self::SELECTION, 5)), 0, self::MAX_LENGTH);
 
         $exist = Hyperlink::query()->where('shot_slug', $uuid)->first();
 
         if ($exist) {
-            return self::shorten($url);
+            return self::shorten();
         }
 
         return $uuid;

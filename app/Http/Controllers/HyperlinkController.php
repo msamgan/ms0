@@ -24,14 +24,34 @@ class HyperlinkController extends Controller
         //
     }
 
+    public function links(): Response
+    {
+        return Inertia::render('Links', [
+            'links' => Hyperlink::query()->where('user_id', auth()->id())->get()->map(function ($link) {
+                return [
+                    'id' => $link->id,
+                    'url' => $link->url,
+                    'shot_slug' => $link->shot_slug,
+                    'visits' => $link->visits,
+                    'last_visit' => date('F, d Y', strtotime($link->last_visit)),
+                    'shortened_url' => url('/' . $link->shot_slug),
+                    'status' => "Active",
+                ];
+            }),
+        ]);
+    }
+
     /**
      * Store a newly created resource in storage.
      */
     public function store(StoreHyperlinkRequest $request): JsonResponse
     {
-        $shotSlug = Shortener::shorten($request->get('url'));
-
         $hyperlinkExists = Hyperlink::query()->where('url', $request->get('url'))->first();
+
+        if ($hyperlinkExists && $hyperlinkExists->user_id === null && auth()->check()) {
+            $hyperlinkExists->user_id = auth()->id();
+            $hyperlinkExists->save();
+        }
 
         if ($hyperlinkExists) {
             return response()->json([
@@ -41,11 +61,19 @@ class HyperlinkController extends Controller
             ]);
         }
 
-        Hyperlink::create([
+        $shotSlug = Shortener::shorten();
+
+        $hyperLinkData = [
             'url' => $request->get('url'),
             'shot_slug' => $shotSlug,
             'last_visit' => now(),
-        ]);
+        ];
+
+        if (auth()->check()) {
+            $hyperLinkData['user_id'] = auth()->id();
+        }
+
+        Hyperlink::create($hyperLinkData);
 
         return response()->json([
             'status' => true,
