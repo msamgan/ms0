@@ -1,9 +1,9 @@
-import {Head} from "@inertiajs/react"
-import {useState} from "react"
+import { Head } from "@inertiajs/react"
+import { useState } from "react"
 import Header from "@/Components/Header.jsx"
 import Footer from "@/Components/Footer.jsx"
 
-export default function Welcome({isAuthenticated, user}) {
+export default function Welcome({ isAuthenticated, user }) {
     const [url, setUrl] = useState("")
     const [error, setError] = useState(null)
     const [shortUrl, setShortUrl] = useState(null)
@@ -44,13 +44,12 @@ export default function Welcome({isAuthenticated, user}) {
 
     return (
         <>
-            <Head title="Welcome"/>
-            <Header isAuthenticated={isAuthenticated}/>
+            <Head title="Welcome" />
+            <Header isAuthenticated={isAuthenticated} />
 
             <section className="bg-gray-100 text-gray-800 mb-28">
-                <div
-                    className="container mx-auto flex flex-col items-center px-4 text-center md:px-10 lg:px-32 xl:max-w-4xl">
-                    <img src="/ms0_logo.png" className="w-48 h-48" alt={"logo"}/>
+                <div className="container mx-auto flex flex-col items-center px-4 text-center md:px-10 lg:px-32 xl:max-w-4xl">
+                    <img src="/ms0_logo.png" className="w-48 h-48" alt={"logo"} />
                     <h1 className="text-3xl font-bold leading-none sm:text-3xl">
                         You know what to do, right?
                         <span className="text-sky-600"> Shorten It</span>
@@ -82,10 +81,8 @@ export default function Welcome({isAuthenticated, user}) {
 
                     <div className={"mt-6 w-full"}>
                         {error && (
-                            <div
-                                className="flex items-center rounded shadow-md overflow-hidden relative bg-gray-50 text-gray-800 w-full">
-                                <div
-                                    className="self-stretch flex items-center px-3 flex-shrink-0 bg-gray-300 text-sky-600">
+                            <div className="flex items-center rounded shadow-md overflow-hidden relative bg-gray-50 text-gray-800 w-full">
+                                <div className="self-stretch flex items-center px-3 flex-shrink-0 bg-gray-300 text-sky-600">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         fill="none"
@@ -124,8 +121,7 @@ export default function Welcome({isAuthenticated, user}) {
 
                         {shortUrl && (
                             <div className={"w-full"}>
-                                <div
-                                    className="flex items-center justify-between p-6 border-l-8 sm:py-8 border-sky-600 bg-gray-50 text-gray-800">
+                                <div className="flex items-center justify-between p-6 border-l-8 sm:py-8 border-sky-600 bg-gray-50 text-gray-800">
                                     <span
                                         className={"cursor-pointer text-lg font-bold text-start"}
                                         onClick={() => {
@@ -176,7 +172,7 @@ export default function Welcome({isAuthenticated, user}) {
                 </div>
             </section>
 
-            <Footer/>
+            <Footer />
         </>
     )
 }

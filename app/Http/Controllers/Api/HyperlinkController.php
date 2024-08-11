@@ -8,15 +8,10 @@ use App\Models\Hyperlink;
 use App\Shortener;
 use Illuminate\Http\JsonResponse;
 
-/**
- *
- */
 class HyperlinkController extends Controller
 {
     /**
      * Shorten a URL
-     * @param StoreHyperlinkRequest $request
-     * @return JsonResponse
      */
     public function shorten(StoreHyperlinkRequest $request): JsonResponse
     {
