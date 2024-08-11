@@ -12,7 +12,7 @@ class AccessTokenCheck
     /**
      * Handle an incoming request.
      *
-     * @param Closure(Request): (Response) $next
+     * @param  Closure(Request): (Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
@@ -20,7 +20,7 @@ class AccessTokenCheck
 
         $user = User::query()->where('access_token', $token)->first();
 
-        if (!$user) {
+        if (! $user) {
             return response()->json([
                 'message' => 'Unauthorized',
             ], 401);
