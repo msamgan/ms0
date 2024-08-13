@@ -134,15 +134,6 @@ class HyperlinkController extends Controller
         //
     }
 
-    public function apiDocs(): Response
-    {
-        return Inertia::render('ApiDocs', [
-            'isAuthenticated' => auth()->check(),
-            'token' => auth()->user()->access_token ?? null,
-            'api_endpoint' => route('api.reduce'),
-        ]);
-    }
-
     /**
      * @throws RandomException
      */
