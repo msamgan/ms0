@@ -50,13 +50,13 @@ export default function Header({ isAuthenticated = false }) {
                         </>
                     )}
                     <li className="flex">
-                        <Link
+                        <a
                             rel="noopener noreferrer"
-                            href={route("api_docs")}
-                            className={route().current("api_docs") ? linkActiveClass : linkClass}
+                            href={route("scramble.docs.ui")}
+                            className={route().current("scramble.docs.ui") ? linkActiveClass : linkClass}
                         >
                             APIs
-                        </Link>
+                        </a>
                     </li>
                 </ul>
             </div>

@@ -38,7 +38,7 @@ export default function Dashboard({ auth, token, linkCount, visits }) {
                                     "Are you sure?",
                                     "This will invalidate the current token and generate a new one.",
                                     function () {
-                                        axios.post(route("api.regenerate-token"), {}).then(() => {
+                                        axios.post(route("service.regenerate-token"), {}).then(() => {
                                             window.location.reload()
                                         })
                                     },

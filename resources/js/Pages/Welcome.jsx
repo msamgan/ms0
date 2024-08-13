@@ -27,7 +27,7 @@ export default function Welcome({ isAuthenticated, user }) {
         try {
             const fccUrl = new URL(url)
             axios
-                .post(route("api.shorten"), {
+                .post(route("service.shorten"), {
                     url: fccUrl.href
                 })
                 .then((response) => {
