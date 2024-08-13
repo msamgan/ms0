@@ -27,7 +27,9 @@ export default function Links({ links, auth }) {
                                 </thead>
                                 <tbody>
                                     {links.map((link, index) => (
-                                        <tr className="border-b border-opacity-20 border-gray-300 bg-gray-50">
+                                        <tr
+                                            key={index}
+                                            className="border-b border-opacity-20 border-gray-300 bg-gray-50">
                                             <td className="p-3 w-1/2">{link.url}</td>
                                             <td className="p-3">
                                                 <div className={"flex flex-col"}>
