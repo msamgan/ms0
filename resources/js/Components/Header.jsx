@@ -1,6 +1,6 @@
-import { Link } from "@inertiajs/react"
+import {Link} from "@inertiajs/react"
 
-export default function Header({ isAuthenticated = false }) {
+export default function Header({isAuthenticated = false}) {
     const linkClass = "flex items-center px-4 -mb-1 border-b-2 border-transparent"
     const linkActiveClass = "flex items-center px-4 -mb-1 border-b-2 border-indigo-400"
 
@@ -52,8 +52,8 @@ export default function Header({ isAuthenticated = false }) {
                     <li className="flex">
                         <a
                             rel="noopener noreferrer"
-                            href={route("scramble.docs.ui")}
-                            className={route().current("scramble.docs.ui") ? linkActiveClass : linkClass}
+                            href={route("documentation.api")}
+                            className={route().current("documentation.api") ? linkActiveClass : linkClass}
                         >
                             APIs
                         </a>

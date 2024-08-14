@@ -28,6 +28,14 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__ . '/auth.php';
 
+Route::get('/documentation/api', function () {
+    if (auth()->check()) {
+        return redirect()->route('scramble.docs.ui');
+    }
+
+    return redirect()->route('register');
+})->name('documentation.api');
+
 Route::post('/service/shorten', [HyperlinkController::class, 'store'])->name('service.shorten');
 
 // this is the route that redirects the user to the original URL, this has to be the last route
