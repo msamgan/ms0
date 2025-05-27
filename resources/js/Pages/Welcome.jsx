@@ -53,14 +53,14 @@ export default function Welcome({ isAuthenticated, user }) {
             <Head title="Welcome" />
             <Header isAuthenticated={isAuthenticated} />
 
-            <section className="bg-gradient-to-br from-sky-50 via-white to-gray-50 text-gray-800 py-20">
+            <section className="bg-white text-gray-800 py-20">
                 <div className="container mx-auto flex flex-col items-center px-4 text-center md:px-10 lg:px-32 max-w-6xl">
                     <div className={`mb-8 transform hover:scale-105 transition-transform duration-300 ${isLoaded ? 'animate-float' : 'opacity-0'}`}>
                         <img src="/ms0_logo.png" className="w-48 h-48 drop-shadow-xl" alt={"logo"} />
                     </div>
                     <h1 className={`text-4xl font-bold leading-tight sm:text-6xl mb-6 ${isLoaded ? 'animate-fadeIn' : 'opacity-0'}`} style={{ animationDelay: '0.3s' }}>
                         Simplify Your Links
-                        <span className="block mt-2 text-primary bg-gradient-to-r from-sky-600 to-sky-400 bg-clip-text text-transparent">Share with Confidence</span>
+                        <span className="block mt-2 text-primary text-sky-600">Share with Confidence</span>
                     </h1>
                     <p className={`text-xl text-gray-600 max-w-3xl mx-auto mb-10 ${isLoaded ? 'animate-fadeIn' : 'opacity-0'}`} style={{ animationDelay: '0.4s' }}>
                         Transform long, complex URLs into short, memorable links that are easy to share and track.
@@ -80,7 +80,7 @@ export default function Welcome({ isAuthenticated, user }) {
                                 />
                                 <button
                                     onClick={handleSubmit}
-                                    className="px-8 py-4 text-base font-semibold rounded-xl bg-gradient-to-r from-sky-600 to-sky-500 text-white shadow-md hover:shadow-lg transform hover:translate-y-[-2px] transition-all duration-200 flex-shrink-0"
+                                    className="px-8 py-4 text-base font-semibold rounded-xl bg-sky-600 text-white shadow-md hover:shadow-lg transform hover:translate-y-[-2px] transition-all duration-200 flex-shrink-0"
                                 >
                                     <span className="flex items-center justify-center">
                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -99,7 +99,7 @@ export default function Welcome({ isAuthenticated, user }) {
                     <div className="mt-8 w-full max-w-3xl mx-auto">
                         {error && (
                             <div className="flex items-center rounded-xl shadow-lg overflow-hidden relative bg-white border border-red-200 text-gray-800 w-full animate-fadeIn">
-                                <div className="self-stretch flex items-center px-4 flex-shrink-0 bg-gradient-to-r from-red-500 to-red-400">
+                                <div className="self-stretch flex items-center px-4 flex-shrink-0 bg-red-500">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         fill="none"
@@ -302,7 +302,7 @@ export default function Welcome({ isAuthenticated, user }) {
                                 </div>
 
                                 <div className="mt-8 flex justify-center">
-                                    <a href={route("dashboard")} className="px-8 py-4 text-base font-semibold rounded-xl bg-gradient-to-r from-sky-600 to-sky-500 text-white shadow-md hover:shadow-lg transform hover:translate-y-[-2px] transition-all duration-200 inline-flex items-center">
+                                    <a href={route("dashboard")} className="px-8 py-4 text-base font-semibold rounded-xl bg-sky-600 text-white shadow-md hover:shadow-lg transform hover:translate-y-[-2px] transition-all duration-200 inline-flex items-center">
                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                         </svg>
@@ -386,7 +386,7 @@ export default function Welcome({ isAuthenticated, user }) {
                                 </div>
 
                                 <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-                                    <a href={route("register")} className="w-full sm:w-auto px-8 py-4 text-base font-semibold rounded-xl bg-gradient-to-r from-sky-600 to-sky-500 text-white shadow-md hover:shadow-lg transform hover:translate-y-[-2px] transition-all duration-200 inline-flex items-center justify-center">
+                                    <a href={route("register")} className="w-full sm:w-auto px-8 py-4 text-base font-semibold rounded-xl bg-sky-600 text-white shadow-md hover:shadow-lg transform hover:translate-y-[-2px] transition-all duration-200 inline-flex items-center justify-center">
                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                         </svg>
