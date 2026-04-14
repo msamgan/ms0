@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\StatusCodeController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HyperlinkController;
 use App\Http\Controllers\ProfileController;
@@ -24,7 +25,14 @@ Route::middleware('auth')->group(function () {
     Route::post('/service/regenerate-token', [HyperlinkController::class, 'regenerateToken'])->name('service.regenerate-token');
 
     Route::get('/links', [HyperlinkController::class, 'links'])->name('links');
+    Route::get('/service/status/{statusCode}', StatusCodeController::class)->name('service.status');
 });
+
+Route::get('/status-codes', function () {
+    return Inertia::render('StatusCodes', [
+        'isAuthenticated' => auth()->check(),
+    ]);
+})->name('status-codes');
 
 require __DIR__ . '/auth.php';
 

@@ -24,7 +24,7 @@ export default function Register() {
     const customGuestLayoutProps = {
         title: "Create your account",
         description: "Join MS0 to start creating and managing your shortened URLs"
-    };
+    }
 
     return (
         <>
@@ -51,7 +51,11 @@ export default function Register() {
                     </div>
 
                     <div className="mb-6">
-                        <InputLabel htmlFor="email" value="Email address" className="text-gray-700 font-medium" />
+                        <InputLabel
+                            htmlFor="email"
+                            value="Email address"
+                            className="text-gray-700 font-medium"
+                        />
 
                         <TextInput
                             id="email"
@@ -87,7 +91,11 @@ export default function Register() {
                     </div>
 
                     <div className="mb-6">
-                        <InputLabel htmlFor="password_confirmation" value="Confirm password" className="text-gray-700 font-medium" />
+                        <InputLabel
+                            htmlFor="password_confirmation"
+                            value="Confirm password"
+                            className="text-gray-700 font-medium"
+                        />
 
                         <TextInput
                             id="password_confirmation"
@@ -105,7 +113,15 @@ export default function Register() {
                     </div>
 
                     <div className="mb-6 text-sm text-gray-600">
-                        By registering, you agree to our <a href="#" className="text-sky-600 hover:text-sky-500">Terms of Service</a> and <a href="#" className="text-sky-600 hover:text-sky-500">Privacy Policy</a>.
+                        By registering, you agree to our{" "}
+                        <a href="#" className="text-sky-600 hover:text-sky-500">
+                            Terms of Service
+                        </a>{" "}
+                        and{" "}
+                        <a href="#" className="text-sky-600 hover:text-sky-500">
+                            Privacy Policy
+                        </a>
+                        .
                     </div>
 
                     <div>
@@ -114,7 +130,7 @@ export default function Register() {
                             disabled={processing}
                             className="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-base font-medium text-white bg-gradient-to-r from-sky-600 to-sky-500 hover:from-sky-700 hover:to-sky-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 transition-all duration-200 disabled:opacity-70"
                         >
-                            {processing ? 'Creating account...' : 'Create account'}
+                            {processing ? "Creating account..." : "Create account"}
                         </button>
                     </div>
 

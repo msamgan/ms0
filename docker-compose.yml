@@ -1,54 +1,53 @@
-
 services:
-  # App Service
-  app:
-    build:
-      args:
-        user: msamgan
-        uid: 1000
-      context: .
-      dockerfile: Dockerfile
-    image: ms0-app
-    container_name: ms0-app
-    restart: unless-stopped
-    working_dir: /var/www
-    volumes:
-      - ./:/var/www
-    ports:
-      - "5173:5173"
-    networks:
-      - ms0-network
+    # App Service
+    app:
+        build:
+            args:
+                user: msamgan
+                uid: 1000
+            context: .
+            dockerfile: Dockerfile
+        image: ms0-app
+        container_name: ms0-app
+        restart: unless-stopped
+        working_dir: /var/www
+        volumes:
+            - ./:/var/www
+        ports:
+            - "5173:5173"
+        networks:
+            - ms0-network
 
-  # Web Service
-  web:
-    image: nginx:alpine
-    container_name: ms0-web
-    restart: unless-stopped
-    ports:
-      - "8000:80"
-    volumes:
-      - ./:/var/www
-      - ./docker-compose/nginx:/etc/nginx/conf.d/
-    networks:
-      - ms0-network
+    # Web Service
+    web:
+        image: nginx:alpine
+        container_name: ms0-web
+        restart: unless-stopped
+        ports:
+            - "8000:80"
+        volumes:
+            - ./:/var/www
+            - ./docker-compose/nginx:/etc/nginx/conf.d/
+        networks:
+            - ms0-network
 
-  # Database Service
-  db:
-    image: mysql:8.0
-    container_name: ms0-db
-    restart: unless-stopped
-    environment:
-      MYSQL_DATABASE: ${DB_DATABASE:-ms0}
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-secret}
-      MYSQL_PASSWORD: ${DB_PASSWORD:-secret}
-      MYSQL_USER: ${DB_USERNAME:-msamgan}
-      SERVICE_TAGS: dev
-      SERVICE_NAME: mysql
-    volumes:
-      - ./docker-compose/mysql:/var/lib/mysql
-    networks:
-      - ms0-network
+    # Database Service
+    db:
+        image: mysql:8.0
+        container_name: ms0-db
+        restart: unless-stopped
+        environment:
+            MYSQL_DATABASE: ${DB_DATABASE:-ms0}
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-secret}
+            MYSQL_PASSWORD: ${DB_PASSWORD:-secret}
+            MYSQL_USER: ${DB_USERNAME:-msamgan}
+            SERVICE_TAGS: dev
+            SERVICE_NAME: mysql
+        volumes:
+            - ./docker-compose/mysql:/var/lib/mysql
+        networks:
+            - ms0-network
 
 networks:
-  ms0-network:
-    driver: bridge
+    ms0-network:
+        driver: bridge
