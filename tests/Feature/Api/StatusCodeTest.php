@@ -23,6 +23,28 @@ test('it returns the correct status code 200', function () {
         ]);
 });
 
+test('it returns 400 for an invalid status code', function () {
+    $response = $this->withHeader('Authorization', 'Bearer test-token')
+        ->getJson('/api/status/600');
+
+    $response->assertStatus(400)
+        ->assertJson([
+            'status' => false,
+            'message' => 'Invalid status code',
+        ]);
+});
+
+test('it returns 400 for status code 100', function () {
+    $response = $this->withHeader('Authorization', 'Bearer test-token')
+        ->getJson('/api/status/100');
+
+    $response->assertStatus(400)
+        ->assertJson([
+            'status' => false,
+            'message' => 'Invalid status code',
+        ]);
+});
+
 test('it returns the correct status code 201', function () {
     $response = $this->withHeader('Authorization', 'Bearer test-token')
         ->getJson('/api/status/201');

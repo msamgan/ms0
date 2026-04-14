@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\StatusCodeResource;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class StatusCodeController extends Controller
 {
@@ -14,6 +15,13 @@ class StatusCodeController extends Controller
     public function __invoke(Request $request, $statusCode)
     {
         $statusCode = (int) $statusCode;
+
+        if (! isset(Response::$statusTexts[$statusCode]) || $statusCode < 200) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Invalid status code',
+            ], 400);
+        }
 
         $message = match (true) {
             $statusCode >= 200 && $statusCode < 300 => 'Success',
