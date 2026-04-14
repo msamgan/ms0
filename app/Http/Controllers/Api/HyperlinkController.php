@@ -21,7 +21,7 @@ class HyperlinkController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Shortened Url Already Exists',
-                'shot_url' => url('/' . $hyperlinkExists->shot_slug),
+                'short_url' => url('/' . $hyperlinkExists->shot_slug),
             ]);
         }
 
@@ -39,7 +39,7 @@ class HyperlinkController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Shortened Url created successfully',
-            'shot_url' => url('/' . $shotSlug),
+            'short_url' => url('/' . $shotSlug),
         ]);
     }
 }

@@ -17,7 +17,7 @@
 
      $response->assertStatus(200)
          ->assertJson([
-             'status' => 'success',
+             'status' => true,
              'status_code' => 200,
              'message' => 'Success',
          ]);
@@ -29,7 +29,7 @@
 
      $response->assertStatus(201)
          ->assertJson([
-             'status' => 'success',
+             'status' => true,
              'status_code' => 201,
              'message' => 'Success',
          ]);
@@ -41,7 +41,7 @@
 
      $response->assertStatus(400)
          ->assertJson([
-             'status' => 'success',
+             'status' => true,
              'status_code' => 400,
              'message' => 'Client Error',
          ]);
@@ -53,7 +53,7 @@
 
      $response->assertStatus(500)
          ->assertJson([
-             'status' => 'success',
+             'status' => true,
              'status_code' => 500,
              'message' => 'Server Error',
          ]);
@@ -89,7 +89,7 @@
 
      $response->assertStatus(201)
          ->assertJson([
-             'status' => 'success',
+             'status' => true,
              'status_code' => 201,
              'message' => 'Success',
              'data' => $payload,
@@ -106,7 +106,7 @@
 
      $response->assertStatus(400)
          ->assertJson([
-             'status' => 'success',
+             'status' => true,
              'status_code' => 400,
              'message' => 'Client Error',
              'data' => $payload,

@@ -23,7 +23,7 @@ class StatusCodeController extends Controller
         };
 
         $response = [
-            'status' => 'success',
+            'status' => true,
             'status_code' => $statusCode,
             'message' => $message,
         ];

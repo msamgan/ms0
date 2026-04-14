@@ -31,7 +31,7 @@ export default function Welcome({ isAuthenticated, user }) {
                     url: fccUrl.href
                 })
                 .then((response) => {
-                    setShortUrl(response.data.shot_url)
+                    setShortUrl(response.data.short_url)
                 })
         } catch (e) {
             setError("Invalid Url")
