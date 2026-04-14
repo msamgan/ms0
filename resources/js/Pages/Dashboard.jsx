@@ -130,7 +130,7 @@ export default function Dashboard({ auth, token, linkCount, visits }) {
 
             {/* API Token Section */}
             <div className="py-6">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className={`bg-white rounded-xl shadow-md overflow-hidden transition-all duration-500 transform ${animateStats ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`} style={{ transitionDelay: '500ms' }}>
                         <div className="p-6">
                             <div className="flex items-center justify-between mb-4">

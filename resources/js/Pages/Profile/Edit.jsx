@@ -28,7 +28,7 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
             <Head title="Profile" />
 
             <div className="py-8 bg-gray-50">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                     <h2 className="text-2xl font-bold text-gray-800 mb-6">Profile Settings</h2>
                     <div className="space-y-6">
                         <div className={`bg-white rounded-xl shadow-md overflow-hidden transition-all duration-500 transform hover:shadow-lg ${animateSections ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`} style={{ transitionDelay: '100ms' }}>

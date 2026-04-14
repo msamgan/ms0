@@ -4,11 +4,11 @@ import { useState } from "react"
 export default function Header({isAuthenticated = false}) {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-    const linkClass = "flex items-center px-4 h-full text-gray-700 hover:text-sky-600 font-medium"
+    const linkClass = "flex items-center px-4 h-full text-gray-700 hover:text-sky-600 font-medium transition-colors"
     const linkActiveClass = "flex items-center px-4 h-full text-sky-600 font-semibold border-b-2 border-sky-500"
 
-    const mobileLinkClass = "flex items-center w-full px-4 py-3 text-gray-700 hover:bg-gray-50 hover:text-sky-600 font-medium"
-    const mobileLinkActiveClass = "flex items-center w-full px-4 py-3 text-sky-600 bg-sky-50 font-semibold border-l-4 border-sky-500"
+    const mobileLinkClass = "flex items-center w-full px-4 py-3 text-gray-700 hover:bg-gray-50 hover:text-sky-600 font-medium transition-colors"
+    const mobileLinkActiveClass = "flex items-center w-full px-4 py-3 text-sky-600 font-semibold border-l-4 border-sky-500"
 
     return (
         <header className="px-4 md:px-6 bg-white shadow-sm sticky top-0 z-50 backdrop-blur-sm bg-white/95">

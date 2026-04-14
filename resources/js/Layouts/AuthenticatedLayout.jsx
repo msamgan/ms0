@@ -9,14 +9,16 @@ export default function AuthenticatedLayout({ user, header, children }) {
 
     return (
         <div className="min-h-screen bg-gray-100">
-            <nav className="bg-white border-b border-indigo-100 shadow-sm">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between h-16">
+            <nav className="bg-white border-b border-sky-100 shadow-sm">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="flex justify-between h-14">
                         <div className="flex">
                             <div className="shrink-0 flex items-center">
-                                <Link href="/" className="transition-transform duration-300 hover:scale-105">
-                                    <img src="/ms0_logo.png" className="w-20 h-20 mt-2" alt={"logo"} />
-                                    {/*<ApplicationLogo className="block h-9 w-auto fill-current text-gray-800" />*/}
+                                <Link href="/" className="transition-all duration-300 hover:scale-105 flex items-center group">
+                                    <div className="rounded-lg p-1.5 transition-colors group-hover:bg-sky-50">
+                                        <img src="/ms0_logo.png" className="h-8 w-8" alt={"logo"} />
+                                    </div>
+                                    <span className="font-bold text-gray-800 ml-2 hidden sm:block">MS<span className="text-sky-600">0</span></span>
                                 </Link>
                             </div>
 
@@ -43,15 +45,15 @@ export default function AuthenticatedLayout({ user, header, children }) {
                                         <span className="inline-flex rounded-md">
                                             <button
                                                 type="button"
-                                                className="inline-flex items-center px-4 py-2 border border-indigo-100 text-sm leading-4 font-medium rounded-md text-indigo-600 bg-white hover:bg-indigo-50 hover:text-indigo-700 focus:outline-none transition-all ease-in-out duration-200 shadow-sm"
+                                                className="inline-flex items-center px-4 py-2 border border-sky-100 text-sm leading-4 font-medium rounded-md text-sky-600 bg-white hover:bg-sky-50 hover:text-sky-700 focus:outline-none transition-all ease-in-out duration-200 shadow-sm"
                                             >
-                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                                 </svg>
                                                 {user.name}
 
                                                 <svg
-                                                    className="ms-2 -me-0.5 h-4 w-4 text-indigo-500"
+                                                    className="ms-2 -me-0.5 h-4 w-4 text-sky-500"
                                                     xmlns="http://www.w3.org/2000/svg"
                                                     viewBox="0 0 20 20"
                                                     fill="currentColor"
@@ -66,10 +68,10 @@ export default function AuthenticatedLayout({ user, header, children }) {
                                         </span>
                                     </Dropdown.Trigger>
 
-                                    <Dropdown.Content contentClasses="py-0 bg-white divide-y divide-indigo-50">
+                                    <Dropdown.Content contentClasses="py-0 bg-white divide-y divide-sky-50">
                                         <Dropdown.Link href={route("profile.edit")}>
                                             <div className="flex items-center">
-                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                                 </svg>
                                                 Profile
@@ -77,7 +79,7 @@ export default function AuthenticatedLayout({ user, header, children }) {
                                         </Dropdown.Link>
                                         <Dropdown.Link href={route("scramble.docs.ui")}>
                                             <div className="flex items-center">
-                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                                 </svg>
                                                 APIs
@@ -99,7 +101,7 @@ export default function AuthenticatedLayout({ user, header, children }) {
                         <div className="-me-2 flex items-center sm:hidden">
                             <button
                                 onClick={() => setShowingNavigationDropdown((previousState) => !previousState)}
-                                className="inline-flex items-center justify-center p-2 rounded-md text-indigo-500 hover:text-indigo-600 hover:bg-indigo-50 focus:outline-none focus:bg-indigo-50 focus:text-indigo-600 transition-all duration-200 ease-in-out border border-transparent hover:border-indigo-100 shadow-sm"
+                                className="inline-flex items-center justify-center p-2 rounded-md text-sky-500 hover:text-sky-600 hover:bg-sky-50 focus:outline-none focus:bg-sky-50 focus:text-sky-600 transition-all duration-200 ease-in-out border border-transparent hover:border-sky-100 shadow-sm"
                             >
                                 <svg className="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                                     <path
@@ -146,13 +148,13 @@ export default function AuthenticatedLayout({ user, header, children }) {
 
                         <div className="mt-3 space-y-1">
                             <ResponsiveNavLink href={route("profile.edit")}>
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                 </svg>
                                 Profile
                             </ResponsiveNavLink>
                             <ResponsiveNavLink href={route("scramble.docs.ui")}>
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                 </svg>
                                 APIs
@@ -169,8 +171,8 @@ export default function AuthenticatedLayout({ user, header, children }) {
             </nav>
 
             {header && (
-                <header className="bg-white shadow-sm border-b border-indigo-100">
-                    <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                <header className="bg-white shadow-sm border-b border-sky-100">
+                    <div className="max-w-6xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                         <div className="transition-all duration-300 hover:scale-[1.01]">
                             {header}
                         </div>
