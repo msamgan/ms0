@@ -1,0 +1,7 @@
+/node_modules
+/public/build
+/storage/*.key
+/vendor
+.env
+.phpunit.result.cache
+docker-compose/mysql
