@@ -1,7 +1,8 @@
 import { Link } from "@inertiajs/react"
 import { useState } from "react"
+import Dropdown from "@/Components/Dropdown"
 
-export default function Header({ isAuthenticated = false }) {
+export default function Header({ isAuthenticated = false, user = null }) {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
     const linkClass =
@@ -53,28 +54,52 @@ export default function Header({ isAuthenticated = false }) {
                             </Link>
                         </li>
                         {isAuthenticated ? (
-                            <li className="flex">
-                                <Link
-                                    href={route("dashboard")}
-                                    className={route().current("dashboard") ? linkActiveClass : linkClass}
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        className="h-5 w-5 mr-1"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
+                            <>
+                                <li className="flex">
+                                    <Link
+                                        href={route("dashboard")}
+                                        className={route().current("dashboard") ? linkActiveClass : linkClass}
                                     >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                                        />
-                                    </svg>
-                                    Dashboard
-                                </Link>
-                            </li>
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            className="h-5 w-5 mr-1"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                strokeWidth={2}
+                                                d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                            />
+                                        </svg>
+                                        Dashboard
+                                    </Link>
+                                </li>
+                                <li className="flex">
+                                    <Link
+                                        href={route("links")}
+                                        className={route().current("links") ? linkActiveClass : linkClass}
+                                    >
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            className="h-5 w-5 mr-1"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                strokeWidth={2}
+                                                d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
+                                            />
+                                        </svg>
+                                        Links
+                                    </Link>
+                                </li>
+                            </>
                         ) : (
                             <>
                                 <li className="flex">
@@ -167,6 +192,40 @@ export default function Header({ isAuthenticated = false }) {
                                 APIs
                             </a>
                         </li>
+                        {isAuthenticated ? (
+                            <li className="flex items-center ml-4">
+                                <Dropdown>
+                                    <Dropdown.Trigger>
+                                        <button
+                                            type="button"
+                                            className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-sky-600 focus:outline-none transition ease-in-out duration-150"
+                                        >
+                                            {user?.name}
+                                            <svg
+                                                className="ml-2 -mr-0.5 h-4 w-4"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 20 20"
+                                                fill="currentColor"
+                                            >
+                                                <path
+                                                    fillRule="evenodd"
+                                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                    clipRule="evenodd"
+                                                />
+                                            </svg>
+                                        </button>
+                                    </Dropdown.Trigger>
+                                    <Dropdown.Content>
+                                        <Dropdown.Link href={route("profile.edit")}>Profile</Dropdown.Link>
+                                        <Dropdown.Link href={route("logout")} method="post" as="button">
+                                            Log Out
+                                        </Dropdown.Link>
+                                    </Dropdown.Content>
+                                </Dropdown>
+                            </li>
+                        ) : (
+                            <></>
+                        )}
                     </ul>
                     <button
                         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -236,31 +295,84 @@ export default function Header({ isAuthenticated = false }) {
                             </Link>
                         </li>
                         {isAuthenticated ? (
-                            <li>
-                                <Link
-                                    href={route("dashboard")}
-                                    className={
-                                        route().current("dashboard") ? mobileLinkActiveClass : mobileLinkClass
-                                    }
-                                    onClick={() => setMobileMenuOpen(false)}
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        className="h-5 w-5 mr-3"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
+                            <>
+                                <li>
+                                    <Link
+                                        href={route("dashboard")}
+                                        className={
+                                            route().current("dashboard")
+                                                ? mobileLinkActiveClass
+                                                : mobileLinkClass
+                                        }
+                                        onClick={() => setMobileMenuOpen(false)}
                                     >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                                        />
-                                    </svg>
-                                    Dashboard
-                                </Link>
-                            </li>
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            className="h-5 w-5 mr-3"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                strokeWidth={2}
+                                                d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                            />
+                                        </svg>
+                                        Dashboard
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
+                                        href={route("links")}
+                                        className={
+                                            route().current("links") ? mobileLinkActiveClass : mobileLinkClass
+                                        }
+                                        onClick={() => setMobileMenuOpen(false)}
+                                    >
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            className="h-5 w-5 mr-3"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                strokeWidth={2}
+                                                d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
+                                            />
+                                        </svg>
+                                        Links
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
+                                        href={route("profile.edit")}
+                                        className={
+                                            route().current("profile.edit")
+                                                ? mobileLinkActiveClass
+                                                : mobileLinkClass
+                                        }
+                                        onClick={() => setMobileMenuOpen(false)}
+                                    >
+                                        Profile
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
+                                        href={route("logout")}
+                                        method="post"
+                                        as="button"
+                                        className={mobileLinkClass}
+                                        onClick={() => setMobileMenuOpen(false)}
+                                    >
+                                        Log Out
+                                    </Link>
+                                </li>
+                            </>
                         ) : (
                             <>
                                 <li>

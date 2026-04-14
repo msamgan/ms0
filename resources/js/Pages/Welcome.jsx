@@ -1,9 +1,12 @@
-import { Head } from "@inertiajs/react"
+import { Head, usePage } from "@inertiajs/react"
 import { useState } from "react"
 import Header from "@/Components/Header.jsx"
 import Footer from "@/Components/Footer.jsx"
 
-export default function Welcome({ isAuthenticated, user }) {
+export default function Welcome() {
+    const { auth } = usePage().props
+    const isAuthenticated = !!auth.user
+    const user = auth.user
     const [url, setUrl] = useState("")
     const [error, setError] = useState(null)
     const [shortUrl, setShortUrl] = useState(null)
@@ -45,7 +48,7 @@ export default function Welcome({ isAuthenticated, user }) {
     return (
         <>
             <Head title="Welcome" />
-            <Header isAuthenticated={isAuthenticated} />
+            <Header isAuthenticated={isAuthenticated} user={user} />
 
             <section className="bg-white text-gray-800 py-20">
                 <div className="container mx-auto px-4 md:px-10 lg:px-12 max-w-full lg:max-w-[100rem]">

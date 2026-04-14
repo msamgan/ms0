@@ -18,7 +18,10 @@ class HyperlinkFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'url' => $this->faker->url,
+            'shot_slug' => $this->faker->unique()->lexify('????'),
+            'visits' => 0,
+            'last_visit' => now(),
         ];
     }
 }

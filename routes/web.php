@@ -25,7 +25,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/service/regenerate-token', [HyperlinkController::class, 'regenerateToken'])->name('service.regenerate-token');
 
     Route::get('/links', [HyperlinkController::class, 'links'])->name('links');
-    Route::get('/service/status/{statusCode}', StatusCodeController::class)->name('service.status');
 });
 
 Route::get('/status-codes', function () {

@@ -3,6 +3,9 @@
 @tailwind utilities;
 
 @layer base {
+    html {
+        overflow-y: scroll;
+    }
     body {
         @apply font-sans antialiased text-gray-800 bg-white;
     }

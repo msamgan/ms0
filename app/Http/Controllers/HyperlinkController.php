@@ -97,7 +97,7 @@ class HyperlinkController extends Controller
     {
         $shortSlug = $request->shot_slug;
 
-        $hyperlink = Hyperlink::query()->where(DB::raw('BINARY `shot_slug`'), $shortSlug)->first();
+        $hyperlink = Hyperlink::query()->where('shot_slug', $shortSlug)->first();
 
         if ($hyperlink) {
             $hyperlink->visits = $hyperlink->visits + 1;

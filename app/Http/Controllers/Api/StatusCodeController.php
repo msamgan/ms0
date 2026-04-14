@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\StatusCodeResource;
 use Illuminate\Http\Request;
 
 class StatusCodeController extends Controller
@@ -22,8 +23,7 @@ class StatusCodeController extends Controller
             default => 'Unknown Status',
         };
 
-        $response = [
-            'status' => true,
+        $data = [
             'status_code' => $statusCode,
             'message' => $message,
         ];
@@ -31,9 +31,11 @@ class StatusCodeController extends Controller
         $methodsWithData = ['post', 'put', 'patch', 'delete'];
 
         if (in_array(strtolower($request->method()), $methodsWithData)) {
-            $response['data'] = $request->all();
+            $data['data'] = $request->except(['user']);
         }
 
-        return response()->json($response, $statusCode);
+        return new StatusCodeResource($data)
+            ->response()
+            ->setStatusCode($statusCode);
     }
 }

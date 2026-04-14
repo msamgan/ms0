@@ -39,7 +39,7 @@ export default function UpdatePasswordForm({ className = "" }) {
     return (
         <section className={className}>
             <header className="flex items-start">
-                <div className="flex-shrink-0 bg-emerald-500 p-3 rounded-lg mr-4">
+                <div className="flex-shrink-0 bg-sky-500 p-3 rounded-lg mr-4">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="h-6 w-6 text-white"
@@ -93,7 +93,7 @@ export default function UpdatePasswordForm({ className = "" }) {
                             value={data.current_password}
                             onChange={(e) => setData("current_password", e.target.value)}
                             type="password"
-                            className="block w-full rounded-none rounded-r-md focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200 border-gray-300"
+                            className="block w-full rounded-none rounded-r-md focus:ring-sky-500 focus:border-sky-500 transition-all duration-200 border-gray-300"
                             autoComplete="current-password"
                         />
                     </div>
@@ -125,7 +125,7 @@ export default function UpdatePasswordForm({ className = "" }) {
                             value={data.password}
                             onChange={(e) => setData("password", e.target.value)}
                             type="password"
-                            className="block w-full rounded-none rounded-r-md focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200 border-gray-300"
+                            className="block w-full rounded-none rounded-r-md focus:ring-sky-500 focus:border-sky-500 transition-all duration-200 border-gray-300"
                             autoComplete="new-password"
                         />
                     </div>
@@ -160,7 +160,7 @@ export default function UpdatePasswordForm({ className = "" }) {
                             value={data.password_confirmation}
                             onChange={(e) => setData("password_confirmation", e.target.value)}
                             type="password"
-                            className="block w-full rounded-none rounded-r-md focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200 border-gray-300"
+                            className="block w-full rounded-none rounded-r-md focus:ring-sky-500 focus:border-sky-500 transition-all duration-200 border-gray-300"
                             autoComplete="new-password"
                         />
                     </div>
@@ -170,7 +170,7 @@ export default function UpdatePasswordForm({ className = "" }) {
                 <div className="flex items-center gap-4 pt-2">
                     <PrimaryButton
                         disabled={processing}
-                        className="bg-emerald-500 hover:bg-emerald-600 focus:ring-emerald-500"
+                        className="bg-sky-500 hover:bg-sky-600 focus:ring-sky-500"
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"

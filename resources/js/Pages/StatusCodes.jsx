@@ -1,12 +1,16 @@
-import { Head } from "@inertiajs/react"
+import { Head, usePage } from "@inertiajs/react"
 import Header from "@/Components/Header.jsx"
 import Footer from "@/Components/Footer.jsx"
 
-export default function StatusCodes({ isAuthenticated }) {
+export default function StatusCodes() {
+    const { auth } = usePage().props
+    const isAuthenticated = !!auth.user
+    const user = auth.user
+
     return (
         <>
             <Head title="HTTP Status Codes" />
-            <Header isAuthenticated={isAuthenticated} />
+            <Header isAuthenticated={isAuthenticated} user={user} />
 
             <main className="bg-gray-50 min-h-screen py-12">
                 <div className="container mx-auto px-4 md:px-10 lg:px-12 max-w-full lg:max-w-[100rem]">
