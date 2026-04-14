@@ -4,27 +4,27 @@ import { useState } from "react"
 export default function Header({isAuthenticated = false}) {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-    const linkClass = "flex items-center px-4 py-2 text-gray-700 hover:text-sky-600 font-medium"
-    const linkActiveClass = "flex items-center px-4 py-2 text-sky-600 font-semibold border-b-2 border-sky-500"
+    const linkClass = "flex items-center px-4 h-full text-gray-700 hover:text-sky-600 font-medium"
+    const linkActiveClass = "flex items-center px-4 h-full text-sky-600 font-semibold border-b-2 border-sky-500"
 
     const mobileLinkClass = "flex items-center w-full px-4 py-3 text-gray-700 hover:bg-gray-50 hover:text-sky-600 font-medium"
     const mobileLinkActiveClass = "flex items-center w-full px-4 py-3 text-sky-600 bg-sky-50 font-semibold border-l-4 border-sky-500"
 
     return (
-        <header className="py-2 px-4 md:px-6 bg-white shadow-sm sticky top-0 z-50 backdrop-blur-sm bg-white/95">
-            <div className="container flex justify-between items-center h-12 mx-auto max-w-6xl">
+        <header className="px-4 md:px-6 bg-white shadow-sm sticky top-0 z-50 backdrop-blur-sm bg-white/95">
+            <div className="container flex justify-between items-center h-14 mx-auto max-w-6xl">
                 <div className="flex items-center">
                     <Link href={route("home")} className="flex items-center group">
-                        <div className="bg-gradient-to-br from-sky-500 to-sky-600 rounded-lg p-2 shadow-md">
+                        <div className="rounded-lg p-2">
                             <img src="/ms0_logo.png" alt="MS0 Logo" className="h-8 w-8" />
                         </div>
                         <span className="font-bold text-gray-800 ml-3">MS<span className="text-sky-600">0</span></span>
                     </Link>
                 </div>
 
-                <nav className="flex items-center">
+                <nav className="flex items-center h-full">
                     {/* Desktop Navigation */}
-                    <ul className="items-stretch hidden md:flex space-x-1">
+                    <ul className="items-stretch hidden md:flex space-x-1 h-full">
                         <li className="flex">
                             <Link
                                 href={route("home")}
@@ -108,7 +108,7 @@ export default function Header({isAuthenticated = false}) {
 
             {/* Mobile Menu */}
             {mobileMenuOpen && (
-                <div className="md:hidden absolute top-[64px] left-0 right-0 bg-white border-t border-gray-100 shadow-lg z-40">
+                <div className="md:hidden absolute top-14 left-0 right-0 bg-white border-t border-gray-100 shadow-lg z-40">
                     <ul className="flex flex-col py-2">
                         <li>
                             <Link

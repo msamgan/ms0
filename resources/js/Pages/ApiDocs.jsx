@@ -9,14 +9,14 @@ export default function ApiDocs({ isAuthenticated, token, api_endpoint }) {
             <Header isAuthenticated={isAuthenticated} />
 
             <section className="bg-gray-100 text-gray-800">
-                <div className="container mx-auto flex flex-col items-center px-4 text-center md:px-10 lg:px-32 xl:max-w-4xl">
+                <div className="container mx-auto flex flex-col items-center px-4 text-center md:px-10 lg:px-32 max-w-6xl">
                     <img src="/ms0_logo.png" className="w-48 h-48" alt={"logo"} />
                     <h1 className="leading-none sm:text-5xl">Api Docs</h1>
                 </div>
             </section>
 
             <section className="bg-gray-100 text-gray-800">
-                <div className="container mx-auto flex flex-col text-start px-4 py-2 md:px-10 lg:px-32 xl:max-w-5xl mb-20">
+                <div className="container mx-auto flex flex-col text-start px-4 py-2 md:px-10 lg:px-32 max-w-6xl mb-20">
                     <p>
                         ms0 provides a simple and easy way to shorten your url with our api. To access the api
                         you will need to create an account and get the access token from your dashboard.
