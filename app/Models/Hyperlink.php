@@ -8,6 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @method static create(array $array)
+ *
+ * @property string $id
+ * @property string $url
+ * @property string $shot_slug
+ * @property int $visits
+ * @property bool $is_active
+ * @property string $last_visit
  */
 class Hyperlink extends Model
 {

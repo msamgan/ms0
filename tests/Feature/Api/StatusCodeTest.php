@@ -121,3 +121,54 @@
              'message' => 'Unauthorized',
          ]);
  });
+
+ test('it returns the correct status code and payload for PUT /api/status/{statusCode}', function () {
+     $payload = [
+         'key' => 'value',
+     ];
+
+     $response = $this->withHeader('Authorization', 'Bearer test-token')
+         ->putJson('/api/status/200', $payload);
+
+     $response->assertStatus(200)
+         ->assertJson([
+             'status' => true,
+             'status_code' => 200,
+             'message' => 'Success',
+             'data' => $payload,
+         ]);
+ });
+
+ test('it returns the correct status code and payload for PATCH /api/status/{statusCode}', function () {
+     $payload = [
+         'key' => 'value',
+     ];
+
+     $response = $this->withHeader('Authorization', 'Bearer test-token')
+         ->patchJson('/api/status/200', $payload);
+
+     $response->assertStatus(200)
+         ->assertJson([
+             'status' => true,
+             'status_code' => 200,
+             'message' => 'Success',
+             'data' => $payload,
+         ]);
+ });
+
+ test('it returns the correct status code and payload for DELETE /api/status/{statusCode}', function () {
+     $payload = [
+         'key' => 'value',
+     ];
+
+     $response = $this->withHeader('Authorization', 'Bearer test-token')
+         ->deleteJson('/api/status/200', $payload);
+
+     $response->assertStatus(200)
+         ->assertJson([
+             'status' => true,
+             'status_code' => 200,
+             'message' => 'Success',
+             'data' => $payload,
+         ]);
+ });

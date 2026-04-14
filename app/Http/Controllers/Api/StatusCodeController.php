@@ -28,7 +28,9 @@ class StatusCodeController extends Controller
             'message' => $message,
         ];
 
-        if ($request->isMethod('post')) {
+        $methodsWithData = ['post', 'put', 'patch', 'delete'];
+
+        if (in_array(strtolower($request->method()), $methodsWithData)) {
             $response['data'] = $request->all();
         }
 
