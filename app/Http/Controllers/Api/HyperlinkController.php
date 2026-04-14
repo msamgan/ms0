@@ -7,7 +7,6 @@ use App\Http\Requests\StoreHyperlinkRequest;
 use App\Http\Resources\HyperlinkResource;
 use App\Models\Hyperlink;
 use App\Shortener;
-use Illuminate\Http\JsonResponse;
 
 class HyperlinkController extends Controller
 {

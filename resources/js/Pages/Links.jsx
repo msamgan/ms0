@@ -52,7 +52,7 @@ export default function Links({ links, auth }) {
             <Head title="Links" />
 
             <div className="py-12 bg-gray-50">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="max-w-7xl mx-auto px-4 md:px-6">
                     <div className="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
                         <div className="p-6 border-b border-gray-200">
                             <h3 className="text-gray-800 flex items-center">

@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Api\StatusCodeController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HyperlinkController;
 use App\Http\Controllers\ProfileController;

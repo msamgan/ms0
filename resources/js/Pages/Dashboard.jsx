@@ -48,7 +48,7 @@ export default function Dashboard({ auth, token, linkCount, visits }) {
             <Head title="Dashboard" />
 
             <div className="py-8 bg-gray-50">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="max-w-7xl mx-auto px-4 md:px-6">
                     <h2 className="text-gray-800 mb-6">Analytics Overview</h2>
                     <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
                         {/* Active Links Card */}
@@ -208,7 +208,7 @@ export default function Dashboard({ auth, token, linkCount, visits }) {
 
             {/* API Token Section */}
             <div className="py-6">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="max-w-7xl mx-auto px-4 md:px-6">
                     <div
                         className={`bg-white rounded-xl shadow-md overflow-hidden transition-all duration-500 transform ${animateStats ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
                         style={{ transitionDelay: "500ms" }}

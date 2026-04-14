@@ -9,7 +9,6 @@ use App\Models\Hyperlink;
 use App\Shortener;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
 use Random\RandomException;

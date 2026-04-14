@@ -16,7 +16,7 @@ export default function Header({ isAuthenticated = false, user = null }) {
 
     return (
         <header className="px-4 md:px-6 bg-white shadow-sm sticky top-0 z-50 backdrop-blur-sm bg-white/95">
-            <div className="container flex justify-between items-center h-14 mx-auto max-w-6xl">
+            <div className="container flex justify-between items-center h-14 mx-auto max-w-7xl">
                 <div className="flex items-center">
                     <Link href={route("home")} className="flex items-center group">
                         <div className="rounded-lg p-2">

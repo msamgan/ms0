@@ -107,7 +107,7 @@ export default function Welcome() {
                         </div>
                     </div>
 
-                    <div className="mt-8 w-full max-w-6xl mx-auto px-4 md:px-6">
+                    <div className="mt-8 max-w-7xl mx-auto px-4 md:px-6">
                         {error && (
                             <div className="flex items-center rounded-xl shadow-lg overflow-hidden relative bg-white border border-red-200 text-gray-800 w-full">
                                 <div className="self-stretch flex items-center px-4 flex-shrink-0 bg-red-500">
@@ -228,7 +228,7 @@ export default function Welcome() {
                     </div>
 
                     {/* Features Section */}
-                    <div className="py-24 w-full max-w-7xl mx-auto px-4 md:px-6">
+                    <div className="py-24 max-w-7xl mx-auto px-4 md:px-6">
                         <div className="text-center mb-16">
                             <h2 className="text-4xl font-bold text-gray-900 sm:text-5xl">
                                 Powerful Features for Everyone
@@ -336,7 +336,7 @@ export default function Welcome() {
                     </div>
 
                     {isAuthenticated ? (
-                        <div className="w-full max-w-6xl mx-auto mb-16 px-4 md:px-6">
+                        <div className="max-w-7xl mx-auto mb-16 px-4 md:px-6">
                             <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
                                 <div className="flex items-center mb-6">
                                     <div className="bg-sky-100 rounded-full p-3 mr-4">
@@ -530,7 +530,7 @@ export default function Welcome() {
                             </div>
                         </div>
                     ) : (
-                        <div className="w-full max-w-6xl mx-auto mb-16 px-4 md:px-6">
+                        <div className="max-w-7xl mx-auto mb-16 px-4 md:px-6">
                             <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
                                 <div className="flex items-center mb-6">
                                     <div className="bg-sky-100 rounded-full p-3 mr-4">
