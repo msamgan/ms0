@@ -280,7 +280,7 @@ export default function Welcome() {
                                 </div>
                                 <h3 className="text-xl font-bold text-gray-900 mb-3">Status Codes</h3>
                                 <p className="text-gray-600 leading-relaxed">
-                                    Professional tools to test and verify HTTP status codes for your API
+                                    Professional tools to test and verify HTTP status codes for your Frontend
                                     development.
                                 </p>
                             </div>
