@@ -44,7 +44,7 @@ export default function Links({ links, auth }) {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
                         <div className="p-6 border-b border-gray-200">
-                            <h3 className="text-2xl font-bold text-gray-800 flex items-center">
+                            <h3 className="text-gray-800 flex items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
                                 </svg>

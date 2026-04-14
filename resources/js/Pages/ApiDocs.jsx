@@ -11,7 +11,7 @@ export default function ApiDocs({ isAuthenticated, token, api_endpoint }) {
             <section className="bg-gray-100 text-gray-800">
                 <div className="container mx-auto flex flex-col items-center px-4 text-center md:px-10 lg:px-32 xl:max-w-4xl">
                     <img src="/ms0_logo.png" className="w-48 h-48" alt={"logo"} />
-                    <h1 className="text-4xl font-bold leading-none sm:text-5xl">Api Docs</h1>
+                    <h1 className="leading-none sm:text-5xl">Api Docs</h1>
                 </div>
             </section>
 
@@ -22,10 +22,10 @@ export default function ApiDocs({ isAuthenticated, token, api_endpoint }) {
                         you will need to create an account and get the access token from your dashboard.
                     </p>
 
-                    <h2 className="text-lg mt-8 font-semibold leading-none sm:text-lg">Endpoint</h2>
+                    <h2 className="mt-8">Endpoint</h2>
                     <code className="mt-2">POST {api_endpoint}</code>
 
-                    <h2 className="text-lg mt-8 font-semibold leading-none sm:text-lg">Headers</h2>
+                    <h2 className="mt-8">Headers</h2>
                     <code className="mt-2 whitespace-pre-wrap">
                         Authorization: Bearer{" "}
                         {isAuthenticated ? (
@@ -41,7 +41,7 @@ export default function ApiDocs({ isAuthenticated, token, api_endpoint }) {
                     </code>
                     {isAuthenticated && <small className="text-xs mt-2">click the access token to copy</small>}
 
-                    <h2 className="text-lg mt-8 font-semibold leading-none sm:text-lg">Body</h2>
+                    <h2 className="mt-8">Body</h2>
                     <code className="mt-2 whitespace-pre-wrap">
                         {"{"}
                         <br />
@@ -53,7 +53,7 @@ export default function ApiDocs({ isAuthenticated, token, api_endpoint }) {
                         {"}"}
                     </code>
 
-                    <h2 className="text-lg mt-8 font-semibold leading-none sm:text-lg">Response 200</h2>
+                    <h2 className="mt-8">Response 200</h2>
                     <code className="mt-2 whitespace-pre-wrap bg-green-200">
                         {"{"}
                         <br />
@@ -66,7 +66,7 @@ export default function ApiDocs({ isAuthenticated, token, api_endpoint }) {
                         {"}"}
                     </code>
 
-                    <h2 className="text-lg mt-8 font-semibold leading-none sm:text-lg">Response 401</h2>
+                    <h2 className="mt-8">Response 401</h2>
                     <code className="mt-2 whitespace-pre-wrap bg-red-200">
                         {"{"}
                         <br />

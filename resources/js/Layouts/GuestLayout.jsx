@@ -12,10 +12,10 @@ export default function Guest({ children, title = "Welcome back", description = 
                                 <div className="bg-gradient-to-br from-sky-500 to-sky-600 rounded-2xl p-4 shadow-lg transform group-hover:scale-105 transition-all duration-200 mb-4">
                                     <img src="/ms0_logo.png" className="w-20 h-20" alt="MS0 Logo" />
                                 </div>
-                                <h2 className="text-2xl font-bold text-gray-800">MS<span className="text-sky-600">0</span></h2>
+                                <h2 className="text-gray-800">MS<span className="text-sky-600">0</span></h2>
                             </div>
                         </Link>
-                        <h2 className="mt-6 text-3xl font-extrabold text-gray-800">
+                        <h2 className="mt-6 text-gray-800">
                             {title}
                         </h2>
                         <p className="mt-2 text-sm text-gray-600">

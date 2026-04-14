@@ -39,7 +39,7 @@ export default function Dashboard({ auth, token, linkCount, visits }) {
             {/* Stats Section */}
             <div className="py-8 bg-gray-50">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <h2 className="text-2xl font-bold text-gray-800 mb-6">Analytics Overview</h2>
+                    <h2 className="text-gray-800 mb-6">Analytics Overview</h2>
                     <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
                         {/* Active Links Card */}
                         <div className={`bg-white rounded-xl shadow-md overflow-hidden transition-all duration-500 transform hover:scale-105 hover:shadow-lg ${animateStats ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`} style={{ transitionDelay: '100ms' }}>
@@ -139,7 +139,7 @@ export default function Dashboard({ auth, token, linkCount, visits }) {
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
                                     </svg>
-                                    <h3 className="text-lg font-semibold text-gray-900">API Access Token</h3>
+                                    <h3 className="text-gray-900">API Access Token</h3>
                                 </div>
                                 <div>
                                     <button
