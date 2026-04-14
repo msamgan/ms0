@@ -59,11 +59,10 @@ export default function Welcome() {
                             </div>
                             <h1 className="leading-tight mb-6">
                                 Simplify Your Links
-                                <span className="block mt-2 text-sky-600">Share with Confidence</span>
+                                <span className="block mt-2 text-sky-600">Work with Confidence</span>
                             </h1>
                             <p className="text-lg sm:text-xl text-gray-600 max-w-xl mb-10">
-                                Transform long, complex URLs into short, memorable links that are easy to share
-                                and track.
+                                Transform long, complex URLs into short, memorable links and test your API with our new HTTP status code feature.
                             </p>
                         </div>
 
