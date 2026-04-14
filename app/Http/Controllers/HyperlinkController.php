@@ -9,7 +9,6 @@ use App\Models\Hyperlink;
 use App\Shortener;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
 use Random\RandomException;
@@ -57,7 +56,7 @@ class HyperlinkController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Shortened Url Already Exists',
-                'shot_url' => url('/' . $hyperlinkExists->shot_slug),
+                'short_url' => url('/' . $hyperlinkExists->shot_slug),
             ]);
         }
 
@@ -78,7 +77,7 @@ class HyperlinkController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Shortened Url created successfully',
-            'shot_url' => url('/' . $shotSlug),
+            'short_url' => url('/' . $shotSlug),
         ]);
     }
 
@@ -97,7 +96,7 @@ class HyperlinkController extends Controller
     {
         $shortSlug = $request->shot_slug;
 
-        $hyperlink = Hyperlink::query()->where(DB::raw('BINARY `shot_slug`'), $shortSlug)->first();
+        $hyperlink = Hyperlink::query()->where('shot_slug', $shortSlug)->first();
 
         if ($hyperlink) {
             $hyperlink->visits = $hyperlink->visits + 1;

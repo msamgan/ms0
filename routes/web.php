@@ -26,6 +26,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/links', [HyperlinkController::class, 'links'])->name('links');
 });
 
+Route::get('/status-codes', function () {
+    return Inertia::render('StatusCodes', [
+        'isAuthenticated' => auth()->check(),
+    ]);
+})->name('status-codes');
+
 require __DIR__ . '/auth.php';
 
 Route::get('/documentation/api', function () {

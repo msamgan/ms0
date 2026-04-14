@@ -2,10 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\Hyperlink;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Hyperlink>
+ * @extends Factory<Hyperlink>
  */
 class HyperlinkFactory extends Factory
 {
@@ -17,7 +18,10 @@ class HyperlinkFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'url' => $this->faker->url,
+            'shot_slug' => $this->faker->unique()->lexify('????'),
+            'visits' => 0,
+            'last_visit' => now(),
         ];
     }
 }

@@ -26,11 +26,19 @@ export default function Login({ status, canResetPassword }) {
             <Head title="Log in" />
 
             <GuestLayout>
-                {status && <div className="mb-6 p-4 rounded-lg bg-green-50 border border-green-100 text-sm text-green-600">{status}</div>}
+                {status && (
+                    <div className="mb-6 p-4 rounded-lg bg-green-50 border border-green-100 text-sm text-green-600">
+                        {status}
+                    </div>
+                )}
 
                 <form onSubmit={submit}>
                     <div className="mb-6">
-                        <InputLabel htmlFor="email" value="Email address" className="text-gray-700 font-medium" />
+                        <InputLabel
+                            htmlFor="email"
+                            value="Email address"
+                            className="text-gray-700 font-medium"
+                        />
 
                         <TextInput
                             id="email"
@@ -49,7 +57,11 @@ export default function Login({ status, canResetPassword }) {
 
                     <div className="mb-6">
                         <div className="flex items-center justify-between">
-                            <InputLabel htmlFor="password" value="Password" className="text-gray-700 font-medium" />
+                            <InputLabel
+                                htmlFor="password"
+                                value="Password"
+                                className="text-gray-700 font-medium"
+                            />
 
                             {canResetPassword && (
                                 <Link
@@ -93,7 +105,7 @@ export default function Login({ status, canResetPassword }) {
                             disabled={processing}
                             className="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-base font-medium text-white bg-gradient-to-r from-sky-600 to-sky-500 hover:from-sky-700 hover:to-sky-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 transition-all duration-200 disabled:opacity-70"
                         >
-                            {processing ? 'Signing in...' : 'Sign in'}
+                            {processing ? "Signing in..." : "Sign in"}
                         </button>
                     </div>
                 </form>

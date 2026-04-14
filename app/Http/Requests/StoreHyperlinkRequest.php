@@ -23,7 +23,7 @@ class StoreHyperlinkRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'url' => 'required|url',
+            'url' => ['required', 'url'],
         ];
     }
 }
