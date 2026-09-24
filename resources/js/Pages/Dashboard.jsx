@@ -69,7 +69,41 @@ export default function Dashboard({ auth, token, linkCount, visits }) {
     ]
 
     return (
-        <AuthenticatedLayout user={auth.user}>
+        <AuthenticatedLayout
+            user={auth.user}
+            header={
+                <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-3">
+                        <div className="flex h-10 w-10 items-center justify-center border border-line bg-paper">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-5 w-5 text-ink"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M4 18h16M7 15V9m5 6V5m5 10v-8"
+                                />
+                            </svg>
+                        </div>
+                        <div>
+                            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
+                                Workspace
+                            </p>
+                            <h2 className="font-editorial text-3xl text-ink">Dashboard</h2>
+                        </div>
+                    </div>
+
+                    <span className="hidden sm:inline font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
+                        01 / Overview
+                    </span>
+                </div>
+            }
+        >
             <Head title="Dashboard" />
 
             <div className="bg-paper font-grotesk text-ink">

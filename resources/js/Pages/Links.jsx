@@ -28,7 +28,41 @@ export default function Links({ links = [], auth }) {
     }
 
     return (
-        <AuthenticatedLayout user={auth.user}>
+        <AuthenticatedLayout
+            user={auth.user}
+            header={
+                <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-3">
+                        <div className="flex h-10 w-10 items-center justify-center border border-line bg-paper">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-5 w-5 text-ink"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M10 13a5 5 0 0 0 7.07 0l2.83-2.83a5 5 0 0 0-7.07-7.07L11 5.17M14 11a5 5 0 0 0-7.07 0L4.1 13.83a5 5 0 0 0 7.07 7.07L13 18.83"
+                                />
+                            </svg>
+                        </div>
+                        <div>
+                            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
+                                Link library
+                            </p>
+                            <h2 className="font-editorial text-3xl text-ink">Links</h2>
+                        </div>
+                    </div>
+
+                    <span className="hidden sm:inline font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
+                        01 / Inventory
+                    </span>
+                </div>
+            }
+        >
             <Head title="Links" />
 
             <main className="bg-paper font-grotesk text-ink">
