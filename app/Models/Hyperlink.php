@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $visits
  * @property bool $is_active
  * @property string $last_visit
+ * @property string $user_id
  */
 class Hyperlink extends Model
 {

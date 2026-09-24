@@ -44,5 +44,5 @@ Route::get('/documentation/api', function () {
 
 Route::post('/service/shorten', [HyperlinkController::class, 'store'])->name('service.shorten');
 
-// this is the route that redirects the user to the original URL, this has to be the last route
+// this is the route that redirects the user to the original URL; this has to be the last route
 Route::get('/{shot_slug}', [HyperlinkController::class, 'show'])->name('show');
