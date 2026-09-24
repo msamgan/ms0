@@ -96,6 +96,54 @@ test('it associates guest link with user if they shorten it after logging in', f
     ]);
 });
 
+test('it rejects a URL with an unsafe scheme', function () {
+    $response = $this->postJson('/service/shorten', [
+        'url' => 'javascript:alert(1)',
+    ]);
+
+    $response->assertStatus(422)
+        ->assertJsonValidationErrors(['url']);
+});
+
+test('it rejects a URL pointing to a private or loopback address', function () {
+    $response = $this->postJson('/service/shorten', [
+        'url' => 'http://127.0.0.1/admin',
+    ]);
+
+    $response->assertStatus(422)
+        ->assertJsonValidationErrors(['url']);
+});
+
+test('it rejects a URL on the blocked domain list', function () {
+    $response = $this->postJson('/service/shorten', [
+        'url' => 'https://malware.testing.google.test/path',
+    ]);
+
+    $response->assertStatus(422)
+        ->assertJsonValidationErrors(['url']);
+});
+
+test('it accepts a URL linking to a standard file extension', function () {
+    $response = $this->postJson('/service/shorten', [
+        'url' => 'https://example.com/files/report.pdf',
+    ]);
+
+    $response->assertStatus(200)
+        ->assertJson([
+            'status' => true,
+            'message' => 'Shortened Url created successfully',
+        ]);
+});
+
+test('it rejects a URL linking to a dangerous file extension', function () {
+    $response = $this->postJson('/service/shorten', [
+        'url' => 'https://example.com/files/virus.exe',
+    ]);
+
+    $response->assertStatus(422)
+        ->assertJsonValidationErrors(['url']);
+});
+
 test('authenticated user can view their links', function () {
     $user = User::factory()->create();
     Hyperlink::factory()->count(3)->create(['user_id' => $user->id]);

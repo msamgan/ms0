@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\SafeUrl;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -23,7 +24,7 @@ class StoreHyperlinkRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'url' => ['required', 'url'],
+            'url' => ['required', 'url', new SafeUrl],
         ];
     }
 }
