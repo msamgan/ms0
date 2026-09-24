@@ -6,9 +6,9 @@ use App\Models\Hyperlink;
 
 class Shortener
 {
-    const SELECTION = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    const string SELECTION = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
-    const MAX_LENGTH = 4;
+    const int MAX_LENGTH = 4;
 
     public static function shorten(): string
     {
