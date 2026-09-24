@@ -32,7 +32,6 @@ export default function Header({ isAuthenticated = false, user = null }) {
         <header className="sticky top-0 z-50 bg-paper border-b border-line">
             <div className="mx-auto max-w-grid px-6 md:px-10 lg:px-16 flex items-center justify-between h-16 sm:h-[72px]">
                 <Link href={route("home")} className="flex items-center gap-3 group">
-                    <img src="/ms0_logo.png" alt="MS0 logo" className="h-7 w-7" />
                     <span className="font-grotesk font-extrabold tracking-tight text-ink text-lg">
                         MS<span className="text-accent">0</span>
                         <span className="hidden sm:inline text-muted font-medium text-xs align-top ml-1 tracking-[0.18em] uppercase">

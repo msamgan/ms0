@@ -1,4 +1,5 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx"
+import UrlShortener from "@/Components/Home/UrlShortener"
 import { Head } from "@inertiajs/react"
 import { useEffect, useState } from "react"
 
@@ -110,6 +111,26 @@ export default function Links({ links = [], auth }) {
                     </div>
                 </section>
 
+                <section className="border-b border-line bg-paper">
+                    <div className="mx-auto max-w-grid px-6 py-12 md:px-10 md:py-16 lg:px-16">
+                        <div className="grid gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:items-start lg:gap-20">
+                            <div>
+                                <p className="mb-5 font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
+                                    02 / Create link
+                                </p>
+                                <h2 className="font-editorial text-4xl leading-none text-ink sm:text-5xl">
+                                    Shorten a new URL.
+                                </h2>
+                                <p className="mt-5 max-w-md text-sm leading-6 text-muted">
+                                    Turn a long URL into a link that is ready to share and track.
+                                </p>
+                            </div>
+
+                            <UrlShortener />
+                        </div>
+                    </div>
+                </section>
+
                 <section className="mx-auto max-w-grid px-6 md:px-10 lg:px-16 py-12 md:py-20">
                     {links.length === 0 ? (
                         <div className="border border-line bg-paper px-6 py-12 text-center">
@@ -121,7 +142,7 @@ export default function Links({ links = [], auth }) {
                     ) : (
                         <>
                             <p className="mb-5 font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
-                                02 / Link Data
+                                03 / Link Data
                             </p>
                             <div className="overflow-hidden border border-line bg-paper">
                                 <div className="overflow-x-auto">
