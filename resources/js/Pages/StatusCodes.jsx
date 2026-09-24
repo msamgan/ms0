@@ -1,6 +1,17 @@
-import { Head, usePage } from "@inertiajs/react"
+import { Head, Link, usePage } from "@inertiajs/react"
 import Header from "@/Components/Header.jsx"
 import Footer from "@/Components/Footer.jsx"
+import Reveal from "@/Components/Home/Reveal"
+import ArrowIcon from "@/Components/Home/ArrowIcon"
+
+const REQUEST_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE"]
+
+const STATUS_GROUPS = [
+    { code: "2xx", label: "Success", description: "The request was received and handled successfully." },
+    { code: "3xx", label: "Redirects", description: "The client needs to take another step to complete the request." },
+    { code: "4xx", label: "Client errors", description: "Something about the request needs attention." },
+    { code: "5xx", label: "Server errors", description: "The server could not complete a valid request." }
+]
 
 export default function StatusCodes() {
     const { auth } = usePage().props
@@ -12,135 +23,158 @@ export default function StatusCodes() {
             <Head title="HTTP Status Codes" />
             <Header isAuthenticated={isAuthenticated} user={user} />
 
-            <main className="bg-gray-50 min-h-screen py-12">
-                <div className="container mx-auto px-4 md:px-10 lg:px-12 max-w-full lg:max-w-[100rem]">
-                    <div className="text-center mb-16">
-                        <h1 className="text-4xl font-extrabold text-gray-900 mb-4 text-center">
-                            HTTP Status Codes
-                        </h1>
-                        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                            Test and understand how different HTTP status codes behave with our API.
-                        </p>
-                    </div>
+            <main className="bg-paper font-grotesk text-ink">
+                <section className="border-b border-line" aria-labelledby="status-codes-heading">
+                    <div className="mx-auto max-w-grid px-6 md:px-10 lg:px-16 pt-16 md:pt-20 pb-20 md:pb-28">
+                        <Reveal className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-[0.18em] text-muted mb-8 md:mb-12">
+                            <span>01 / HTTP utility</span>
+                            <span className="hidden sm:inline">ms0.org / status</span>
+                        </Reveal>
 
-                    <div className="max-w-4xl mx-auto space-y-8">
-                        {/* How it works Section */}
-                        <div className="bg-white rounded-2xl shadow-md p-8 border border-gray-100">
-                            <h2 className="text-2xl font-bold text-gray-800 mb-4 flex items-center">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-6 w-6 mr-2 text-sky-600"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                                    />
-                                </svg>
-                                How it works
-                            </h2>
-                            <div className="prose prose-sky text-gray-600">
-                                <p>
-                                    Our status code testing tool allows you to simulate various API responses by
-                                    simply providing the desired HTTP status code.
+                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-10 gap-y-12 items-end">
+                            <Reveal
+                                as="h1"
+                                id="status-codes-heading"
+                                className="lg:col-span-7 font-editorial text-6xl sm:text-7xl lg:text-8xl leading-[1.05]"
+                            >
+                                Speak
+                                <br />
+                                in codes.
+                            </Reveal>
+
+                            <Reveal delay={80} className="lg:col-span-5 lg:pl-6 lg:border-l lg:border-line">
+                                <p className="text-lg text-muted max-w-md">
+                                    Test HTTP responses in your browser or call the endpoint directly from your
+                                    application.
                                 </p>
-                                <ul className="list-disc pl-5 space-y-2 mt-4">
-                                    <li>
-                                        <strong>Request:</strong> Your browser sends a{" "}
-                                        <span className="font-mono bg-green-200 rounded-lg p-1.5">
-                                            GET|POST|PUT|PATCH|DELETE
-                                        </span>{" "}
-                                        request to our status endpoint with the code you specify.
-                                    </li>
-                                    <li>
-                                        <strong>Processing:</strong> Our server receives the request and
-                                        prepares a standardized JSON response.
-                                    </li>
-                                    <li>
-                                        <strong>Response:</strong> The server returns the exact HTTP status code
-                                        you requested along with a helpful message.
-                                    </li>
-                                </ul>
-                                <div className="mt-6 flex items-center">
+                            </Reveal>
+                        </div>
+                    </div>
+                </section>
+
+                <section className="border-b border-line" aria-labelledby="how-it-works-heading">
+                    <div className="mx-auto max-w-grid px-6 md:px-10 lg:px-16 py-20 md:py-28">
+                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-10 gap-y-12">
+                            <div className="lg:col-span-4">
+                                <Reveal className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted mb-8">
+                                    02 / How it works
+                                </Reveal>
+                                <Reveal
+                                    as="h2"
+                                    id="how-it-works-heading"
+                                    className="font-grotesk font-extrabold text-4xl sm:text-5xl leading-[1.05] max-w-sm"
+                                >
+                                    One endpoint. Every response.
+                                </Reveal>
+                            </div>
+
+                            <div className="lg:col-span-8">
+                                <Reveal className="border-t border-line">
+                                    <p className="text-muted max-w-2xl py-7 text-lg leading-relaxed">
+                                        Send a request with the status code you want to simulate. MS0 returns that
+                                        exact code with a predictable JSON response, making it easy to build and
+                                        verify loading, error, and edge-case states.
+                                    </p>
+                                </Reveal>
+
+                                <ol className="border-t border-line">
+                                    {[
+                                        ["01", "Request", "Choose a method and status code."],
+                                        ["02", "Process", "Our server prepares a standard response."],
+                                        ["03", "Response", "Your client receives the requested code."]
+                                    ].map(([number, title, body]) => (
+                                        <Reveal
+                                            as="li"
+                                            key={number}
+                                            className="grid grid-cols-[3rem_7rem_1fr] gap-4 sm:grid-cols-[4rem_9rem_1fr] items-baseline py-5 border-b border-line"
+                                        >
+                                            <span className="font-mono text-xs text-muted">{number}</span>
+                                            <h3 className="font-semibold">{title}</h3>
+                                            <p className="text-sm text-muted">{body}</p>
+                                        </Reveal>
+                                    ))}
+                                </ol>
+
+                                <Reveal delay={120} className="pt-7">
                                     <a
                                         href="/docs/api#/operations/status"
-                                        className="text-sky-600 hover:text-sky-700 font-semibold flex items-center group transition-all duration-200"
+                                        className="group inline-flex items-center gap-3 font-semibold text-accent-dark hover:text-ink transition-colors"
                                     >
-                                        Know more
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform duration-200"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M9 5l7 7-7 7"
-                                            />
-                                        </svg>
+                                        Read the API documentation
+                                        <ArrowIcon />
                                     </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="bg-white rounded-2xl shadow-md p-8 border border-gray-100">
-                            <h2 className="text-2xl font-bold text-gray-800 mb-4 flex items-center">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-6 w-6 mr-2 text-sky-600"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                                    />
-                                </svg>
-                                API Usage
-                            </h2>
-                            <p className="text-gray-600 mb-4">You can use this feature directly via our API:</p>
-                            <div className="bg-gray-100 p-4 rounded-lg font-mono text-sm text-gray-800 break-all mb-4">
-                                <span className="font-mono bg-green-200 rounded-lg p-1.5">
-                                    GET|POST|PUT|PATCH|DELETE
-                                </span>{" "}
-                                {window.location.origin}
-                                /api/status/&#123;stausCode&#125;
-                            </div>
-                            <div className="flex items-center">
-                                <a
-                                    href={route("dashboard")}
-                                    className="text-sky-600 hover:text-sky-700 font-semibold flex items-center group transition-all duration-200"
-                                >
-                                    Get API Token
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform duration-200"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M9 5l7 7-7 7"
-                                        />
-                                    </svg>
-                                </a>
+                                </Reveal>
                             </div>
                         </div>
                     </div>
-                </div>
+                </section>
+
+                <section className="border-b border-line" aria-labelledby="api-usage-heading">
+                    <div className="mx-auto max-w-grid px-6 md:px-10 lg:px-16 py-20 md:py-28">
+                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-10 gap-y-12">
+                            <div className="lg:col-span-4">
+                                <Reveal className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted mb-8">
+                                    03 / API usage
+                                </Reveal>
+                                <Reveal
+                                    as="h2"
+                                    id="api-usage-heading"
+                                    className="font-grotesk font-extrabold text-4xl leading-[1.05] max-w-xs"
+                                >
+                                    Drop it into your request.
+                                </Reveal>
+                            </div>
+
+                            <div className="lg:col-span-8">
+                                <Reveal className="bg-ink text-paper p-6 sm:p-8">
+                                    <div className="flex flex-wrap gap-2 mb-8" aria-label="Supported HTTP methods">
+                                        {REQUEST_METHODS.map((method) => (
+                                            <span
+                                                key={method}
+                                                className="border border-paper/25 px-2 py-1 font-mono text-[10px] tracking-[0.12em]"
+                                            >
+                                                {method}
+                                            </span>
+                                        ))}
+                                    </div>
+                                    <code className="block overflow-x-auto whitespace-nowrap p-0 bg-transparent text-sm text-black">
+                                        <span className="text-accent">GET</span>{" "}
+                                        {typeof window !== "undefined" ? window.location.origin : "https://ms0.org"}
+                                        /api/status/&#123;statusCode&#125;
+                                    </code>
+                                    <p className="mt-8 max-w-lg text-sm leading-relaxed text-paper/60">
+                                        Replace <span className="font-mono text-paper/90">statusCode</span> with
+                                        any valid HTTP status code your client needs to handle.
+                                    </p>
+                                </Reveal>
+
+                                <div className="grid grid-cols-1 sm:grid-cols-2 border-b border-line">
+                                    {STATUS_GROUPS.map((group, index) => (
+                                        <Reveal
+                                            key={group.code}
+                                            delay={index * 60}
+                                            className="py-6 sm:pr-8 border-b sm:odd:border-r border-line last:border-b-0 sm:last:border-b"
+                                        >
+                                            <span className="font-mono text-xs text-accent-dark">{group.code}</span>
+                                            <h3 className="font-semibold mt-3 mb-1">{group.label}</h3>
+                                            <p className="text-sm text-muted leading-relaxed">{group.description}</p>
+                                        </Reveal>
+                                    ))}
+                                </div>
+
+                                <Reveal delay={120} className="pt-7">
+                                    <Link
+                                        href={route("dashboard")}
+                                        className="group inline-flex items-center gap-3 font-semibold text-accent-dark hover:text-ink transition-colors"
+                                    >
+                                        Get an API token
+                                        <ArrowIcon />
+                                    </Link>
+                                </Reveal>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </main>
 
             <Footer />

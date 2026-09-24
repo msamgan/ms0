@@ -1,224 +1,235 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx"
 import { Head } from "@inertiajs/react"
-import { useState, useEffect } from "react"
+import { useEffect, useState } from "react"
 
-export default function Links({ links, auth }) {
+export default function Links({ links = [], auth }) {
     const [notification, setNotification] = useState({})
     const [animateTable, setAnimateTable] = useState(false)
 
-    // Trigger animation when component mounts
     useEffect(() => {
         setAnimateTable(true)
     }, [])
 
-    const copyToClipboard = (url, id) => {
-        navigator.clipboard.writeText(url)
-        setNotification({
-            ...notification,
-            [id]: true
-        })
+    const totalLinks = links.length
+    const activeLinks = links.filter((link) => (link.status || "Active").toLowerCase() === "active").length
+    const totalVisits = links.reduce((sum, link) => sum + Number(link.visits || 0), 0)
 
-        setTimeout(() => {
-            setNotification({
-                ...notification,
-                [id]: false
-            })
-        }, 2000)
+    const copyToClipboard = async (url, id) => {
+        try {
+            await navigator.clipboard.writeText(url)
+            setNotification((prev) => ({ ...prev, [id]: true }))
+
+            window.setTimeout(() => {
+                setNotification((prev) => ({ ...prev, [id]: false }))
+            }, 2000)
+        } catch (error) {
+            console.error("Clipboard copy failed", error)
+        }
     }
 
     return (
         <AuthenticatedLayout
             user={auth.user}
             header={
-                <div className="flex items-center">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-6 w-6 mr-2 text-sky-600"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
-                        />
-                    </svg>
-                    <h2 className="font-semibold text-xl text-gray-800 leading-tight">Your Links</h2>
+                <div className="flex items-center gap-3">
+                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-line bg-paper">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-4 w-4 text-ink"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth={1.8}
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M10.5 13.5a4.5 4.5 0 0 1-6.36-6.36l3-3a4.5 4.5 0 0 1 6.36 6.36M13.5 10.5a4.5 4.5 0 0 1 6.36 6.36l-3 3a4.5 4.5 0 0 1-6.36-6.36"
+                            />
+                        </svg>
+                    </span>
+                    <h2 className="font-grotesk text-xl font-bold text-ink">Your links</h2>
                 </div>
             }
         >
             <Head title="Links" />
 
-            <div className="py-12 bg-gray-50">
-                <div className="max-w-7xl mx-auto px-4 md:px-6">
-                    <div className="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
-                        <div className="p-6 border-b border-gray-200">
-                            <h3 className="text-gray-800 flex items-center">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-6 w-6 mr-2 text-sky-600"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
-                                    />
-                                </svg>
-                                Link Management
-                            </h3>
-                            <p className="text-gray-600 mt-2">
-                                Manage all your shortened links in one place. Click on any short link to copy it
-                                to your clipboard.
-                            </p>
-                        </div>
-                        <div className="overflow-x-auto">
-                            <table className="min-w-full divide-y divide-gray-200">
-                                <thead className="bg-sky-600">
-                                    <tr>
-                                        <th
-                                            scope="col"
-                                            className="px-6 py-4 text-left text-xs font-medium text-white uppercase tracking-wider"
-                                        >
-                                            Original Link
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            className="px-6 py-4 text-left text-xs font-medium text-white uppercase tracking-wider"
-                                        >
-                                            Short Link
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            className="px-6 py-4 text-left text-xs font-medium text-white uppercase tracking-wider"
-                                        >
-                                            Visits
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            className="px-6 py-4 text-left text-xs font-medium text-white uppercase tracking-wider"
-                                        >
-                                            Last Visited
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            className="px-6 py-4 text-left text-xs font-medium text-white uppercase tracking-wider"
-                                        >
-                                            Status
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody className="bg-white divide-y divide-gray-200">
-                                    {links.map((link, index) => (
-                                        <tr
-                                            key={index}
-                                            className={`hover:bg-gray-50 transition-all duration-300 ${animateTable ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
-                                            style={{ transitionDelay: `${index * 50}ms` }}
-                                        >
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 max-w-xs truncate">
-                                                <div className="tooltip" title={link.url}>
-                                                    {link.url}
-                                                </div>
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm">
-                                                <div className="flex items-center">
-                                                    <button
-                                                        onClick={() =>
-                                                            copyToClipboard(link.shortened_url, index)
-                                                        }
-                                                        className={`group flex items-center text-sky-600 hover:text-sky-800 transition-colors duration-200 ${notification[index] ? "text-green-600" : ""}`}
-                                                    >
-                                                        <span className="mr-2">{link.shortened_url}</span>
-                                                        <svg
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            className={`h-5 w-5 transition-all duration-200 ${notification[index] ? "text-green-600" : "text-gray-400 group-hover:text-sky-600"}`}
-                                                            fill="none"
-                                                            viewBox="0 0 24 24"
-                                                            stroke="currentColor"
-                                                        >
-                                                            {notification[index] ? (
-                                                                <path
-                                                                    strokeLinecap="round"
-                                                                    strokeLinejoin="round"
-                                                                    strokeWidth={2}
-                                                                    d="M5 13l4 4L19 7"
-                                                                />
-                                                            ) : (
-                                                                <path
-                                                                    strokeLinecap="round"
-                                                                    strokeLinejoin="round"
-                                                                    strokeWidth={2}
-                                                                    d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2"
-                                                                />
-                                                            )}
-                                                        </svg>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                <div className="flex items-center">
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        className="h-5 w-5 mr-2 text-emerald-500"
-                                                        fill="none"
-                                                        viewBox="0 0 24 24"
-                                                        stroke="currentColor"
-                                                    >
-                                                        <path
-                                                            strokeLinecap="round"
-                                                            strokeLinejoin="round"
-                                                            strokeWidth={2}
-                                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                                                        />
-                                                        <path
-                                                            strokeLinecap="round"
-                                                            strokeLinejoin="round"
-                                                            strokeWidth={2}
-                                                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                                                        />
-                                                    </svg>
-                                                    {link.visits}
-                                                </div>
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                <div className="flex items-center">
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        className="h-5 w-5 mr-2 text-indigo-500"
-                                                        fill="none"
-                                                        viewBox="0 0 24 24"
-                                                        stroke="currentColor"
-                                                    >
-                                                        <path
-                                                            strokeLinecap="round"
-                                                            strokeLinejoin="round"
-                                                            strokeWidth={2}
-                                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                                                        />
-                                                    </svg>
-                                                    {link.last_visit}
-                                                </div>
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm">
-                                                <span
-                                                    className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${link.status === "active" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}
-                                                >
-                                                    {link.status}
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+            <main className="bg-paper font-grotesk text-ink">
+                <section className="border-b border-line bg-paper">
+                    <div className="mx-auto max-w-grid px-6 md:px-10 lg:px-16 py-14 md:py-20">
+                        <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+                            <div className="max-w-3xl">
+                                <p className="mb-5 font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
+                                    03 / Link library
+                                </p>
+                                <h1 className="font-editorial text-5xl leading-none text-ink sm:text-6xl lg:text-[5rem]">
+                                    Short links,
+                                    <br />
+                                    ready to ship.
+                                </h1>
+                            </div>
+
+                            <div className="grid grid-cols-3 gap-4 sm:gap-6">
+                                <div className="border-l border-line pl-4">
+                                    <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted">
+                                        Total
+                                    </div>
+                                    <div className="mt-2 font-grotesk text-2xl font-extrabold text-ink">
+                                        {totalLinks}
+                                    </div>
+                                </div>
+                                <div className="border-l border-line pl-4">
+                                    <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted">
+                                        Active
+                                    </div>
+                                    <div className="mt-2 font-grotesk text-2xl font-extrabold text-ink">
+                                        {activeLinks}
+                                    </div>
+                                </div>
+                                <div className="border-l border-line pl-4">
+                                    <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted">
+                                        Visits
+                                    </div>
+                                    <div className="mt-2 font-grotesk text-2xl font-extrabold text-ink">
+                                        {totalVisits}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                </section>
+
+                <section className="mx-auto max-w-grid px-6 md:px-10 lg:px-16 py-12 md:py-20">
+                    {links.length === 0 ? (
+                        <div className="border border-line bg-paper px-6 py-12 text-center">
+                            <p className="font-grotesk text-xl text-ink">No links created yet.</p>
+                            <p className="mt-2 text-sm text-muted">
+                                Start by shortening a URL from the home page and it will appear here.
+                            </p>
+                        </div>
+                    ) : (
+                        <div className="overflow-hidden border border-line bg-paper">
+                            <div className="overflow-x-auto">
+                                <table className="min-w-full border-collapse">
+                                    <thead className="bg-ink text-paper">
+                                        <tr>
+                                            <th className="px-5 py-4 text-left font-mono text-[10px] uppercase tracking-[0.18em] text-paper/80">
+                                                Original
+                                            </th>
+                                            <th className="px-5 py-4 text-left font-mono text-[10px] uppercase tracking-[0.18em] text-paper/80">
+                                                Short link
+                                            </th>
+                                            <th className="px-5 py-4 text-left font-mono text-[10px] uppercase tracking-[0.18em] text-paper/80">
+                                                Visits
+                                            </th>
+                                            <th className="px-5 py-4 text-left font-mono text-[10px] uppercase tracking-[0.18em] text-paper/80">
+                                                Last visited
+                                            </th>
+                                            <th className="px-5 py-4 text-left font-mono text-[10px] uppercase tracking-[0.18em] text-paper/80">
+                                                Status
+                                            </th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody className="divide-y divide-line bg-paper">
+                                        {links.map((link, index) => {
+                                            const rowId = link.id ?? `${link.shortened_url ?? "short"}-${index}`
+                                            const status = (link.status || "Active").toLowerCase() === "active" ? "Active" : "Inactive"
+                                            const isActive = status === "Active"
+
+                                            return (
+                                                <tr
+                                                    key={rowId}
+                                                    className={`transition-all duration-300 ${
+                                                        animateTable ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+                                                    }`}
+                                                    style={{ transitionDelay: `${index * 50}ms` }}
+                                                >
+                                                    <td className="max-w-[26rem] px-5 py-5 align-top">
+                                                        <a
+                                                            href={link.url}
+                                                            target="_blank"
+                                                            rel="noreferrer"
+                                                            className="block break-all font-grotesk text-sm text-ink underline decoration-line decoration-1 underline-offset-4 hover:text-accent"
+                                                        >
+                                                            {link.url}
+                                                        </a>
+                                                    </td>
+
+                                                    <td className="px-5 py-5 align-top">
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => copyToClipboard(link.shortened_url, rowId)}
+                                                            className="group inline-flex items-center gap-3 rounded-none border border-line bg-paper px-3 py-2 text-left transition-colors hover:border-ink hover:bg-white"
+                                                        >
+                                                            <span className="font-mono text-sm text-ink">
+                                                                {link.shortened_url}
+                                                            </span>
+                                                            <svg
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                className={`h-4 w-4 transition-colors ${
+                                                                    notification[rowId]
+                                                                        ? "text-accent"
+                                                                        : "text-muted group-hover:text-ink"
+                                                                }`}
+                                                                fill="none"
+                                                                viewBox="0 0 24 24"
+                                                                stroke="currentColor"
+                                                                strokeWidth={1.8}
+                                                            >
+                                                                {notification[rowId] ? (
+                                                                    <path
+                                                                        strokeLinecap="round"
+                                                                        strokeLinejoin="round"
+                                                                        d="M5 13l4 4L19 7"
+                                                                    />
+                                                                ) : (
+                                                                    <path
+                                                                        strokeLinecap="round"
+                                                                        strokeLinejoin="round"
+                                                                        d="M9 9.75A2.25 2.25 0 0 1 11.25 7.5h6A2.25 2.25 0 0 1 19.5 9.75v6A2.25 2.25 0 0 1 17.25 18h-6A2.25 2.25 0 0 1 9 15.75v-6Zm-4.5 1.5A2.25 2.25 0 0 1 6.75 9h6A2.25 2.25 0 0 1 15 11.25v6A2.25 2.25 0 0 1 12.75 19.5h-6A2.25 2.25 0 0 1 4.5 17.25v-6Z"
+                                                                    />
+                                                                )}
+                                                            </svg>
+                                                        </button>
+                                                    </td>
+
+                                                    <td className="px-5 py-5 align-top text-sm text-ink">
+                                                        <div className="flex items-center gap-2">
+                                                            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted">
+                                                                Views
+                                                            </span>
+                                                            <span className="font-grotesk text-base font-semibold">
+                                                                {link.visits || 0}
+                                                            </span>
+                                                        </div>
+                                                    </td>
+
+                                                    <td className="px-5 py-5 align-top text-sm text-muted">
+                                                        {link.last_visit || "Never"}
+                                                    </td>
+
+                                                    <td className="px-5 py-5 align-top">
+                                                        <span
+                                                            className={`inline-flex items-center border px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.18em] ${
+                                                                isActive
+                                                                    ? "border-emerald-300 bg-emerald-50 text-emerald-700"
+                                                                    : "border-red-200 bg-red-50 text-red-700"
+                                                            }`}
+                                                        >
+                                                            {status}
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            )
+                                        })}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    )}
+                </section>
+            </main>
         </AuthenticatedLayout>
     )
 }
