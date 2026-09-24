@@ -20,10 +20,9 @@ export default function Register() {
         })
     }
 
-    // Override the GuestLayout's default welcome text for the register page
     const customGuestLayoutProps = {
         title: "Create your account",
-        description: "Join MS0 to start creating and managing your shortened URLs"
+        description: "Save your links, track their reach, and keep every short URL in one place."
     }
 
     return (
@@ -32,29 +31,33 @@ export default function Register() {
 
             <GuestLayout {...customGuestLayoutProps}>
                 <form onSubmit={submit}>
-                    <div className="mb-6">
-                        <InputLabel htmlFor="name" value="Full name" className="text-gray-700 font-medium" />
+                    <div className="mb-7">
+                        <InputLabel
+                            htmlFor="name"
+                            value="Full name"
+                            className="font-grotesk text-xs font-semibold uppercase tracking-[0.12em] text-ink"
+                        />
 
                         <TextInput
                             id="name"
                             name="name"
                             value={data.name}
-                            className="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
+                            className="mt-2 block w-full rounded-none border-0 border-b border-line bg-transparent px-0 py-3 font-grotesk text-base text-ink shadow-none transition-colors placeholder:text-muted/60 focus:border-accent focus:ring-0"
                             autoComplete="name"
                             isFocused={true}
                             onChange={(e) => setData("name", e.target.value)}
-                            placeholder="John Doe"
+                            placeholder="Your name"
                             required
                         />
 
                         <InputError message={errors.name} className="mt-2" />
                     </div>
 
-                    <div className="mb-6">
+                    <div className="mb-7">
                         <InputLabel
                             htmlFor="email"
                             value="Email address"
-                            className="text-gray-700 font-medium"
+                            className="font-grotesk text-xs font-semibold uppercase tracking-[0.12em] text-ink"
                         />
 
                         <TextInput
@@ -62,7 +65,7 @@ export default function Register() {
                             type="email"
                             name="email"
                             value={data.email}
-                            className="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
+                            className="mt-2 block w-full rounded-none border-0 border-b border-line bg-transparent px-0 py-3 font-grotesk text-base text-ink shadow-none transition-colors placeholder:text-muted/60 focus:border-accent focus:ring-0"
                             autoComplete="username"
                             onChange={(e) => setData("email", e.target.value)}
                             placeholder="your@email.com"
@@ -72,15 +75,19 @@ export default function Register() {
                         <InputError message={errors.email} className="mt-2" />
                     </div>
 
-                    <div className="mb-6">
-                        <InputLabel htmlFor="password" value="Password" className="text-gray-700 font-medium" />
+                    <div className="mb-7">
+                        <InputLabel
+                            htmlFor="password"
+                            value="Password"
+                            className="font-grotesk text-xs font-semibold uppercase tracking-[0.12em] text-ink"
+                        />
 
                         <TextInput
                             id="password"
                             type="password"
                             name="password"
                             value={data.password}
-                            className="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
+                            className="mt-2 block w-full rounded-none border-0 border-b border-line bg-transparent px-0 py-3 font-grotesk text-base text-ink shadow-none transition-colors placeholder:text-muted/60 focus:border-accent focus:ring-0"
                             autoComplete="new-password"
                             onChange={(e) => setData("password", e.target.value)}
                             placeholder="••••••••"
@@ -90,11 +97,11 @@ export default function Register() {
                         <InputError message={errors.password} className="mt-2" />
                     </div>
 
-                    <div className="mb-6">
+                    <div className="mb-7">
                         <InputLabel
                             htmlFor="password_confirmation"
                             value="Confirm password"
-                            className="text-gray-700 font-medium"
+                            className="font-grotesk text-xs font-semibold uppercase tracking-[0.12em] text-ink"
                         />
 
                         <TextInput
@@ -102,7 +109,7 @@ export default function Register() {
                             type="password"
                             name="password_confirmation"
                             value={data.password_confirmation}
-                            className="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
+                            className="mt-2 block w-full rounded-none border-0 border-b border-line bg-transparent px-0 py-3 font-grotesk text-base text-ink shadow-none transition-colors placeholder:text-muted/60 focus:border-accent focus:ring-0"
                             autoComplete="new-password"
                             onChange={(e) => setData("password_confirmation", e.target.value)}
                             placeholder="••••••••"
@@ -112,32 +119,26 @@ export default function Register() {
                         <InputError message={errors.password_confirmation} className="mt-2" />
                     </div>
 
-                    <div className="mb-6 text-sm text-gray-600">
+                    <div className="mb-10 font-grotesk text-sm leading-relaxed text-muted">
                         By registering, you agree to our{" "}
-                        <a href="#" className="text-sky-600 hover:text-sky-500">
-                            Terms of Service
-                        </a>{" "}
-                        and{" "}
-                        <a href="#" className="text-sky-600 hover:text-sky-500">
-                            Privacy Policy
-                        </a>
-                        .
+                        <span className="font-semibold text-ink">Terms of Service</span> and{" "}
+                        <span className="font-semibold text-ink">Privacy Policy</span>.
                     </div>
 
                     <div>
                         <button
                             type="submit"
                             disabled={processing}
-                            className="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-base font-medium text-white bg-gradient-to-r from-sky-600 to-sky-500 hover:from-sky-700 hover:to-sky-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 transition-all duration-200 disabled:opacity-70"
+                            className="w-full border border-ink bg-ink px-4 py-4 font-grotesk text-sm font-semibold uppercase tracking-[0.1em] text-paper transition-colors hover:border-accent hover:bg-accent focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-paper active:translate-y-px disabled:cursor-not-allowed disabled:opacity-60"
                         >
                             {processing ? "Creating account..." : "Create account"}
                         </button>
                     </div>
 
-                    <div className="mt-6 text-center">
+                    <div className="mt-8 border-t border-line pt-5 text-center">
                         <Link
                             href={route("login")}
-                            className="text-sm text-sky-600 hover:text-sky-500 font-medium"
+                            className="font-grotesk text-sm font-semibold text-ink underline decoration-accent decoration-2 underline-offset-4 transition-colors hover:text-accent-dark"
                         >
                             Already have an account? Sign in
                         </Link>
