@@ -28,30 +28,7 @@ export default function Links({ links = [], auth }) {
     }
 
     return (
-        <AuthenticatedLayout
-            user={auth.user}
-            header={
-                <div className="flex items-center gap-3">
-                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-line bg-paper">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-4 w-4 text-ink"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            strokeWidth={1.8}
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M10.5 13.5a4.5 4.5 0 0 1-6.36-6.36l3-3a4.5 4.5 0 0 1 6.36 6.36M13.5 10.5a4.5 4.5 0 0 1 6.36 6.36l-3 3a4.5 4.5 0 0 1-6.36-6.36"
-                            />
-                        </svg>
-                    </span>
-                    <h2 className="font-grotesk text-xl font-bold text-ink">Your links</h2>
-                </div>
-            }
-        >
+        <AuthenticatedLayout user={auth.user}>
             <Head title="Links" />
 
             <main className="bg-paper font-grotesk text-ink">
@@ -60,7 +37,7 @@ export default function Links({ links = [], auth }) {
                         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
                             <div className="max-w-3xl">
                                 <p className="mb-5 font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
-                                    03 / Link library
+                                    01 / Link library
                                 </p>
                                 <h1 className="font-editorial text-5xl leading-none text-ink sm:text-6xl lg:text-[5rem]">
                                     Short links,
@@ -108,125 +85,138 @@ export default function Links({ links = [], auth }) {
                             </p>
                         </div>
                     ) : (
-                        <div className="overflow-hidden border border-line bg-paper">
-                            <div className="overflow-x-auto">
-                                <table className="min-w-full border-collapse">
-                                    <thead className="bg-ink text-paper">
-                                        <tr>
-                                            <th className="px-5 py-4 text-left font-mono text-[10px] uppercase tracking-[0.18em] text-paper/80">
-                                                Original
-                                            </th>
-                                            <th className="px-5 py-4 text-left font-mono text-[10px] uppercase tracking-[0.18em] text-paper/80">
-                                                Short link
-                                            </th>
-                                            <th className="px-5 py-4 text-left font-mono text-[10px] uppercase tracking-[0.18em] text-paper/80">
-                                                Visits
-                                            </th>
-                                            <th className="px-5 py-4 text-left font-mono text-[10px] uppercase tracking-[0.18em] text-paper/80">
-                                                Last visited
-                                            </th>
-                                            <th className="px-5 py-4 text-left font-mono text-[10px] uppercase tracking-[0.18em] text-paper/80">
-                                                Status
-                                            </th>
-                                        </tr>
-                                    </thead>
+                        <>
+                            <p className="mb-5 font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
+                                02 / Link Data
+                            </p>
+                            <div className="overflow-hidden border border-line bg-paper">
+                                <div className="overflow-x-auto">
+                                    <table className="min-w-full border-collapse">
+                                        <thead className="bg-ink text-paper">
+                                            <tr>
+                                                <th className="px-5 py-4 text-left font-mono text-[10px] uppercase tracking-[0.18em] text-paper/80">
+                                                    Original
+                                                </th>
+                                                <th className="px-5 py-4 text-left font-mono text-[10px] uppercase tracking-[0.18em] text-paper/80">
+                                                    Short link
+                                                </th>
+                                                <th className="px-5 py-4 text-left font-mono text-[10px] uppercase tracking-[0.18em] text-paper/80">
+                                                    Visits
+                                                </th>
+                                                <th className="px-5 py-4 text-left font-mono text-[10px] uppercase tracking-[0.18em] text-paper/80">
+                                                    Last visited
+                                                </th>
+                                                <th className="px-5 py-4 text-left font-mono text-[10px] uppercase tracking-[0.18em] text-paper/80">
+                                                    Status
+                                                </th>
+                                            </tr>
+                                        </thead>
 
-                                    <tbody className="divide-y divide-line bg-paper">
-                                        {links.map((link, index) => {
-                                            const rowId = link.id ?? `${link.shortened_url ?? "short"}-${index}`
-                                            const status = (link.status || "Active").toLowerCase() === "active" ? "Active" : "Inactive"
-                                            const isActive = status === "Active"
+                                        <tbody className="divide-y divide-line bg-paper">
+                                            {links.map((link, index) => {
+                                                const rowId =
+                                                    link.id ?? `${link.shortened_url ?? "short"}-${index}`
+                                                const status =
+                                                    (link.status || "Active").toLowerCase() === "active"
+                                                        ? "Active"
+                                                        : "Inactive"
+                                                const isActive = status === "Active"
 
-                                            return (
-                                                <tr
-                                                    key={rowId}
-                                                    className={`transition-all duration-300 ${
-                                                        animateTable ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
-                                                    }`}
-                                                    style={{ transitionDelay: `${index * 50}ms` }}
-                                                >
-                                                    <td className="max-w-[26rem] px-5 py-5 align-top">
-                                                        <a
-                                                            href={link.url}
-                                                            target="_blank"
-                                                            rel="noreferrer"
-                                                            className="block break-all font-grotesk text-sm text-ink underline decoration-line decoration-1 underline-offset-4 hover:text-accent"
-                                                        >
-                                                            {link.url}
-                                                        </a>
-                                                    </td>
-
-                                                    <td className="px-5 py-5 align-top">
-                                                        <button
-                                                            type="button"
-                                                            onClick={() => copyToClipboard(link.shortened_url, rowId)}
-                                                            className="group inline-flex items-center gap-3 rounded-none border border-line bg-paper px-3 py-2 text-left transition-colors hover:border-ink hover:bg-white"
-                                                        >
-                                                            <span className="font-mono text-sm text-ink">
-                                                                {link.shortened_url}
-                                                            </span>
-                                                            <svg
-                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                className={`h-4 w-4 transition-colors ${
-                                                                    notification[rowId]
-                                                                        ? "text-accent"
-                                                                        : "text-muted group-hover:text-ink"
-                                                                }`}
-                                                                fill="none"
-                                                                viewBox="0 0 24 24"
-                                                                stroke="currentColor"
-                                                                strokeWidth={1.8}
+                                                return (
+                                                    <tr
+                                                        key={rowId}
+                                                        className={`transition-all duration-300 ${
+                                                            animateTable
+                                                                ? "translate-y-0 opacity-100"
+                                                                : "translate-y-4 opacity-0"
+                                                        }`}
+                                                        style={{ transitionDelay: `${index * 50}ms` }}
+                                                    >
+                                                        <td className="max-w-[26rem] px-5 py-5 align-top">
+                                                            <a
+                                                                href={link.url}
+                                                                target="_blank"
+                                                                rel="noreferrer"
+                                                                className="block break-all font-grotesk text-sm text-ink underline decoration-line decoration-1 underline-offset-4 hover:text-accent"
                                                             >
-                                                                {notification[rowId] ? (
-                                                                    <path
-                                                                        strokeLinecap="round"
-                                                                        strokeLinejoin="round"
-                                                                        d="M5 13l4 4L19 7"
-                                                                    />
-                                                                ) : (
-                                                                    <path
-                                                                        strokeLinecap="round"
-                                                                        strokeLinejoin="round"
-                                                                        d="M9 9.75A2.25 2.25 0 0 1 11.25 7.5h6A2.25 2.25 0 0 1 19.5 9.75v6A2.25 2.25 0 0 1 17.25 18h-6A2.25 2.25 0 0 1 9 15.75v-6Zm-4.5 1.5A2.25 2.25 0 0 1 6.75 9h6A2.25 2.25 0 0 1 15 11.25v6A2.25 2.25 0 0 1 12.75 19.5h-6A2.25 2.25 0 0 1 4.5 17.25v-6Z"
-                                                                    />
-                                                                )}
-                                                            </svg>
-                                                        </button>
-                                                    </td>
+                                                                {link.url}
+                                                            </a>
+                                                        </td>
 
-                                                    <td className="px-5 py-5 align-top text-sm text-ink">
-                                                        <div className="flex items-center gap-2">
-                                                            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted">
-                                                                Views
+                                                        <td className="px-5 py-5 align-top">
+                                                            <button
+                                                                type="button"
+                                                                onClick={() =>
+                                                                    copyToClipboard(link.shortened_url, rowId)
+                                                                }
+                                                                className="group inline-flex items-center gap-3 rounded-none border border-line bg-paper px-3 py-2 text-left transition-colors hover:border-ink hover:bg-white"
+                                                            >
+                                                                <span className="font-mono text-sm text-ink">
+                                                                    {link.shortened_url}
+                                                                </span>
+                                                                <svg
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    className={`h-4 w-4 transition-colors ${
+                                                                        notification[rowId]
+                                                                            ? "text-accent"
+                                                                            : "text-muted group-hover:text-ink"
+                                                                    }`}
+                                                                    fill="none"
+                                                                    viewBox="0 0 24 24"
+                                                                    stroke="currentColor"
+                                                                    strokeWidth={1.8}
+                                                                >
+                                                                    {notification[rowId] ? (
+                                                                        <path
+                                                                            strokeLinecap="round"
+                                                                            strokeLinejoin="round"
+                                                                            d="M5 13l4 4L19 7"
+                                                                        />
+                                                                    ) : (
+                                                                        <path
+                                                                            strokeLinecap="round"
+                                                                            strokeLinejoin="round"
+                                                                            d="M9 9.75A2.25 2.25 0 0 1 11.25 7.5h6A2.25 2.25 0 0 1 19.5 9.75v6A2.25 2.25 0 0 1 17.25 18h-6A2.25 2.25 0 0 1 9 15.75v-6Zm-4.5 1.5A2.25 2.25 0 0 1 6.75 9h6A2.25 2.25 0 0 1 15 11.25v6A2.25 2.25 0 0 1 12.75 19.5h-6A2.25 2.25 0 0 1 4.5 17.25v-6Z"
+                                                                        />
+                                                                    )}
+                                                                </svg>
+                                                            </button>
+                                                        </td>
+
+                                                        <td className="px-5 py-5 align-top text-sm text-ink">
+                                                            <div className="flex items-center gap-2">
+                                                                <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted">
+                                                                    Views
+                                                                </span>
+                                                                <span className="font-grotesk text-base font-semibold">
+                                                                    {link.visits || 0}
+                                                                </span>
+                                                            </div>
+                                                        </td>
+
+                                                        <td className="px-5 py-5 align-top text-sm text-muted">
+                                                            {link.last_visit || "Never"}
+                                                        </td>
+
+                                                        <td className="px-5 py-5 align-top">
+                                                            <span
+                                                                className={`inline-flex items-center border px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.18em] ${
+                                                                    isActive
+                                                                        ? "border-emerald-300 bg-emerald-50 text-emerald-700"
+                                                                        : "border-red-200 bg-red-50 text-red-700"
+                                                                }`}
+                                                            >
+                                                                {status}
                                                             </span>
-                                                            <span className="font-grotesk text-base font-semibold">
-                                                                {link.visits || 0}
-                                                            </span>
-                                                        </div>
-                                                    </td>
-
-                                                    <td className="px-5 py-5 align-top text-sm text-muted">
-                                                        {link.last_visit || "Never"}
-                                                    </td>
-
-                                                    <td className="px-5 py-5 align-top">
-                                                        <span
-                                                            className={`inline-flex items-center border px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.18em] ${
-                                                                isActive
-                                                                    ? "border-emerald-300 bg-emerald-50 text-emerald-700"
-                                                                    : "border-red-200 bg-red-50 text-red-700"
-                                                            }`}
-                                                        >
-                                                            {status}
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                            )
-                                        })}
-                                    </tbody>
-                                </table>
+                                                        </td>
+                                                    </tr>
+                                                )
+                                            })}
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
+                        </>
                     )}
                 </section>
             </main>

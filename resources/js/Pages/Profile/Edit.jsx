@@ -9,7 +9,6 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
     const [animateSections, setAnimateSections] = useState(false)
     const [activeTab, setActiveTab] = useState("profile")
 
-    // Trigger animation when component mounts
     useEffect(() => {
         setAnimateSections(true)
     }, [])
@@ -18,10 +17,11 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
         {
             id: "profile",
             name: "Profile",
+            meta: "01 / Identity",
             icon: (
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 mr-3"
+                    className="h-4 w-4"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -37,11 +37,12 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
         },
         {
             id: "password",
-            name: "Change Password",
+            name: "Password",
+            meta: "02 / Security",
             icon: (
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 mr-3"
+                    className="h-4 w-4"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -57,11 +58,12 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
         },
         {
             id: "danger",
-            name: "Danger Zone",
+            name: "Danger",
+            meta: "03 / Delete",
             icon: (
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 mr-3"
+                    className="h-4 w-4"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -81,98 +83,148 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
         <AuthenticatedLayout
             user={auth.user}
             header={
-                <div className="flex items-center">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-6 w-6 mr-2 text-sky-600"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                        />
-                    </svg>
-                    <h2 className="font-semibold text-xl text-gray-800 leading-tight">Profile</h2>
+                <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-3">
+                        <div className="flex h-10 w-10 items-center justify-center border border-line bg-paper">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-5 w-5 text-ink"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                                />
+                            </svg>
+                        </div>
+                        <div>
+                            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
+                                Account
+                            </p>
+                            <h2 className="font-editorial text-3xl text-ink">Profile</h2>
+                        </div>
+                    </div>
+
+                    <span className="hidden sm:inline font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
+                        01 / Settings
+                    </span>
                 </div>
             }
         >
             <Head title="Profile" />
 
-            <div className="py-8 bg-gray-50 min-h-screen">
-                <div className="max-w-7xl mx-auto px-4 md:px-6">
-                    <div className="flex flex-col md:flex-row gap-8">
-                        {/* Sidebar */}
-                        <div className="w-full md:w-1/4 space-y-2">
-                            <h2 className="text-2xl font-bold text-gray-800 mb-6">Profile Settings</h2>
-                            <div className="bg-white rounded-xl shadow-md overflow-hidden p-2">
-                                {tabs.map((tab) => (
-                                    <button
-                                        key={tab.id}
-                                        onClick={() => setActiveTab(tab.id)}
-                                        className={`w-full flex items-center px-4 py-3 rounded-lg text-sm font-medium transition-colors duration-200 ${
-                                            activeTab === tab.id
-                                                ? "bg-sky-50 text-sky-700 shadow-sm"
-                                                : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-                                        }`}
-                                    >
-                                        {tab.icon}
-                                        {tab.name}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
+            <main className="bg-paper font-grotesk text-ink">
+                <div className="mx-auto max-w-grid px-6 md:px-10 lg:px-16 py-8 md:py-12">
+                    <div className="mb-8 flex items-baseline justify-between border-b border-line pb-5">
+                        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
+                            02 / Your account
+                        </p>
+                        <span className="hidden sm:inline font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
+                            ms0.org
+                        </span>
+                    </div>
 
-                        {/* Content */}
-                        <div className="flex-1">
+                    <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-10">
+                        <aside className="lg:col-span-4">
+                            <div className="border border-line bg-paper p-3 md:p-4">
+                                <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
+                                    Navigation
+                                </p>
+                                <div className="space-y-2">
+                                    {tabs.map((tab) => (
+                                        <button
+                                            key={tab.id}
+                                            type="button"
+                                            onClick={() => setActiveTab(tab.id)}
+                                            className={`flex w-full items-center justify-between border px-3 py-3 text-left transition-colors duration-200 ${
+                                                activeTab === tab.id
+                                                    ? "border-ink bg-ink text-paper"
+                                                    : "border-line bg-paper text-ink hover:border-ink/70 hover:bg-ink/5"
+                                            }`}
+                                        >
+                                            <span className="flex items-center gap-3">
+                                                {tab.icon}
+                                                <span className="font-grotesk text-sm font-semibold uppercase tracking-[0.08em]">
+                                                    {tab.name}
+                                                </span>
+                                            </span>
+                                            <span className="font-mono text-[9px] uppercase tracking-[0.16em] opacity-80">
+                                                {tab.meta}
+                                            </span>
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        </aside>
+
+                        <div className="lg:col-span-8">
                             <div className="space-y-6">
                                 {activeTab === "profile" && (
                                     <div
-                                        className={`bg-white rounded-xl shadow-md overflow-hidden transition-all duration-500 transform hover:shadow-lg ${animateSections ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
+                                        className={`border border-line bg-paper transition-all duration-500 ${
+                                            animateSections ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+                                        }`}
                                         style={{ transitionDelay: "100ms" }}
                                     >
+                                        <div className="border-b border-line px-6 py-4">
+                                            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
+                                                01 / Identity
+                                            </p>
+                                        </div>
                                         <div className="p-6">
                                             <UpdateProfileInformationForm
                                                 mustVerifyEmail={mustVerifyEmail}
                                                 status={status}
-                                                className="max-w-xl"
+                                                className="max-w-2xl"
                                             />
                                         </div>
-                                        <div className="bg-sky-500 h-1"></div>
                                     </div>
                                 )}
 
                                 {activeTab === "password" && (
                                     <div
-                                        className={`bg-white rounded-xl shadow-md overflow-hidden transition-all duration-500 transform hover:shadow-lg ${animateSections ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
+                                        className={`border border-line bg-paper transition-all duration-500 ${
+                                            animateSections ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+                                        }`}
                                         style={{ transitionDelay: "100ms" }}
                                     >
-                                        <div className="p-6">
-                                            <UpdatePasswordForm className="max-w-xl" />
+                                        <div className="border-b border-line px-6 py-4">
+                                            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
+                                                02 / Security
+                                            </p>
                                         </div>
-                                        <div className="bg-sky-500 h-1"></div>
+                                        <div className="p-6">
+                                            <UpdatePasswordForm className="max-w-2xl" />
+                                        </div>
                                     </div>
                                 )}
 
                                 {activeTab === "danger" && (
                                     <div
-                                        className={`bg-white rounded-xl shadow-md overflow-hidden transition-all duration-500 transform hover:shadow-lg ${animateSections ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
+                                        className={`border border-line bg-paper transition-all duration-500 ${
+                                            animateSections ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+                                        }`}
                                         style={{ transitionDelay: "100ms" }}
                                     >
-                                        <div className="p-6">
-                                            <DeleteUserForm className="max-w-xl" />
+                                        <div className="border-b border-line px-6 py-4">
+                                            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
+                                                03 / Delete
+                                            </p>
                                         </div>
-                                        <div className="bg-red-500 h-1"></div>
+                                        <div className="p-6">
+                                            <DeleteUserForm className="max-w-2xl" />
+                                        </div>
                                     </div>
                                 )}
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </main>
         </AuthenticatedLayout>
     )
 }

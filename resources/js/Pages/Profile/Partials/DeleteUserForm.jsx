@@ -45,11 +45,11 @@ export default function DeleteUserForm({ className = "" }) {
 
     return (
         <section className={`space-y-6 ${className}`}>
-            <header className="flex items-start">
-                <div className="flex-shrink-0 bg-red-500 p-3 rounded-lg mr-4">
+            <header className="mb-6 flex items-start gap-4">
+                <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center border border-line bg-paper">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        className="h-6 w-6 text-white"
+                        className="h-5 w-5 text-accent"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -63,23 +63,22 @@ export default function DeleteUserForm({ className = "" }) {
                     </svg>
                 </div>
                 <div>
-                    <h2 className="text-xl font-bold text-gray-900">Delete Account</h2>
-                    <p className="mt-1 text-sm text-gray-600">
-                        Once your account is deleted, all of its resources and data will be permanently deleted.
-                        Before deleting your account, please download any data or information that you wish to
-                        retain.
+                    <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">Delete</p>
+                    <h2 className="mt-2 font-editorial text-3xl text-ink">Delete Account</h2>
+                    <p className="mt-2 max-w-lg text-sm text-muted">
+                        Once your account is deleted, all of its resources and data will be permanently removed.
                     </p>
                 </div>
             </header>
 
-            <div className="mt-6">
+            <div>
                 <DangerButton
                     onClick={confirmUserDeletion}
-                    className="bg-red-500 hover:bg-red-600 focus:ring-red-500 shadow-md hover:shadow-lg transition-all duration-200 flex items-center"
+                    className="flex items-center border border-accent bg-accent px-5 py-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-paper hover:bg-accent-dark focus:ring-accent"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5 mr-2"
+                        className="mr-2 h-4 w-4"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -96,12 +95,12 @@ export default function DeleteUserForm({ className = "" }) {
             </div>
 
             <Modal show={confirmingUserDeletion} onClose={closeModal}>
-                <div className="p-6 border-t-4 border-red-500">
-                    <div className="flex items-center mb-4">
-                        <div className="flex-shrink-0 bg-red-100 rounded-full p-2 mr-3">
+                <div className="border-t-4 border-accent bg-paper p-6">
+                    <div className="mb-4 flex items-center gap-3">
+                        <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center border border-accent bg-paper">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
-                                className="h-6 w-6 text-red-600"
+                                className="h-5 w-5 text-accent"
                                 fill="none"
                                 viewBox="0 0 24 24"
                                 stroke="currentColor"
@@ -114,12 +113,10 @@ export default function DeleteUserForm({ className = "" }) {
                                 />
                             </svg>
                         </div>
-                        <h2 className="text-xl font-bold text-gray-900">
-                            Are you sure you want to delete your account?
-                        </h2>
+                        <h2 className="font-editorial text-3xl text-ink">Are you sure?</h2>
                     </div>
 
-                    <p className="mt-1 text-sm text-gray-600 bg-red-50 p-3 rounded-md border border-red-100 mb-4">
+                    <p className="mb-4 border border-line bg-paper p-3 text-sm text-muted">
                         Once your account is deleted, all of its resources and data will be permanently deleted.
                         This action cannot be undone.
                     </p>
@@ -129,55 +126,37 @@ export default function DeleteUserForm({ className = "" }) {
                             <InputLabel
                                 htmlFor="password"
                                 value="Password"
-                                className="text-gray-700 font-medium"
+                                className="font-grotesk text-[11px] uppercase tracking-[0.18em] text-muted"
                             />
-                            <div className="mt-1 flex rounded-md shadow-sm">
-                                <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        className="h-5 w-5 text-gray-400"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                                        />
-                                    </svg>
-                                </span>
-                                <TextInput
-                                    id="password"
-                                    type="password"
-                                    name="password"
-                                    ref={passwordInput}
-                                    value={data.password}
-                                    onChange={(e) => setData("password", e.target.value)}
-                                    className="block w-full rounded-none rounded-r-md focus:ring-red-500 focus:border-red-500 transition-all duration-200 border-gray-300"
-                                    isFocused
-                                    placeholder="Enter your password to confirm"
-                                />
-                            </div>
+                            <TextInput
+                                id="password"
+                                type="password"
+                                name="password"
+                                ref={passwordInput}
+                                value={data.password}
+                                onChange={(e) => setData("password", e.target.value)}
+                                className="mt-2"
+                                isFocused
+                                placeholder="Enter your password to confirm"
+                            />
                             <InputError message={errors.password} className="mt-2" />
                         </div>
 
                         <div className="flex justify-end gap-3">
                             <SecondaryButton
                                 onClick={closeModal}
-                                className="shadow-sm hover:shadow transition-all duration-200"
+                                className="border border-line bg-paper px-5 py-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-ink hover:bg-ink hover:text-paper"
                             >
                                 Cancel
                             </SecondaryButton>
 
                             <DangerButton
-                                className="bg-red-500 hover:bg-red-600 focus:ring-red-500 shadow-md hover:shadow-lg transition-all duration-200"
+                                className="border border-accent bg-accent px-5 py-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-paper hover:bg-accent-dark focus:ring-accent"
                                 disabled={processing}
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
-                                    className="h-5 w-5 mr-1"
+                                    className="mr-2 h-4 w-4"
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"

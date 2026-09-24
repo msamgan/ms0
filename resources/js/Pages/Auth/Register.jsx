@@ -42,7 +42,7 @@ export default function Register() {
                             id="name"
                             name="name"
                             value={data.name}
-                            className="mt-2 block w-full rounded-none border-0 border-b border-line bg-transparent px-0 py-3 font-grotesk text-base text-ink shadow-none transition-colors placeholder:text-muted/60 focus:border-accent focus:ring-0"
+                            className="mt-2"
                             autoComplete="name"
                             isFocused={true}
                             onChange={(e) => setData("name", e.target.value)}
@@ -65,7 +65,7 @@ export default function Register() {
                             type="email"
                             name="email"
                             value={data.email}
-                            className="mt-2 block w-full rounded-none border-0 border-b border-line bg-transparent px-0 py-3 font-grotesk text-base text-ink shadow-none transition-colors placeholder:text-muted/60 focus:border-accent focus:ring-0"
+                            className="mt-2"
                             autoComplete="username"
                             onChange={(e) => setData("email", e.target.value)}
                             placeholder="your@email.com"
@@ -87,7 +87,7 @@ export default function Register() {
                             type="password"
                             name="password"
                             value={data.password}
-                            className="mt-2 block w-full rounded-none border-0 border-b border-line bg-transparent px-0 py-3 font-grotesk text-base text-ink shadow-none transition-colors placeholder:text-muted/60 focus:border-accent focus:ring-0"
+                            className="mt-2"
                             autoComplete="new-password"
                             onChange={(e) => setData("password", e.target.value)}
                             placeholder="••••••••"
@@ -109,7 +109,7 @@ export default function Register() {
                             type="password"
                             name="password_confirmation"
                             value={data.password_confirmation}
-                            className="mt-2 block w-full rounded-none border-0 border-b border-line bg-transparent px-0 py-3 font-grotesk text-base text-ink shadow-none transition-colors placeholder:text-muted/60 focus:border-accent focus:ring-0"
+                            className="mt-2"
                             autoComplete="new-password"
                             onChange={(e) => setData("password_confirmation", e.target.value)}
                             placeholder="••••••••"
