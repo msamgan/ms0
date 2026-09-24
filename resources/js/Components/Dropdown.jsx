@@ -59,12 +59,10 @@ const Content = ({ align = "right", width = "48", contentClasses = "py-1 bg-whit
                 leaveTo="opacity-0 scale-95 translate-y-2"
             >
                 <div
-                    className={`absolute z-50 mt-2 rounded-lg shadow-lg ${alignmentClasses} ${widthClasses}`}
+                    className={`absolute z-50 mt-2 border border-line ${alignmentClasses} ${widthClasses}`}
                     onClick={() => setOpen(false)}
                 >
-                    <div className={`rounded-lg border border-indigo-100 overflow-hidden ` + contentClasses}>
-                        {children}
-                    </div>
+                    <div className={`overflow-hidden ` + contentClasses}>{children}</div>
                 </div>
             </Transition>
         </>
@@ -76,7 +74,7 @@ const DropdownLink = ({ className = "", children, ...props }) => {
         <Link
             {...props}
             className={
-                "block w-full px-4 py-3 text-start text-sm leading-5 text-indigo-600 hover:bg-indigo-50 focus:outline-none focus:bg-indigo-50 transition-all duration-200 ease-in-out border-b border-indigo-50 last:border-b-0 " +
+                "block w-full px-4 py-3 text-start font-grotesk text-sm leading-5 text-ink hover:bg-paper focus:outline-none focus:bg-paper transition-colors duration-150 ease-in-out border-b border-line last:border-b-0 " +
                 className
             }
         >

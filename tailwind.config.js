@@ -14,7 +14,27 @@ export default {
         extend: {
             fontFamily: {
                 sans: ["Figtree", ...defaultTheme.fontFamily.sans],
-                display: ["Figtree", ...defaultTheme.fontFamily.sans]
+                display: ["Figtree", ...defaultTheme.fontFamily.sans],
+                // Editorial / Swiss / Technical type system used on the homepage.
+                editorial: ["DM Serif Display", "Georgia", "serif"],
+                grotesk: ["Manrope", ...defaultTheme.fontFamily.sans],
+                mono: ["JetBrains Mono", ...defaultTheme.fontFamily.mono]
+            },
+            colors: {
+                // Homepage design-token palette (editorial / Swiss / technical).
+                paper: "#F5F3ED",
+                ink: "#111111",
+                // Slightly deepened from the brief's #77736B to clear WCAG AA
+                // 4.5:1 against the paper background at small text sizes.
+                muted: "#6B675F",
+                line: "#D7D4CC",
+                accent: {
+                    DEFAULT: "#E33B2E",
+                    dark: "#C22E22"
+                }
+            },
+            maxWidth: {
+                grid: "1400px"
             },
             fontSize: {
                 xs: ["0.75rem", { lineHeight: "1rem" }],
