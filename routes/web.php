@@ -36,7 +36,7 @@ require __DIR__ . '/auth.php';
 
 Route::get('/documentation/api', function () {
     if (auth()->check()) {
-        return redirect()->route('scramble.docs.ui');
+        return redirect()->route('home');
     }
 
     return redirect()->route('register');
