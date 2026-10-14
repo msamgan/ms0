@@ -35,11 +35,7 @@ Route::get('/status-codes', function () {
 require __DIR__ . '/auth.php';
 
 Route::get('/documentation/api', function () {
-    if (auth()->check()) {
-        return redirect()->route('home');
-    }
-
-    return redirect()->route('register');
+    return Inertia::render('ApiDocumentation');
 })->name('documentation.api');
 
 Route::post('/service/shorten', [HyperlinkController::class, 'store'])->name('service.shorten');

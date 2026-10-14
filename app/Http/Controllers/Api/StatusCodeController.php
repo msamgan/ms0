@@ -42,8 +42,8 @@ class StatusCodeController extends Controller
             $data['data'] = $request->except(['user']);
         }
 
-       /* return new StatusCodeResource($data)
-            ->response()
-            ->setStatusCode($statusCode);*/
+        /* return new StatusCodeResource($data)
+             ->response()
+             ->setStatusCode($statusCode);*/
     }
 }

@@ -31,9 +31,11 @@
     }
 }
 
-code {
-    @apply p-4 rounded-md
-    bg-gray-100 text-gray-900
-    font-mono text-base
-    whitespace-nowrap;
+@layer base {
+    code {
+        @apply p-4 rounded-md
+        bg-gray-100 text-gray-900
+        font-mono text-base
+        whitespace-nowrap;
+    }
 }

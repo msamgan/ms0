@@ -161,9 +161,6 @@ export default function Links({ links = [], auth }) {
                                                 <th className="px-5 py-4 text-left font-mono text-[10px] uppercase tracking-[0.18em] text-paper/80">
                                                     Last visited
                                                 </th>
-                                                <th className="px-5 py-4 text-left font-mono text-[10px] uppercase tracking-[0.18em] text-paper/80">
-                                                    Status
-                                                </th>
                                             </tr>
                                         </thead>
 
@@ -251,18 +248,6 @@ export default function Links({ links = [], auth }) {
 
                                                         <td className="px-5 py-5 align-top text-sm text-muted">
                                                             {link.last_visit || "Never"}
-                                                        </td>
-
-                                                        <td className="px-5 py-5 align-top">
-                                                            <span
-                                                                className={`inline-flex items-center border px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.18em] ${
-                                                                    isActive
-                                                                        ? "border-emerald-300 bg-emerald-50 text-emerald-700"
-                                                                        : "border-red-200 bg-red-50 text-red-700"
-                                                                }`}
-                                                            >
-                                                                {status}
-                                                            </span>
                                                         </td>
                                                     </tr>
                                                 )
