@@ -43,7 +43,7 @@ class StatusCodeController extends Controller
         }
 
         return new StatusCodeResource($data)
-             ->response()
-             ->setStatusCode($statusCode);
+            ->response()
+            ->setStatusCode($statusCode);
     }
 }
