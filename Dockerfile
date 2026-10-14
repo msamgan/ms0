@@ -1,46 +1,60 @@
-FROM php:8.4-fpm
+FROM php:8.4-fpm-alpine
 
-# Arguments defined in docker-compose.yml
-ARG user
-ARG uid
-
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    git \
+# Install required system packages
+RUN apk add --no-cache \
     curl \
     libpng-dev \
-    libonig-dev \
     libxml2-dev \
+    libzip-dev \
     zip \
     unzip \
-    gnupg
-
-# Install Node.js (Vite)
-RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
-    && apt-get install -y nodejs
-
-# Clear cache
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+    oniguruma-dev \
+    icu-dev \
+    linux-headers \
+    openssh-client \
+    git \
+    nginx \
+    supervisor \
+    nodejs \
+    npm
 
 # Install PHP extensions
-RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
+RUN docker-php-ext-install \
+    pdo_mysql \
+    mbstring \
+    exif \
+    pcntl \
+    bcmath \
+    gd \
+    intl \
+    zip
 
-# Get latest Composer
+# Copy Composer binary from official Composer image
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
-# Create system user to run Composer and Artisan Commands
-RUN useradd -G www-data,root -u $uid -d /home/$user $user
-RUN mkdir -p /home/$user/.composer && \
-    chown -R $user:$user /home/$user
 
 # Set working directory
 WORKDIR /var/www
 
-# Copy and set entrypoint script
-USER root
-COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
-RUN chown $user:$user /usr/local/bin/docker-entrypoint.sh
-USER $user
+# Copy application files with ownership www-data:www-data
+COPY --chown=www-data:www-data . /var/www
 
-ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
+# Configure shell aliases for convenience
+RUN echo 'alias art="php artisan"' >> /root/.profile && \
+    echo 'alias dep="./vendor/bin/dep"' >> /root/.profile && \
+    echo 'alias art="php artisan"' >> /root/.shrc && \
+    echo 'alias dep="./vendor/bin/dep"' >> /root/.shrc && \
+    echo 'alias art="php artisan"' >> /etc/profile.d/aliases.sh && \
+    echo 'alias dep="./vendor/bin/dep"' >> /etc/profile.d/aliases.sh
+
+# Set up runtime directories
+RUN mkdir -p /run/nginx /var/log/supervisor /etc/nginx/http.d /etc/supervisor/conf.d
+
+# Copy Nginx and Supervisor configuration files
+COPY docker/nginx.conf /etc/nginx/http.d/default.conf
+COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# Expose application and Vite dev server ports
+EXPOSE 8082 5173
+
+# Start supervisor with supervisord.conf as PID 1
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

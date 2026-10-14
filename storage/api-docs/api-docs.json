@@ -1,0 +1,161 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "MS0 API",
+        "description": "API documentation for URL shortening service",
+        "contact": {
+            "email": "support@ms0.io"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "/",
+            "description": "Current Environment Server"
+        }
+    ],
+    "paths": {
+        "/api/shorten": {
+            "post": {
+                "tags": ["Hyperlinks"],
+                "summary": "Shorten a URL",
+                "description": "Creates a new shortened URL or returns the existing shortened URL for the provided URL.",
+                "operationId": "shortenUrl",
+                "requestBody": {
+                    "description": "URL data to be shortened",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreHyperlinkRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "URL shortened successfully or existing short URL returned",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HyperlinkResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized - invalid or missing access token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error - invalid URL or unsafe URL",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The url field is required."
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "url": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The url field is required."
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "StoreHyperlinkRequest": {
+                "title": "Store Hyperlink Request",
+                "description": "Request payload to shorten a URL",
+                "required": ["url"],
+                "properties": {
+                    "url": {
+                        "description": "The original destination URL to shorten",
+                        "type": "string",
+                        "format": "uri",
+                        "example": "https://example.com/very/long/url"
+                    }
+                },
+                "type": "object"
+            },
+            "HyperlinkResource": {
+                "title": "Hyperlink Resource",
+                "description": "Response payload returned after creating or retrieving a shortened URL",
+                "properties": {
+                    "status": {
+                        "description": "Operation success status flag",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "message": {
+                        "description": "Informational status message",
+                        "type": "string",
+                        "example": "Shortened Url created successfully"
+                    },
+                    "short_url": {
+                        "description": "The generated shortened URL",
+                        "type": "string",
+                        "format": "uri",
+                        "example": "http://localhost/abc1234"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "description": "Bearer token authorization",
+                "name": "Authorization",
+                "in": "header",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Hyperlinks",
+            "description": "Hyperlinks"
+        }
+    ],
+    "security": [
+        {
+            "bearerAuth": []
+        }
+    ]
+}

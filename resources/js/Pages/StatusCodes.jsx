@@ -8,7 +8,11 @@ const REQUEST_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE"]
 
 const STATUS_GROUPS = [
     { code: "2xx", label: "Success", description: "The request was received and handled successfully." },
-    { code: "3xx", label: "Redirects", description: "The client needs to take another step to complete the request." },
+    {
+        code: "3xx",
+        label: "Redirects",
+        description: "The client needs to take another step to complete the request."
+    },
     { code: "4xx", label: "Client errors", description: "Something about the request needs attention." },
     { code: "5xx", label: "Server errors", description: "The server could not complete a valid request." }
 ]
@@ -71,9 +75,9 @@ export default function StatusCodes() {
                             <div className="lg:col-span-8">
                                 <Reveal className="border-t border-line">
                                     <p className="text-muted max-w-2xl py-7 text-lg leading-relaxed">
-                                        Send a request with the status code you want to simulate. MS0 returns that
-                                        exact code with a predictable JSON response, making it easy to build and
-                                        verify loading, error, and edge-case states.
+                                        Send a request with the status code you want to simulate. MS0 returns
+                                        that exact code with a predictable JSON response, making it easy to
+                                        build and verify loading, error, and edge-case states.
                                     </p>
                                 </Reveal>
 
@@ -127,7 +131,10 @@ export default function StatusCodes() {
 
                             <div className="lg:col-span-8">
                                 <Reveal className="bg-ink text-paper p-6 sm:p-8">
-                                    <div className="flex flex-wrap gap-2 mb-8" aria-label="Supported HTTP methods">
+                                    <div
+                                        className="flex flex-wrap gap-2 mb-8"
+                                        aria-label="Supported HTTP methods"
+                                    >
                                         {REQUEST_METHODS.map((method) => (
                                             <span
                                                 key={method}
@@ -139,7 +146,9 @@ export default function StatusCodes() {
                                     </div>
                                     <code className="block overflow-x-auto whitespace-nowrap p-0 bg-transparent text-sm text-black">
                                         <span className="text-accent">GET</span>{" "}
-                                        {typeof window !== "undefined" ? window.location.origin : "https://ms0.org"}
+                                        {typeof window !== "undefined"
+                                            ? window.location.origin
+                                            : "https://ms0.org"}
                                         /api/status/&#123;statusCode&#125;
                                     </code>
                                     <p className="mt-8 max-w-lg text-sm leading-relaxed text-paper/60">
@@ -155,9 +164,13 @@ export default function StatusCodes() {
                                             delay={index * 60}
                                             className="py-6 sm:pr-8 border-b sm:odd:border-r border-line last:border-b-0 sm:last:border-b"
                                         >
-                                            <span className="font-mono text-xs text-accent-dark">{group.code}</span>
+                                            <span className="font-mono text-xs text-accent-dark">
+                                                {group.code}
+                                            </span>
                                             <h3 className="font-semibold mt-3 mb-1">{group.label}</h3>
-                                            <p className="text-sm text-muted leading-relaxed">{group.description}</p>
+                                            <p className="text-sm text-muted leading-relaxed">
+                                                {group.description}
+                                            </p>
                                         </Reveal>
                                     ))}
                                 </div>

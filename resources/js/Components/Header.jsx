@@ -22,7 +22,7 @@ export default function Header({ isAuthenticated = false, user = null }) {
         {
             key: "documentation.api",
             href: route("documentation.api"),
-            label: "APIs",
+            label: "API",
             show: true,
             external: true
         }

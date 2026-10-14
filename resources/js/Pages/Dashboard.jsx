@@ -16,9 +16,7 @@ const StatIcon = ({ type }) => {
     return (
         <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
             <path d={paths[type]} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            {type === "activity" && (
-                <circle cx="12" cy="12" r="9" strokeWidth="1.5" />
-            )}
+            {type === "activity" && <circle cx="12" cy="12" r="9" strokeWidth="1.5" />}
         </svg>
     )
 }
@@ -116,8 +114,13 @@ export default function Dashboard({ auth, token, linkCount, visits }) {
 
                         <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-10 gap-y-10 items-end">
                             <div className="lg:col-span-7">
-                                <p className="font-mono text-xs text-accent mb-5">Good to see you, {auth.user?.name}</p>
-                                <h1 id="dashboard-heading" className="font-editorial text-6xl sm:text-7xl lg:text-8xl leading-[0.98]">
+                                <p className="font-mono text-xs text-accent mb-5">
+                                    Good to see you, {auth.user?.name}
+                                </p>
+                                <h1
+                                    id="dashboard-heading"
+                                    className="font-editorial text-6xl sm:text-7xl lg:text-8xl leading-[0.98]"
+                                >
                                     Make sense
                                     <br />
                                     of your links.
@@ -125,8 +128,8 @@ export default function Dashboard({ auth, token, linkCount, visits }) {
                             </div>
                             <div className="lg:col-span-5 lg:pl-6 lg:border-l lg:border-line">
                                 <p className="text-lg text-muted max-w-md leading-relaxed">
-                                    A focused view of your short links, their reach, and the tools you use to build with
-                                    MS0.
+                                    A focused view of your short links, their reach, and the tools you use to
+                                    build with MS0.
                                 </p>
                                 <Link
                                     href={route("links")}
@@ -143,8 +146,13 @@ export default function Dashboard({ auth, token, linkCount, visits }) {
                     <div className="mx-auto max-w-grid px-6 md:px-10 lg:px-16 py-16 md:py-24">
                         <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-10 gap-y-10">
                             <div className="lg:col-span-4">
-                                <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted mb-6">02 / Signals</p>
-                                <h2 id="analytics-heading" className="font-grotesk font-extrabold text-4xl sm:text-5xl leading-[1.02] max-w-sm">
+                                <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted mb-6">
+                                    02 / Signals
+                                </p>
+                                <h2
+                                    id="analytics-heading"
+                                    className="font-grotesk font-extrabold text-4xl sm:text-5xl leading-[1.02] max-w-sm"
+                                >
                                     The useful numbers.
                                 </h2>
                             </div>
@@ -154,7 +162,9 @@ export default function Dashboard({ auth, token, linkCount, visits }) {
                                     <div
                                         key={stat.label}
                                         className={`grid grid-cols-[auto_1fr_auto] items-center gap-4 sm:gap-6 py-5 border-b border-line transition-all duration-500 ${
-                                            animateStats ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
+                                            animateStats
+                                                ? "translate-y-0 opacity-100"
+                                                : "translate-y-3 opacity-0"
                                         }`}
                                         style={{ transitionDelay: `${index * 80}ms` }}
                                     >
@@ -163,8 +173,12 @@ export default function Dashboard({ auth, token, linkCount, visits }) {
                                         </span>
                                         <p className="font-grotesk font-semibold text-base">{stat.label}</p>
                                         <div className="flex items-baseline gap-2 text-right">
-                                            <span className="font-mono text-2xl sm:text-3xl tabular-nums">{stat.value}</span>
-                                            <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted">{stat.suffix}</span>
+                                            <span className="font-mono text-2xl sm:text-3xl tabular-nums">
+                                                {stat.value}
+                                            </span>
+                                            <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted">
+                                                {stat.suffix}
+                                            </span>
                                         </div>
                                     </div>
                                 ))}
@@ -177,12 +191,18 @@ export default function Dashboard({ auth, token, linkCount, visits }) {
                     <div className="mx-auto max-w-grid px-6 md:px-10 lg:px-16 py-16 md:py-24">
                         <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-10 gap-y-10">
                             <div className="lg:col-span-4">
-                                <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted mb-6">03 / Developer access</p>
-                                <h2 id="token-heading" className="font-grotesk font-extrabold text-4xl sm:text-5xl leading-[1.02] max-w-sm">
+                                <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted mb-6">
+                                    03 / Developer access
+                                </p>
+                                <h2
+                                    id="token-heading"
+                                    className="font-grotesk font-extrabold text-4xl sm:text-5xl leading-[1.02] max-w-sm"
+                                >
                                     Your key to the API.
                                 </h2>
                                 <p className="text-muted mt-6 max-w-sm">
-                                    Keep this token private. Use it to authenticate requests from your applications.
+                                    Keep this token private. Use it to authenticate requests from your
+                                    applications.
                                 </p>
                             </div>
 
@@ -205,11 +225,16 @@ export default function Dashboard({ auth, token, linkCount, visits }) {
                                     aria-label="Copy API token"
                                 >
                                     <span>{isTokenVisible ? token : maskToken(token)}</span>
-                                    <span className="shrink-0 text-muted group-hover:text-accent-dark" aria-hidden="true">
+                                    <span
+                                        className="shrink-0 text-muted group-hover:text-accent-dark"
+                                        aria-hidden="true"
+                                    >
                                         ↗
                                     </span>
                                 </button>
-                                <p className="font-mono text-[11px] text-muted border-t border-line pt-4">{notification}</p>
+                                <p className="font-mono text-[11px] text-muted border-t border-line pt-4">
+                                    {notification}
+                                </p>
 
                                 <button
                                     type="button"

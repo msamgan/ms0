@@ -166,7 +166,9 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
                                 {activeTab === "profile" && (
                                     <div
                                         className={`border border-line bg-paper transition-all duration-500 ${
-                                            animateSections ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+                                            animateSections
+                                                ? "translate-y-0 opacity-100"
+                                                : "translate-y-4 opacity-0"
                                         }`}
                                         style={{ transitionDelay: "100ms" }}
                                     >
@@ -188,7 +190,9 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
                                 {activeTab === "password" && (
                                     <div
                                         className={`border border-line bg-paper transition-all duration-500 ${
-                                            animateSections ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+                                            animateSections
+                                                ? "translate-y-0 opacity-100"
+                                                : "translate-y-4 opacity-0"
                                         }`}
                                         style={{ transitionDelay: "100ms" }}
                                     >
@@ -206,7 +210,9 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
                                 {activeTab === "danger" && (
                                     <div
                                         className={`border border-line bg-paper transition-all duration-500 ${
-                                            animateSections ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+                                            animateSections
+                                                ? "translate-y-0 opacity-100"
+                                                : "translate-y-4 opacity-0"
                                         }`}
                                         style={{ transitionDelay: "100ms" }}
                                     >

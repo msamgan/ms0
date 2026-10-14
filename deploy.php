@@ -28,6 +28,7 @@ task('deploy:build', function () {
 task('deploy:optimize', function () {
     cd('{{release_path}}');
     run('php artisan optimize');
+    run('php artisan l5-swagger:generate');
 });
 
 // Hooks

@@ -32,7 +32,7 @@
             <nav class="hidden items-center gap-8 md:flex" aria-label="Primary navigation">
                 <a href="{{ route('home') }}" class="font-grotesk text-sm text-muted transition-colors hover:text-ink">Home</a>
                 <a href="{{ route('status-codes') }}" class="font-grotesk text-sm text-muted transition-colors hover:text-ink">Status codes</a>
-                <a href="{{ route('documentation.api') }}" class="font-grotesk text-sm text-muted transition-colors hover:text-ink">APIs</a>
+                <a href="{{ route('documentation.api') }}" class="font-grotesk text-sm text-muted transition-colors hover:text-ink">API</a>
             </nav>
         </div>
     </header>
