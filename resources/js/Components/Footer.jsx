@@ -40,6 +40,14 @@ export default function Footer() {
                                     Status codes
                                 </a>
                             </li>
+                            <li>
+                                <a
+                                    href={route("privacy")}
+                                    className="text-ink hover:text-accent-dark transition-colors"
+                                >
+                                    Privacy policy
+                                </a>
+                            </li>
                         </ul>
                     </div>
 

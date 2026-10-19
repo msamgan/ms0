@@ -38,6 +38,10 @@ Route::get('/documentation/api', function () {
     return Inertia::render('ApiDocumentation');
 })->name('documentation.api');
 
+Route::get('/privacy', function () {
+    return Inertia::render('Privacy');
+})->name('privacy');
+
 Route::post('/service/shorten', [HyperlinkController::class, 'store'])->name('service.shorten');
 
 // this is the route that redirects the user to the original URL; this has to be the last route

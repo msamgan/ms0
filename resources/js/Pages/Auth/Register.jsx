@@ -122,7 +122,13 @@ export default function Register() {
                     <div className="mb-10 font-grotesk text-sm leading-relaxed text-muted">
                         By registering, you agree to our{" "}
                         <span className="font-semibold text-ink">Terms of Service</span> and{" "}
-                        <span className="font-semibold text-ink">Privacy Policy</span>.
+                        <Link
+                            href={route("privacy")}
+                            className="font-semibold text-ink underline decoration-line underline-offset-4 transition-colors hover:text-accent-dark"
+                        >
+                            Privacy Policy
+                        </Link>
+                        .
                     </div>
 
                     <div>
