@@ -236,7 +236,7 @@ export default function Links({ links: paginator = {}, stats = {}, filters = {},
                                                                 className="group inline-flex items-center gap-3 rounded-none border border-line bg-paper px-3 py-2 text-left transition-colors hover:border-ink hover:bg-white"
                                                             >
                                                                 <span className="font-mono text-sm text-ink">
-                                                                    {link.shortened_url}
+                                                                    {link.shot_slug}
                                                                 </span>
                                                                 <svg
                                                                     xmlns="http://www.w3.org/2000/svg"
