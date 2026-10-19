@@ -177,7 +177,7 @@ export default function Links({ links: paginator = {}, stats = {}, filters = {},
                                 03 / Link Data
                             </p>
                             <div className="overflow-hidden border border-line bg-paper">
-                                <div className="overflow-x-auto">
+                                <div className="overflow-x-auto overflow-y-hidden">
                                     <table className="min-w-full border-collapse">
                                         <thead className="bg-ink text-paper">
                                             <tr>
