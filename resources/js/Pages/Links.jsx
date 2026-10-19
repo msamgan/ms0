@@ -1,9 +1,21 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx"
 import UrlShortener from "@/Components/Home/UrlShortener"
-import { Head } from "@inertiajs/react"
+import { Head, Link, router } from "@inertiajs/react"
 import { useEffect, useState } from "react"
 
-export default function Links({ links = [], auth }) {
+export default function Links({ links: paginator = {}, stats = {}, filters = {}, auth }) {
+    const [search, setSearch] = useState(filters.search ?? "")
+
+    const submitSearch = (e) => {
+        e.preventDefault()
+        router.get(
+            route("links"),
+            { search: search.trim() || undefined },
+            { preserveState: true, preserveScroll: true, replace: true },
+        )
+    }
+    const links = paginator.data ?? []
+    const pageLinks = paginator.links ?? []
     const [notification, setNotification] = useState({})
     const [animateTable, setAnimateTable] = useState(false)
 
@@ -11,9 +23,9 @@ export default function Links({ links = [], auth }) {
         setAnimateTable(true)
     }, [])
 
-    const totalLinks = links.length
-    const activeLinks = links.filter((link) => (link.status || "Active").toLowerCase() === "active").length
-    const totalVisits = links.reduce((sum, link) => sum + Number(link.visits || 0), 0)
+    const totalLinks = stats.total ?? 0
+    const activeLinks = totalLinks
+    const totalVisits = stats.visits ?? 0
 
     const copyToClipboard = async (url, id) => {
         try {
@@ -132,11 +144,31 @@ export default function Links({ links = [], auth }) {
                 </section>
 
                 <section className="mx-auto max-w-grid px-6 md:px-10 lg:px-16 py-12 md:py-20">
+                    <form onSubmit={submitSearch} className="mb-6 flex gap-2 sm:max-w-lg">
+                        <input
+                            type="search"
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            placeholder="Search by URL or short slug…"
+                            aria-label="Search links"
+                            className="w-full border border-line bg-paper px-4 py-3 font-mono text-sm text-ink placeholder:text-muted focus:border-ink focus:outline-none focus:ring-0"
+                        />
+                        <button
+                            type="submit"
+                            className="border border-ink bg-ink px-5 py-3 font-mono text-[11px] uppercase tracking-[0.18em] text-paper hover:bg-paper hover:text-ink"
+                        >
+                            Search
+                        </button>
+                    </form>
                     {links.length === 0 ? (
                         <div className="border border-line bg-paper px-6 py-12 text-center">
-                            <p className="font-grotesk text-xl text-ink">No links created yet.</p>
+                            <p className="font-grotesk text-xl text-ink">
+                                {filters.search ? "No links match your search." : "No links created yet."}
+                            </p>
                             <p className="mt-2 text-sm text-muted">
-                                Start by shortening a URL from the home page and it will appear here.
+                                {filters.search
+                                    ? "Try a different URL or slug."
+                                    : "Start by shortening a URL from the home page and it will appear here."}
                             </p>
                         </div>
                     ) : (
@@ -256,6 +288,45 @@ export default function Links({ links = [], auth }) {
                                     </table>
                                 </div>
                             </div>
+
+                            {paginator.last_page > 1 && (
+                                <div className="mt-6 flex flex-col items-center justify-between gap-4 sm:flex-row">
+                                    <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
+                                        Showing {paginator.from}–{paginator.to} of {paginator.total}
+                                    </p>
+                                    <nav className="flex flex-wrap gap-1">
+                                        {pageLinks.map((item, i) => {
+                                            const label = item.label
+                                                .replace("&laquo;", "«")
+                                                .replace("&raquo;", "»")
+                                                .replace("Previous", "Prev")
+                                            const base =
+                                                "border px-3 py-2 font-mono text-[11px] uppercase tracking-[0.18em]"
+                                            if (!item.url) {
+                                                return (
+                                                    <span key={i} className={`${base} border-line text-muted/50`}>
+                                                        {label}
+                                                    </span>
+                                                )
+                                            }
+                                            return (
+                                                <Link
+                                                    key={i}
+                                                    href={item.url}
+                                                    preserveScroll
+                                                    className={`${base} ${
+                                                        item.active
+                                                            ? "border-ink bg-ink text-paper"
+                                                            : "border-line text-ink hover:border-ink"
+                                                    }`}
+                                                >
+                                                    {label}
+                                                </Link>
+                                            )
+                                        })}
+                                    </nav>
+                                </div>
+                            )}
                         </>
                     )}
                 </section>

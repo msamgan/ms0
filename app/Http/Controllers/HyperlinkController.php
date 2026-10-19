@@ -15,6 +15,7 @@ use Random\RandomException;
 
 class HyperlinkController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      */
@@ -23,10 +24,23 @@ class HyperlinkController extends Controller
         //
     }
 
-    public function links(): Response
+    public function links(Request $request): Response
     {
+        $query = Hyperlink::query()->where('user_id', auth()->id());
+        $search = trim((string) $request->query('search', ''));
+
+        $listing = (clone $query)->when($search !== '', function ($q) use ($search) {
+            $term = '%' . addcslashes($search, '%_\\') . '%';
+            $q->where(fn ($w) => $w->where('url', 'like', $term)->orWhere('shot_slug', 'like', $term));
+        });
+
         return Inertia::render('Links', [
-            'links' => Hyperlink::query()->where('user_id', auth()->id())->orderBy('created_at', 'desc')->get()->map(function ($link) {
+            'filters' => ['search' => $search],
+            'stats' => [
+                'total' => (clone $query)->count(),
+                'visits' => (int) (clone $query)->sum('visits'),
+            ],
+            'links' => $listing->orderBy('created_at', 'desc')->orderBy('id', 'desc')->paginate(20)->withQueryString()->through(function ($link) {
                 return [
                     'id' => $link->id,
                     'url' => $link->url,
