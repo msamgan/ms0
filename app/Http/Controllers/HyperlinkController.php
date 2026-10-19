@@ -26,7 +26,7 @@ class HyperlinkController extends Controller
     public function links(): Response
     {
         return Inertia::render('Links', [
-            'links' => Hyperlink::query()->where('user_id', auth()->id())->get()->map(function ($link) {
+            'links' => Hyperlink::query()->where('user_id', auth()->id())->orderBy('created_at', 'desc')->get()->map(function ($link) {
                 return [
                     'id' => $link->id,
                     'url' => $link->url,

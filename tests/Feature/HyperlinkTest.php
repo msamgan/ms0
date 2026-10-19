@@ -144,9 +144,16 @@ test('it rejects a URL linking to a dangerous file extension', function () {
         ->assertJsonValidationErrors(['url']);
 });
 
-test('authenticated user can view their links', function () {
+test('authenticated user can view their links ordered by created_at descending', function () {
     $user = User::factory()->create();
-    Hyperlink::factory()->count(3)->create(['user_id' => $user->id]);
+    $firstLink = Hyperlink::factory()->create([
+        'user_id' => $user->id,
+        'created_at' => now()->subDay(),
+    ]);
+    $secondLink = Hyperlink::factory()->create([
+        'user_id' => $user->id,
+        'created_at' => now(),
+    ]);
     Hyperlink::factory()->create(['user_id' => null]); // Guest link
     Hyperlink::factory()->create(['user_id' => User::factory()->create()->id]); // Other user's link
 
@@ -155,7 +162,9 @@ test('authenticated user can view their links', function () {
     $response->assertStatus(200)
         ->assertInertia(fn (Assert $page) => $page
             ->component('Links')
-            ->has('links', 3)
+            ->has('links', 2)
+            ->where('links.0.id', $secondLink->id)
+            ->where('links.1.id', $firstLink->id)
         );
 });
 
