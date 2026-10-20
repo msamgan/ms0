@@ -16,7 +16,6 @@ use Random\RandomException;
 
 class HyperlinkController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      */

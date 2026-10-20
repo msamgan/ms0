@@ -101,8 +101,8 @@ export default function ApiDocumentation() {
                             </Reveal>
                             <Reveal delay={80} className="lg:col-span-5 lg:border-l lg:border-line lg:pl-6">
                                 <p className="max-w-md text-lg text-muted">
-                                    Use the 301 ping API to turn a destination URL into a shareable short link. Send
-                                    one authenticated JSON request and get a link back.
+                                    Use the 301 ping API to turn a destination URL into a shareable short link.
+                                    Send one authenticated JSON request and get a link back.
                                 </p>
                                 <a
                                     href="#shorten-url"

@@ -75,9 +75,9 @@ export default function StatusCodes() {
                             <div className="lg:col-span-8">
                                 <Reveal className="border-t border-line">
                                     <p className="text-muted max-w-2xl py-7 text-lg leading-relaxed">
-                                        Send a request with the status code you want to simulate. 301 ping returns
-                                        that exact code with a predictable JSON response, making it easy to
-                                        build and verify loading, error, and edge-case states.
+                                        Send a request with the status code you want to simulate. 301 ping
+                                        returns that exact code with a predictable JSON response, making it easy
+                                        to build and verify loading, error, and edge-case states.
                                     </p>
                                 </Reveal>
 

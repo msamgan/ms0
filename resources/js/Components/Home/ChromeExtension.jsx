@@ -44,8 +44,8 @@ export default function ChromeExtension() {
                             Shorten the page you’re on.
                         </h2>
                         <p className="font-grotesk text-base sm:text-lg text-paper/70 max-w-md mb-8">
-                            One click from your Chrome toolbar turns the current page into a short link—and copies
-                            it, ready to share.
+                            One click from your Chrome toolbar turns the current page into a short link—and
+                            copies it, ready to share.
                         </p>
                         <a
                             href="https://chromewebstore.google.com/detail/ms0org-url-shortener/goaddbeloaeledjpkaankdiglhnmpdld"

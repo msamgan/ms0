@@ -37,7 +37,7 @@ export default function Links({ links: paginator = {}, stats = {}, filters = {},
             },
             onFinish: () => {
                 setDeleting(false)
-            },
+            }
         })
     }
 
@@ -46,7 +46,7 @@ export default function Links({ links: paginator = {}, stats = {}, filters = {},
         router.get(
             route("links"),
             { search: search.trim() || undefined },
-            { preserveState: true, preserveScroll: true, replace: true },
+            { preserveState: true, preserveScroll: true, replace: true }
         )
     }
     const links = paginator.data ?? []
@@ -342,10 +342,16 @@ export default function Links({ links: paginator = {}, stats = {}, filters = {},
                                                                             </svg>
                                                                         </button>
                                                                     </Dropdown.Trigger>
-                                                                    <Dropdown.Content align="right" width="36" contentClasses="bg-paper shadow-lg">
+                                                                    <Dropdown.Content
+                                                                        align="right"
+                                                                        width="36"
+                                                                        contentClasses="bg-paper shadow-lg"
+                                                                    >
                                                                         <button
                                                                             type="button"
-                                                                            onClick={() => confirmLinkDeletion(link)}
+                                                                            onClick={() =>
+                                                                                confirmLinkDeletion(link)
+                                                                            }
                                                                             className="flex w-full items-center gap-2 px-4 py-2.5 text-left font-grotesk text-xs uppercase tracking-[0.08em] font-semibold text-accent transition-colors hover:bg-red-50 focus:bg-red-50 focus:outline-none"
                                                                         >
                                                                             <svg
@@ -391,7 +397,10 @@ export default function Links({ links: paginator = {}, stats = {}, filters = {},
                                                 "border px-3 py-2 font-mono text-[11px] uppercase tracking-[0.18em]"
                                             if (!item.url) {
                                                 return (
-                                                    <span key={i} className={`${base} border-line text-muted/50`}>
+                                                    <span
+                                                        key={i}
+                                                        className={`${base} border-line text-muted/50`}
+                                                    >
                                                         {label}
                                                     </span>
                                                 )
@@ -443,7 +452,8 @@ export default function Links({ links: paginator = {}, stats = {}, filters = {},
 
                     <div className="mb-6 space-y-3">
                         <p className="text-sm text-muted">
-                            Are you sure you want to delete this shortened link? Anyone using it will no longer be redirected, and this action cannot be undone.
+                            Are you sure you want to delete this shortened link? Anyone using it will no longer
+                            be redirected, and this action cannot be undone.
                         </p>
 
                         {linkToDelete && (
@@ -460,9 +470,7 @@ export default function Links({ links: paginator = {}, stats = {}, filters = {},
                                     <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted">
                                         Target:
                                     </span>
-                                    <span className="truncate font-grotesk text-muted">
-                                        {linkToDelete.url}
-                                    </span>
+                                    <span className="truncate font-grotesk text-muted">{linkToDelete.url}</span>
                                 </div>
                             </div>
                         )}
