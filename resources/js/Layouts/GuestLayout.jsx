@@ -30,7 +30,7 @@ export default function Guest({
                             href={route("home")}
                             className="mt-12 inline-flex w-fit items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-muted transition-colors hover:text-accent-dark"
                         >
-                            <span aria-hidden="true">←</span> Back to ms0.org
+                            <span aria-hidden="true">←</span> Back to 301p.ing
                         </Link>
                     </div>
 

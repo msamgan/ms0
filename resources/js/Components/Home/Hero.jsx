@@ -7,7 +7,7 @@ export default function Hero() {
             <div className="mx-auto max-w-grid px-6 md:px-10 lg:px-16 pt-16 md:pt-20 pb-20 md:pb-28">
                 <Reveal className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-[0.18em] text-muted mb-8 md:mb-12">
                     <span>01 / URL Utility</span>
-                    <span className="hidden sm:inline">ms0.org</span>
+                    <span className="hidden sm:inline">301p.ing</span>
                 </Reveal>
 
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-10 gap-y-14 items-end">

@@ -7,7 +7,7 @@ use OpenApi\Attributes as OA;
 #[OA\Info(
     version: '1.0.0',
     description: 'API documentation for URL shortening service',
-    title: 'MS0 API',
+    title: '301 ping API',
     contact: new OA\Contact(email: 'support@ms0.io')
 )]
 #[OA\Server(

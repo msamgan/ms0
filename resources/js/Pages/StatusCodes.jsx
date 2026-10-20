@@ -32,7 +32,7 @@ export default function StatusCodes() {
                     <div className="mx-auto max-w-grid px-6 md:px-10 lg:px-16 pt-16 md:pt-20 pb-20 md:pb-28">
                         <Reveal className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-[0.18em] text-muted mb-8 md:mb-12">
                             <span>01 / HTTP utility</span>
-                            <span className="hidden sm:inline">ms0.org / status</span>
+                            <span className="hidden sm:inline">301p.ing / status</span>
                         </Reveal>
 
                         <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-10 gap-y-12 items-end">
@@ -75,7 +75,7 @@ export default function StatusCodes() {
                             <div className="lg:col-span-8">
                                 <Reveal className="border-t border-line">
                                     <p className="text-muted max-w-2xl py-7 text-lg leading-relaxed">
-                                        Send a request with the status code you want to simulate. MS0 returns
+                                        Send a request with the status code you want to simulate. 301 ping returns
                                         that exact code with a predictable JSON response, making it easy to
                                         build and verify loading, error, and edge-case states.
                                     </p>
@@ -148,7 +148,7 @@ export default function StatusCodes() {
                                         <span className="text-accent">GET</span>{" "}
                                         {typeof window !== "undefined"
                                             ? window.location.origin
-                                            : "https://ms0.org"}
+                                            : "https://301p.ing"}
                                         /api/status/&#123;statusCode&#125;
                                     </code>
                                     <p className="mt-8 max-w-lg text-sm leading-relaxed text-paper/60">

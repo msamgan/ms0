@@ -33,10 +33,7 @@ export default function Header({ isAuthenticated = false, user = null }) {
             <div className="mx-auto max-w-grid px-6 md:px-10 lg:px-16 flex items-center justify-between h-16 sm:h-[72px]">
                 <Link href={route("home")} className="flex items-center gap-3 group">
                     <span className="font-grotesk font-extrabold tracking-tight text-ink text-lg">
-                        MS<span className="text-accent">0</span>
-                        <span className="hidden sm:inline text-muted font-medium text-xs align-top ml-1 tracking-[0.18em] uppercase">
-                            .org
-                        </span>
+                        301<span className="text-accent"> ping</span>
                     </span>
                 </Link>
 

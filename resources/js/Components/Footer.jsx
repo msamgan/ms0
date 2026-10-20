@@ -85,7 +85,7 @@ export default function Footer() {
                 </div>
 
                 <div className="pt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 font-mono text-xs text-muted">
-                    <p>© {new Date().getFullYear()} MS0.org. All rights reserved.</p>
+                    <p>© {new Date().getFullYear()} 301 ping. All rights reserved.</p>
                     <p>
                         Built by{" "}
                         <a

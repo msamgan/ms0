@@ -124,7 +124,7 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
                             02 / Your account
                         </p>
                         <span className="hidden sm:inline font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
-                            ms0.org
+                            301p.ing
                         </span>
                     </div>
 

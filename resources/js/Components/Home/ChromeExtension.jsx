@@ -3,7 +3,7 @@ import Reveal from "@/Components/Home/Reveal"
 const BENEFITS = [
     {
         title: "Shorten the page you're on",
-        body: "Create a compact ms0.org link from your current Chrome tab—no copying the original URL first."
+        body: "Create a compact 301p.ing link from your current Chrome tab—no copying the original URL first."
     },
     {
         title: "Ready to paste instantly",
@@ -32,7 +32,7 @@ export default function ChromeExtension() {
         <section className="border-b border-line bg-ink text-paper" aria-labelledby="extension-heading">
             <div className="mx-auto max-w-grid px-6 md:px-10 lg:px-16 py-20 md:py-28">
                 <Reveal className="font-mono text-[11px] uppercase tracking-[0.18em] text-paper/60 mb-8">
-                    02 / ms0.org for Chrome
+                    02 / 301 ping for Chrome
                 </Reveal>
 
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-12 gap-y-14">

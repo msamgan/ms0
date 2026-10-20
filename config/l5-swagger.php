@@ -7,7 +7,7 @@ return [
     'documentations' => [
         'default' => [
             'api' => [
-                'title' => 'MS0 API Documentation',
+                'title' => '301 ping API Documentation',
             ],
 
             'routes' => [

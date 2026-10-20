@@ -74,7 +74,7 @@ export default function ApiDocumentation() {
     const { auth } = usePage().props
     const user = auth.user
 
-    const baseUrl = typeof window !== "undefined" ? window.location.origin : "https://ms0.org"
+    const baseUrl = typeof window !== "undefined" ? window.location.origin : "https://301p.ing"
 
     return (
         <>
@@ -86,7 +86,7 @@ export default function ApiDocumentation() {
                     <div className="mx-auto max-w-grid px-6 pb-16 pt-16 md:px-10 md:pb-24 md:pt-20 lg:px-16">
                         <Reveal className="mb-8 flex items-baseline justify-between font-mono text-[11px] uppercase tracking-[0.18em] text-muted md:mb-12">
                             <span>01 / Developer reference</span>
-                            <span className="hidden sm:inline">MS0 API / v1.0.0</span>
+                            <span className="hidden sm:inline">301 ping API / v1.0.0</span>
                         </Reveal>
 
                         <div className="grid grid-cols-1 items-end gap-x-10 gap-y-10 lg:grid-cols-12">
@@ -101,7 +101,7 @@ export default function ApiDocumentation() {
                             </Reveal>
                             <Reveal delay={80} className="lg:col-span-5 lg:border-l lg:border-line lg:pl-6">
                                 <p className="max-w-md text-lg text-muted">
-                                    Use the MS0 API to turn a destination URL into a shareable short link. Send
+                                    Use the 301 ping API to turn a destination URL into a shareable short link. Send
                                     one authenticated JSON request and get a link back.
                                 </p>
                                 <a
@@ -165,7 +165,7 @@ export default function ApiDocumentation() {
                                     href={user ? route("dashboard") : route("register")}
                                     className="font-semibold text-accent-dark underline decoration-line underline-offset-4 transition-colors hover:text-ink"
                                 >
-                                    {user ? "Find it in your dashboard" : "Create an MS0 account"}
+                                    {user ? "Find it in your dashboard" : "Create a 301 ping account"}
                                 </Link>
                                 .
                             </p>

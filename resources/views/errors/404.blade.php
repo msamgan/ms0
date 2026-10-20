@@ -20,11 +20,11 @@
 <body class="bg-paper text-ink antialiased">
     <header class="sticky top-0 z-50 border-b border-line bg-paper">
         <div class="mx-auto flex h-16 max-w-grid items-center justify-between px-6 md:h-[72px] md:px-10 lg:px-16">
-            <a href="{{ route('home') }}" class="group flex items-center gap-3" aria-label="Go to MS0 home page">
+            <a href="{{ route('home') }}" class="group flex items-center gap-3" aria-label="Go to 301 ping home page">
                 <span class="font-grotesk text-lg font-extrabold tracking-tight text-ink">
-                    MS<span class="text-accent">0</span>
+                    301<span class="text-accent"> ping</span>
                     <span class="ml-1 hidden align-top text-[11px] font-medium uppercase tracking-[0.18em] text-muted sm:inline">
-                        .org
+                        301p.ing
                     </span>
                 </span>
             </a>
@@ -42,7 +42,7 @@
             <div class="mx-auto max-w-grid px-6 pb-20 pt-16 md:px-10 md:pb-28 md:pt-20 lg:px-16">
                 <div class="mb-8 flex items-baseline justify-between font-mono text-[11px] uppercase tracking-[0.18em] text-muted md:mb-12">
                     <span>404 / Lost route</span>
-                    <span class="hidden sm:inline">ms0.org</span>
+                    <span class="hidden sm:inline">301p.ing</span>
                 </div>
 
                 <div class="grid items-end gap-x-10 gap-y-14 lg:grid-cols-12">
@@ -138,7 +138,7 @@
             </div>
 
             <div class="flex flex-col items-start justify-between gap-4 pt-8 font-mono text-xs text-muted sm:flex-row sm:items-center">
-                <p>© {{ date('Y') }} MS0.org. All rights reserved.</p>
+                <p>© {{ date('Y') }} 301 ping. All rights reserved.</p>
                 <p>
                     Built by
                     <a href="https://msamgan.com" class="text-ink transition-colors hover:text-accent-dark">msamgan</a>
