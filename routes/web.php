@@ -24,6 +24,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/service/regenerate-token', [HyperlinkController::class, 'regenerateToken'])->name('service.regenerate-token');
 
     Route::get('/links', [HyperlinkController::class, 'links'])->name('links');
+    Route::delete('/links/{hyperlink}', [HyperlinkController::class, 'destroy'])->name('links.destroy');
 });
 
 Route::get('/status-codes', function () {

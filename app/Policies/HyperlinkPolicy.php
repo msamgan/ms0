@@ -44,7 +44,7 @@ class HyperlinkPolicy
      */
     public function delete(User $user, Hyperlink $hyperlink): bool
     {
-        //
+        return $user->id === $hyperlink->user_id;
     }
 
     /**

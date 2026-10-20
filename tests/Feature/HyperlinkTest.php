@@ -183,3 +183,49 @@ test('authenticated user can regenerate their token', function () {
     $user->refresh();
     expect($user->access_token)->not->toBe('old-token');
 });
+
+test('authenticated user can delete their own link', function () {
+    $user = User::factory()->create();
+    $link = Hyperlink::factory()->create([
+        'user_id' => $user->id,
+    ]);
+
+    $response = $this->actingAs($user)
+        ->from('/links')
+        ->delete('/links/' . $link->id);
+
+    $response->assertRedirect('/links');
+    $this->assertDatabaseMissing('hyperlinks', [
+        'id' => $link->id,
+    ]);
+});
+
+test('authenticated user cannot delete another users link', function () {
+    $user = User::factory()->create();
+    $otherUser = User::factory()->create();
+    $link = Hyperlink::factory()->create([
+        'user_id' => $otherUser->id,
+    ]);
+
+    $response = $this->actingAs($user)
+        ->delete('/links/' . $link->id);
+
+    $response->assertStatus(403);
+    $this->assertDatabaseHas('hyperlinks', [
+        'id' => $link->id,
+    ]);
+});
+
+test('guest cannot delete a link', function () {
+    $user = User::factory()->create();
+    $link = Hyperlink::factory()->create([
+        'user_id' => $user->id,
+    ]);
+
+    $response = $this->delete('/links/' . $link->id);
+
+    $response->assertRedirect('/login');
+    $this->assertDatabaseHas('hyperlinks', [
+        'id' => $link->id,
+    ]);
+});

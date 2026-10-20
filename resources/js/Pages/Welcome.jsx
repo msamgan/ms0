@@ -2,6 +2,7 @@ import { Head, usePage } from "@inertiajs/react"
 import Header from "@/Components/Header.jsx"
 import Footer from "@/Components/Footer.jsx"
 import Hero from "@/Components/Home/Hero"
+import ChromeExtension from "@/Components/Home/ChromeExtension"
 import Features from "@/Components/Home/Features"
 import Process from "@/Components/Home/Process"
 import AccountPanel from "@/Components/Home/AccountPanel"
@@ -29,6 +30,7 @@ export default function Welcome() {
 
             <main className="bg-paper font-grotesk">
                 <Hero />
+                <ChromeExtension />
                 <Features />
                 <Process />
                 <AccountPanel isAuthenticated={isAuthenticated} user={user} />

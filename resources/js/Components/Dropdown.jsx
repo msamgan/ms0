@@ -13,7 +13,7 @@ const Dropdown = ({ children }) => {
 
     return (
         <DropDownContext.Provider value={{ open, setOpen, toggleOpen }}>
-            <div className="relative">{children}</div>
+            <div className={`relative ${open ? "z-30" : ""}`}>{children}</div>
         </DropDownContext.Provider>
     )
 }
@@ -43,8 +43,16 @@ const Content = ({ align = "right", width = "48", contentClasses = "py-1 bg-whit
 
     let widthClasses = ""
 
-    if (width === "48") {
+    if (width === "32") {
+        widthClasses = "w-32"
+    } else if (width === "36") {
+        widthClasses = "w-36"
+    } else if (width === "40") {
+        widthClasses = "w-40"
+    } else if (width === "48") {
         widthClasses = "w-48"
+    } else if (width) {
+        widthClasses = width.startsWith("w-") ? width : `w-${width}`
     }
 
     return (

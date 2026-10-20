@@ -8,6 +8,7 @@ use App\Methods;
 use App\Models\Hyperlink;
 use App\Shortener;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -142,9 +143,15 @@ class HyperlinkController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Hyperlink $hyperlink)
+    public function destroy(Hyperlink $hyperlink): RedirectResponse
     {
-        //
+        if ($hyperlink->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $hyperlink->delete();
+
+        return redirect()->back();
     }
 
     /**

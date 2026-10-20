@@ -1,10 +1,45 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx"
 import UrlShortener from "@/Components/Home/UrlShortener"
+import Dropdown from "@/Components/Dropdown"
+import Modal from "@/Components/Modal"
+import DangerButton from "@/Components/DangerButton"
+import SecondaryButton from "@/Components/SecondaryButton"
 import { Head, Link, router } from "@inertiajs/react"
 import { useEffect, useState } from "react"
 
 export default function Links({ links: paginator = {}, stats = {}, filters = {}, auth }) {
     const [search, setSearch] = useState(filters.search ?? "")
+    const [confirmingLinkDeletion, setConfirmingLinkDeletion] = useState(false)
+    const [linkToDelete, setLinkToDelete] = useState(null)
+    const [deleting, setDeleting] = useState(false)
+
+    const confirmLinkDeletion = (link) => {
+        setLinkToDelete(link)
+        setConfirmingLinkDeletion(true)
+    }
+
+    const closeDeleteModal = () => {
+        if (!deleting) {
+            setConfirmingLinkDeletion(false)
+            setLinkToDelete(null)
+        }
+    }
+
+    const deleteLink = () => {
+        if (!linkToDelete) return
+
+        setDeleting(true)
+        router.delete(route("links.destroy", linkToDelete.id), {
+            preserveScroll: true,
+            onSuccess: () => {
+                setConfirmingLinkDeletion(false)
+                setLinkToDelete(null)
+            },
+            onFinish: () => {
+                setDeleting(false)
+            },
+        })
+    }
 
     const submitSearch = (e) => {
         e.preventDefault()
@@ -176,8 +211,8 @@ export default function Links({ links: paginator = {}, stats = {}, filters = {},
                             <p className="mb-5 font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
                                 03 / Link Data
                             </p>
-                            <div className="overflow-hidden border border-line bg-paper">
-                                <div className="overflow-x-auto overflow-y-hidden">
+                            <div className="border border-line bg-paper">
+                                <div className="overflow-x-auto md:overflow-visible">
                                     <table className="min-w-full border-collapse">
                                         <thead className="bg-ink text-paper">
                                             <tr>
@@ -192,6 +227,9 @@ export default function Links({ links: paginator = {}, stats = {}, filters = {},
                                                 </th>
                                                 <th className="px-5 py-4 text-left font-mono text-[10px] uppercase tracking-[0.18em] text-paper/80">
                                                     Last visited
+                                                </th>
+                                                <th className="px-5 py-4 text-right font-mono text-[10px] uppercase tracking-[0.18em] text-paper/80">
+                                                    Actions
                                                 </th>
                                             </tr>
                                         </thead>
@@ -209,7 +247,7 @@ export default function Links({ links: paginator = {}, stats = {}, filters = {},
                                                 return (
                                                     <tr
                                                         key={rowId}
-                                                        className={`transition-all duration-300 ${
+                                                        className={`relative transition-all duration-300 focus-within:z-20 hover:z-10 ${
                                                             animateTable
                                                                 ? "translate-y-0 opacity-100"
                                                                 : "translate-y-4 opacity-0"
@@ -281,6 +319,55 @@ export default function Links({ links: paginator = {}, stats = {}, filters = {},
                                                         <td className="px-5 py-5 align-top text-sm text-muted">
                                                             {link.last_visit || "Never"}
                                                         </td>
+
+                                                        <td className="px-5 py-5 align-top text-right">
+                                                            <div className="flex justify-end">
+                                                                <Dropdown>
+                                                                    <Dropdown.Trigger>
+                                                                        <button
+                                                                            type="button"
+                                                                            aria-label="Link actions"
+                                                                            className="inline-flex h-8 w-8 items-center justify-center border border-line bg-paper text-ink transition-colors hover:border-ink hover:bg-white focus:outline-none"
+                                                                        >
+                                                                            <svg
+                                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                                className="h-4 w-4"
+                                                                                viewBox="0 0 24 24"
+                                                                                fill="currentColor"
+                                                                                aria-hidden="true"
+                                                                            >
+                                                                                <circle cx="12" cy="5" r="2" />
+                                                                                <circle cx="12" cy="12" r="2" />
+                                                                                <circle cx="12" cy="19" r="2" />
+                                                                            </svg>
+                                                                        </button>
+                                                                    </Dropdown.Trigger>
+                                                                    <Dropdown.Content align="right" width="36" contentClasses="bg-paper shadow-lg">
+                                                                        <button
+                                                                            type="button"
+                                                                            onClick={() => confirmLinkDeletion(link)}
+                                                                            className="flex w-full items-center gap-2 px-4 py-2.5 text-left font-grotesk text-xs uppercase tracking-[0.08em] font-semibold text-accent transition-colors hover:bg-red-50 focus:bg-red-50 focus:outline-none"
+                                                                        >
+                                                                            <svg
+                                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                                className="h-4 w-4 flex-shrink-0"
+                                                                                fill="none"
+                                                                                viewBox="0 0 24 24"
+                                                                                stroke="currentColor"
+                                                                                strokeWidth={1.8}
+                                                                            >
+                                                                                <path
+                                                                                    strokeLinecap="round"
+                                                                                    strokeLinejoin="round"
+                                                                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                                                                />
+                                                                            </svg>
+                                                                            <span>Delete</span>
+                                                                        </button>
+                                                                    </Dropdown.Content>
+                                                                </Dropdown>
+                                                            </div>
+                                                        </td>
                                                     </tr>
                                                 )
                                             })}
@@ -331,6 +418,89 @@ export default function Links({ links: paginator = {}, stats = {}, filters = {},
                     )}
                 </section>
             </main>
+
+            <Modal show={confirmingLinkDeletion} onClose={closeDeleteModal} maxWidth="md">
+                <div className="border-t-4 border-accent bg-paper p-6">
+                    <div className="mb-4 flex items-center gap-3">
+                        <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center border border-accent bg-paper text-accent">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-5 w-5"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                />
+                            </svg>
+                        </div>
+                        <h2 className="font-editorial text-2xl text-ink">Delete Short Link</h2>
+                    </div>
+
+                    <div className="mb-6 space-y-3">
+                        <p className="text-sm text-muted">
+                            Are you sure you want to delete this shortened link? Anyone using it will no longer be redirected, and this action cannot be undone.
+                        </p>
+
+                        {linkToDelete && (
+                            <div className="border border-line bg-white/70 p-3 space-y-1.5 text-xs">
+                                <div className="flex items-center gap-2">
+                                    <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted">
+                                        Short link:
+                                    </span>
+                                    <span className="font-mono font-semibold text-ink">
+                                        {linkToDelete.shortened_url}
+                                    </span>
+                                </div>
+                                <div className="flex items-baseline gap-2">
+                                    <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted">
+                                        Target:
+                                    </span>
+                                    <span className="truncate font-grotesk text-muted">
+                                        {linkToDelete.url}
+                                    </span>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
+                    <div className="flex justify-end gap-3">
+                        <SecondaryButton
+                            onClick={closeDeleteModal}
+                            disabled={deleting}
+                            className="border border-line bg-paper px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-ink hover:bg-ink hover:text-paper"
+                        >
+                            Cancel
+                        </SecondaryButton>
+
+                        <DangerButton
+                            onClick={deleteLink}
+                            disabled={deleting}
+                            className="flex items-center border border-accent bg-accent px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-paper hover:bg-accent-dark focus:ring-accent"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="mr-1.5 h-4 w-4"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                />
+                            </svg>
+                            {deleting ? "Deleting..." : "Delete Link"}
+                        </DangerButton>
+                    </div>
+                </div>
+            </Modal>
         </AuthenticatedLayout>
     )
 }
