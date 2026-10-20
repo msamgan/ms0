@@ -6,8 +6,8 @@ const FEATURES = [
         body: "Instantly create short links with our optimized high-performance engine."
     },
     {
-        title: "Status codes",
-        body: "Test and verify HTTP status codes for your frontend development directly in the browser."
+        title: "API access",
+        body: "Integrate our URL shortening service directly into your applications with our developer-friendly API."
     },
     {
         title: "Secure & reliable",

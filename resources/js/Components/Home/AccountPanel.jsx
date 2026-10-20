@@ -4,10 +4,6 @@ import ArrowIcon from "@/Components/Home/ArrowIcon"
 
 const AUTH_BENEFITS = [
     {
-        title: "HTTP status codes",
-        body: "Test various HTTP status codes and their messages directly through our testing utility."
-    },
-    {
         title: "Track your links",
         body: "Monitor usage statistics and performance of your shortened URLs with our analytics dashboard."
     },

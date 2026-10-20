@@ -34,14 +34,6 @@ export default function Footer() {
                             </li>
                             <li>
                                 <a
-                                    href={route("status-codes")}
-                                    className="text-ink hover:text-accent-dark transition-colors"
-                                >
-                                    Status codes
-                                </a>
-                            </li>
-                            <li>
-                                <a
                                     href={route("privacy")}
                                     className="text-ink hover:text-accent-dark transition-colors"
                                 >

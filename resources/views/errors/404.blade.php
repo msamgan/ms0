@@ -31,7 +31,6 @@
 
             <nav class="hidden items-center gap-8 md:flex" aria-label="Primary navigation">
                 <a href="{{ route('home') }}" class="font-grotesk text-sm text-muted transition-colors hover:text-ink">Home</a>
-                <a href="{{ route('status-codes') }}" class="font-grotesk text-sm text-muted transition-colors hover:text-ink">Status codes</a>
                 <a href="{{ route('documentation.api') }}" class="font-grotesk text-sm text-muted transition-colors hover:text-ink">API</a>
             </nav>
         </div>
@@ -62,8 +61,8 @@
                             <a href="{{ route('home') }}" class="inline-flex items-center justify-center border border-ink bg-ink px-5 py-3 font-grotesk text-sm font-semibold text-paper transition-colors hover:border-accent hover:bg-accent">
                                 Back home
                             </a>
-                            <a href="{{ route('status-codes') }}" class="inline-flex items-center justify-center border border-line bg-transparent px-5 py-3 font-grotesk text-sm font-semibold text-ink transition-colors hover:border-ink">
-                                Explore status codes
+                            <a href="{{ route('documentation.api') }}" class="inline-flex items-center justify-center border border-line bg-transparent px-5 py-3 font-grotesk text-sm font-semibold text-ink transition-colors hover:border-ink">
+                                API documentation
                             </a>
                         </div>
                     </div>
@@ -123,7 +122,7 @@
                     <ul class="space-y-3 text-sm font-grotesk">
                         <li><a href="{{ route('home') }}" class="text-ink transition-colors hover:text-accent-dark">Home</a></li>
                         <li><a href="{{ route('documentation.api') }}" class="text-ink transition-colors hover:text-accent-dark">API documentation</a></li>
-                        <li><a href="{{ route('status-codes') }}" class="text-ink transition-colors hover:text-accent-dark">Status codes</a></li>
+                        <li><a href="{{ route('privacy') }}" class="text-ink transition-colors hover:text-accent-dark">Privacy policy</a></li>
                     </ul>
                 </div>
 

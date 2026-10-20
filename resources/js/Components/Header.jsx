@@ -18,7 +18,6 @@ export default function Header({ isAuthenticated = false, user = null }) {
         { key: "links", href: route("links"), label: "Links", show: isAuthenticated },
         { key: "register", href: route("register"), label: "Register", show: !isAuthenticated },
         { key: "login", href: route("login"), label: "Login", show: !isAuthenticated },
-        { key: "status-codes", href: route("status-codes"), label: "Status codes", show: true },
         {
             key: "documentation.api",
             href: route("documentation.api"),
