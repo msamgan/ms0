@@ -32,9 +32,7 @@ export default function Header({ isAuthenticated = false, user = null }) {
         <header className="sticky top-0 z-50 bg-paper border-b border-line">
             <div className="mx-auto max-w-grid px-6 md:px-10 lg:px-16 flex items-center justify-between h-16 sm:h-[72px]">
                 <Link href={route("home")} className="flex items-center gap-3 group">
-                    <span className="font-grotesk font-extrabold tracking-tight text-ink text-lg">
-                        301<span className="text-accent"> ping</span>
-                    </span>
+                    <img src="/301ping.svg" alt="301 Ping" className="h-9 w-auto" />
                 </Link>
 
                 <nav className="hidden md:flex items-center gap-8" aria-label="Primary">

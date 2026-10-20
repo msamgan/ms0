@@ -13,7 +13,7 @@ import AccountPanel from "@/Components/Home/AccountPanel"
  *           font-grotesk (Manrope, all UI copy and headings),
  *           font-mono (JetBrains Mono, URLs / metadata / technical labels)
  *  - Color: paper (#F5F3ED bg) / ink (#111111 text) / muted (secondary text)
- *           / line (hairline borders) / accent (#E33B2E, used sparingly)
+ *           / line (hairline borders) / accent (#E66054, used sparingly)
  *  - Grid:  max-w-grid (1400px) container, consistent px-6/10/16 margins
  *  - Shape: sharp corners everywhere, no cards/shadows - hierarchy comes
  *           from type, spacing, rules and a 12-column grid instead.

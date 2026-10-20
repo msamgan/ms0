@@ -29,8 +29,8 @@ export default {
                 muted: "#6B675F",
                 line: "#D7D4CC",
                 accent: {
-                    DEFAULT: "#E33B2E",
-                    dark: "#C22E22"
+                    DEFAULT: "#E66054",
+                    dark: "#C64C42"
                 }
             },
             maxWidth: {
@@ -80,8 +80,8 @@ export default {
         colors: {
             white: "#ffffff",
             black: "#000000",
-            primary: "#00acc1",
-            secondary: "#80deea",
+            primary: "#E66054",
+            secondary: "#C64C42",
             gray: {
                 50: "#f9fafb",
                 100: "#f3f4f6",
@@ -119,16 +119,16 @@ export default {
                 900: "#1a237e"
             },
             sky: {
-                50: "#e0f2f1",
-                100: "#b2ebf2",
-                200: "#80deea",
-                300: "#4dd0e1",
-                400: "#26c6da",
-                500: "#00bcd4",
-                600: "#00acc1",
-                700: "#0097a7",
-                800: "#00838f",
-                900: "#006064"
+                50: "#fff1f0",
+                100: "#ffe0dd",
+                200: "#ffc4be",
+                300: "#ffa198",
+                400: "#f77c71",
+                500: "#E66054",
+                600: "#C64C42",
+                700: "#a43c34",
+                800: "#87332d",
+                900: "#702e29"
             },
             green: {
                 50: "#d0f8ce",
