@@ -9,7 +9,7 @@ const requestExample = `{
 
 const curlExample = `curl --request POST \\
   --url "$MS0_URL/api/shorten" \\
-  --header "Authorization: Bearer $MS0_TOKEN" \\
+  --header "Authorization: Bearer $301PING_TOKEN" \\
   --header "Content-Type: application/json" \\
   --data '{
     "url": "https://example.com/very/long/url"
@@ -23,7 +23,7 @@ const responseExamples = [
         example: `{
   "status": true,
   "message": "Shortened Url created successfully",
-  "short_url": "http://localhost/abc1234"
+  "short_url": "https://301p.ing/HDq"
 }`
     },
     {
