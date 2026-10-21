@@ -6,7 +6,7 @@ require 'recipe/laravel.php';
 
 // Config
 
-set('repository', 'https://github.com/msamgan/ms0.git');
+set('repository', 'https://github.com/msamgan/301ping.git');
 
 add('shared_files', []);
 add('shared_dirs', []);
@@ -15,8 +15,8 @@ add('writable_dirs', []);
 // Hosts
 
 host('146.190.32.125')
-    ->set('remote_user', 'ms0')
-    ->set('deploy_path', '~/htdocs/ms0.org');
+    ->set('remote_user', 'ping301')
+    ->set('deploy_path', '~/htdocs/301p.ing');
 
 desc('Build the assets');
 task('deploy:build', function () {
