@@ -1,9 +1,21 @@
+import { useEffect, useState } from "react"
 import Reveal from "@/Components/Home/Reveal"
+
+const EXTENSIONS = {
+    chrome: {
+        label: "Chrome",
+        url: "https://chromewebstore.google.com/detail/ms0org-url-shortener/goaddbeloaeledjpkaankdiglhnmpdld"
+    },
+    firefox: {
+        label: "Firefox",
+        url: "https://addons.mozilla.org/en-US/firefox/addon/301ping-url-shortener/"
+    }
+}
 
 const BENEFITS = [
     {
         title: "Shorten the page you're on",
-        body: "Create a compact 301p.ing link from your current Chrome tab—no copying the original URL first."
+        body: "Create a compact 301p.ing link from your current browser tab—no copying the original URL first."
     },
     {
         title: "Ready to paste instantly",
@@ -27,12 +39,34 @@ const BENEFITS = [
     }
 ]
 
-export default function ChromeExtension() {
+function getBrowserExtension() {
+    const userAgent = window.navigator.userAgent
+
+    if (userAgent.includes("Firefox")) {
+        return "firefox"
+    }
+
+    if (userAgent.includes("Chrome") && !/Edg|OPR|SamsungBrowser/.test(userAgent)) {
+        return "chrome"
+    }
+
+    return null
+}
+
+export default function BrowserExtension() {
+    const [browser, setBrowser] = useState(null)
+
+    useEffect(() => {
+        setBrowser(getBrowserExtension())
+    }, [])
+
+    const extensions = browser ? [EXTENSIONS[browser]] : Object.values(EXTENSIONS)
+
     return (
         <section className="border-b border-line bg-ink text-paper" aria-labelledby="extension-heading">
             <div className="mx-auto max-w-grid px-6 md:px-10 lg:px-16 py-20 md:py-28">
                 <Reveal className="font-mono text-[11px] uppercase tracking-[0.18em] text-paper/60 mb-8">
-                    02 / 301 ping for Chrome
+                    02 / 301 ping for {browser ? EXTENSIONS[browser].label : "your browser"}
                 </Reveal>
 
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-12 gap-y-14">
@@ -44,18 +78,23 @@ export default function ChromeExtension() {
                             Shorten the page you’re on.
                         </h2>
                         <p className="font-grotesk text-base sm:text-lg text-paper/70 max-w-md mb-8">
-                            One click from your Chrome toolbar turns the current page into a short link—and
+                            One click from your browser toolbar turns the current page into a short link—and
                             copies it, ready to share.
                         </p>
-                        <a
-                            href="https://chromewebstore.google.com/detail/ms0org-url-shortener/goaddbeloaeledjpkaankdiglhnmpdld"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center justify-center gap-3 bg-accent px-6 py-4 font-grotesk text-sm font-bold uppercase tracking-[0.08em] text-white transition-colors hover:bg-accent-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-paper"
-                        >
-                            Add to Chrome
-                            <span aria-hidden="true">↗</span>
-                        </a>
+                        <div className="flex flex-wrap gap-3">
+                            {extensions.map((extension) => (
+                                <a
+                                    key={extension.label}
+                                    href={extension.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center justify-center gap-3 bg-accent px-6 py-4 font-grotesk text-sm font-bold uppercase tracking-[0.08em] text-white transition-colors hover:bg-accent-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-paper"
+                                >
+                                    Add to {extension.label}
+                                    <span aria-hidden="true">↗</span>
+                                </a>
+                            ))}
+                        </div>
                         <p className="font-mono text-xs text-paper/60 mt-4">
                             Open a page. Click the icon. Paste your link anywhere.
                         </p>
