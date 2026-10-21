@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HyperlinkController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -27,6 +28,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/links/{hyperlink}', [HyperlinkController::class, 'destroy'])->name('links.destroy');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+        Route::get('tags', [TagController::class, 'tags'])->name('service.tags');
+        Route::post('tags', [TagController::class, 'store'])->name('service.tags.store');
+        Route::get('tags/{tag}', [TagController::class, 'show'])->name('service.tags.show');
+        Route::patch('tags/{tag}', [TagController::class, 'update'])->name('service.tags.update');
+        Route::delete('tags/{tag}', [TagController::class, 'destroy'])->name('service.tags.destroy');
     });
 });
 

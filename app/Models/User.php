@@ -56,4 +56,14 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Hyperlink::class);
     }
+
+    /**
+     * Get the tags for the user.
+     *
+     * @return HasMany<Tag>
+     */
+    public function tags(): HasMany
+    {
+        return $this->hasMany(Tag::class);
+    }
 }
