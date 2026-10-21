@@ -10,8 +10,6 @@ use App\Shortener;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
-use Inertia\Response;
 use Random\RandomException;
 
 class HyperlinkController extends Controller
@@ -24,17 +22,17 @@ class HyperlinkController extends Controller
         //
     }
 
-    public function links(Request $request): Response
+    public function links(Request $request): JsonResponse
     {
         $query = Hyperlink::query()->where('user_id', auth()->id());
-        $search = trim((string) $request->query('search', ''));
+        $search = trim((string) $request->input('search', ''));
 
         $listing = (clone $query)->when($search !== '', function ($q) use ($search) {
             $term = '%' . addcslashes($search, '%_\\') . '%';
             $q->where(fn ($w) => $w->where('url', 'like', $term)->orWhere('shot_slug', 'like', $term));
         });
 
-        return Inertia::render('Links', [
+        return response()->json([
             'filters' => ['search' => $search],
             'stats' => [
                 'total' => (clone $query)->count(),
@@ -142,13 +140,20 @@ class HyperlinkController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Hyperlink $hyperlink): RedirectResponse
+    public function destroy(Request $request, Hyperlink $hyperlink): JsonResponse|RedirectResponse
     {
         if ($hyperlink->user_id !== auth()->id()) {
             abort(403);
         }
 
         $hyperlink->delete();
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'status' => true,
+                'message' => 'Link deleted successfully',
+            ]);
+        }
 
         return redirect()->back();
     }

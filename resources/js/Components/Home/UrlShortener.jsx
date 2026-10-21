@@ -6,7 +6,7 @@ import ArrowIcon from "@/Components/Home/ArrowIcon"
  * (POST service.shorten -> { short_url }), redesigned as a single
  * typographic instrument instead of a rounded "SaaS card".
  */
-export default function UrlShortener() {
+export default function UrlShortener({ onSuccess } = {}) {
     const [url, setUrl] = useState("")
     const [error, setError] = useState(null)
     const [shortUrl, setShortUrl] = useState(null)
@@ -31,6 +31,9 @@ export default function UrlShortener() {
                 .post(route("service.shorten"), { url: parsed.href })
                 .then((response) => {
                     setShortUrl(response.data.short_url)
+                    if (onSuccess) {
+                        onSuccess(response.data)
+                    }
                 })
                 .catch(() => {
                     setError("Something went wrong. Please try again.")

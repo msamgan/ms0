@@ -162,10 +162,38 @@ test('authenticated user can view their links ordered by created_at descending',
     $response->assertStatus(200)
         ->assertInertia(fn (Assert $page) => $page
             ->component('Links')
-            ->has('links', 2)
-            ->where('links.0.id', $secondLink->id)
-            ->where('links.1.id', $firstLink->id)
         );
+
+    $serviceResponse = $this->actingAs($user)
+        ->postJson('/service/links');
+
+    $serviceResponse->assertStatus(200)
+        ->assertJsonCount(2, 'links.data')
+        ->assertJsonPath('links.data.0.id', $secondLink->id)
+        ->assertJsonPath('links.data.1.id', $firstLink->id);
+});
+
+test('authenticated user can search and filter their links via service endpoint', function () {
+    $user = User::factory()->create();
+    $targetLink = Hyperlink::factory()->create([
+        'user_id' => $user->id,
+        'url' => 'https://example.com/target-page',
+        'shot_slug' => 'target-slug',
+    ]);
+    $otherLink = Hyperlink::factory()->create([
+        'user_id' => $user->id,
+        'url' => 'https://other.com/different-page',
+        'shot_slug' => 'other-slug',
+    ]);
+
+    $response = $this->actingAs($user)
+        ->postJson('/service/links', [
+            'search' => 'target',
+        ]);
+
+    $response->assertStatus(200)
+        ->assertJsonCount(1, 'links.data')
+        ->assertJsonPath('links.data.0.id', $targetLink->id);
 });
 
 test('authenticated user can regenerate their token', function () {

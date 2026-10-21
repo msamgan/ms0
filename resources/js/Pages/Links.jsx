@@ -4,14 +4,61 @@ import Dropdown from "@/Components/Dropdown"
 import Modal from "@/Components/Modal"
 import DangerButton from "@/Components/DangerButton"
 import SecondaryButton from "@/Components/SecondaryButton"
-import { Head, Link, router } from "@inertiajs/react"
+import { Head } from "@inertiajs/react"
 import { useEffect, useState } from "react"
+import axios from "axios"
 
-export default function Links({ links: paginator = {}, stats = {}, filters = {}, auth }) {
-    const [search, setSearch] = useState(filters.search ?? "")
+export default function Links({ auth }) {
+    const [linksData, setLinksData] = useState(null)
+    const [linksError, setLinksError] = useState("")
+    const [loading, setLoading] = useState(false)
+    const [search, setSearch] = useState("")
     const [confirmingLinkDeletion, setConfirmingLinkDeletion] = useState(false)
     const [linkToDelete, setLinkToDelete] = useState(null)
     const [deleting, setDeleting] = useState(false)
+    const [notification, setNotification] = useState({})
+    const [animateTable, setAnimateTable] = useState(false)
+
+    const fetchLinks = (pageNumber = 1, searchQuery = search) => {
+        setLoading(true)
+        axios
+            .post(route("service.links", { page: pageNumber }), {
+                search: searchQuery.trim() || undefined
+            })
+            .then(({ data }) => {
+                setLinksData(data)
+                setLinksError("")
+            })
+            .catch(() => {
+                setLinksError("Links data could not be loaded. Please refresh the page.")
+            })
+            .finally(() => {
+                setLoading(false)
+            })
+    }
+
+    useEffect(() => {
+        setAnimateTable(true)
+        let isMounted = true
+
+        axios
+            .post(route("service.links"), {})
+            .then(({ data }) => {
+                if (isMounted) {
+                    setLinksData(data)
+                    setLinksError("")
+                }
+            })
+            .catch(() => {
+                if (isMounted) {
+                    setLinksError("Links data could not be loaded. Please refresh the page.")
+                }
+            })
+
+        return () => {
+            isMounted = false
+        }
+    }, [])
 
     const confirmLinkDeletion = (link) => {
         setLinkToDelete(link)
@@ -29,38 +76,35 @@ export default function Links({ links: paginator = {}, stats = {}, filters = {},
         if (!linkToDelete) return
 
         setDeleting(true)
-        router.delete(route("links.destroy", linkToDelete.id), {
-            preserveScroll: true,
-            onSuccess: () => {
+        axios
+            .delete(route("links.destroy", linkToDelete.id))
+            .then(() => {
                 setConfirmingLinkDeletion(false)
                 setLinkToDelete(null)
-            },
-            onFinish: () => {
+                fetchLinks(paginator.current_page || 1, search)
+            })
+            .catch(() => {
+                setLinksError("Failed to delete link. Please try again.")
+            })
+            .finally(() => {
                 setDeleting(false)
-            }
-        })
+            })
     }
 
     const submitSearch = (e) => {
         e.preventDefault()
-        router.get(
-            route("links"),
-            { search: search.trim() || undefined },
-            { preserveState: true, preserveScroll: true, replace: true }
-        )
+        fetchLinks(1, search)
     }
+
+    const paginator = linksData?.links ?? {}
+    const stats = linksData?.stats ?? {}
+    const filters = linksData?.filters ?? {}
     const links = paginator.data ?? []
     const pageLinks = paginator.links ?? []
-    const [notification, setNotification] = useState({})
-    const [animateTable, setAnimateTable] = useState(false)
 
-    useEffect(() => {
-        setAnimateTable(true)
-    }, [])
-
-    const totalLinks = stats.total ?? 0
+    const totalLinks = stats.total ?? (linksData ? 0 : "--")
     const activeLinks = totalLinks
-    const totalVisits = stats.visits ?? 0
+    const totalVisits = stats.visits ?? (linksData ? 0 : "--")
 
     const copyToClipboard = async (url, id) => {
         try {
@@ -173,12 +217,21 @@ export default function Links({ links: paginator = {}, stats = {}, filters = {},
                                 </p>
                             </div>
 
-                            <UrlShortener />
+                            <UrlShortener onSuccess={() => fetchLinks(1, search)} />
                         </div>
                     </div>
                 </section>
 
                 <section className="mx-auto max-w-grid px-6 md:px-10 lg:px-16 py-12 md:py-20">
+                    {linksError && (
+                        <p
+                            className="mb-6 border border-line bg-paper p-4 font-mono text-sm text-accent-dark"
+                            role="alert"
+                        >
+                            {linksError}
+                        </p>
+                    )}
+
                     <form onSubmit={submitSearch} className="mb-6 flex gap-2 sm:max-w-lg">
                         <input
                             type="search"
@@ -190,12 +243,18 @@ export default function Links({ links: paginator = {}, stats = {}, filters = {},
                         />
                         <button
                             type="submit"
-                            className="border border-ink bg-ink px-5 py-3 font-mono text-[11px] uppercase tracking-[0.18em] text-paper hover:bg-paper hover:text-ink"
+                            disabled={loading}
+                            className="border border-ink bg-ink px-5 py-3 font-mono text-[11px] uppercase tracking-[0.18em] text-paper hover:bg-paper hover:text-ink disabled:opacity-50 transition-colors"
                         >
-                            Search
+                            {loading ? "Searching..." : "Search"}
                         </button>
                     </form>
-                    {links.length === 0 ? (
+
+                    {linksData === null ? (
+                        <div className="border border-line bg-paper px-6 py-12 text-center">
+                            <p className="font-grotesk text-xl text-ink">Loading links...</p>
+                        </div>
+                    ) : links.length === 0 ? (
                         <div className="border border-line bg-paper px-6 py-12 text-center">
                             <p className="font-grotesk text-xl text-ink">
                                 {filters.search ? "No links match your search." : "No links created yet."}
@@ -405,19 +464,28 @@ export default function Links({ links: paginator = {}, stats = {}, filters = {},
                                                     </span>
                                                 )
                                             }
+
+                                            let pageNum = 1
+                                            try {
+                                                const parsedUrl = new URL(item.url, window.location.origin)
+                                                pageNum = parsedUrl.searchParams.get("page") || 1
+                                            } catch {
+                                                pageNum = 1
+                                            }
+
                                             return (
-                                                <Link
+                                                <button
+                                                    type="button"
                                                     key={i}
-                                                    href={item.url}
-                                                    preserveScroll
+                                                    onClick={() => fetchLinks(pageNum, search)}
                                                     className={`${base} ${
                                                         item.active
                                                             ? "border-ink bg-ink text-paper"
-                                                            : "border-line text-ink hover:border-ink"
+                                                            : "border-line text-ink hover:border-ink hover:bg-white"
                                                     }`}
                                                 >
                                                     {label}
-                                                </Link>
+                                                </button>
                                             )
                                         })}
                                     </nav>
@@ -438,73 +506,43 @@ export default function Links({ links: paginator = {}, stats = {}, filters = {},
                                 fill="none"
                                 viewBox="0 0 24 24"
                                 stroke="currentColor"
+                                strokeWidth={2}
                             >
                                 <path
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
-                                    strokeWidth={2}
                                     d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
                                 />
                             </svg>
                         </div>
-                        <h2 className="font-editorial text-2xl text-ink">Delete Short Link</h2>
+                        <div>
+                            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-accent">
+                                Confirm deletion
+                            </p>
+                            <h3 className="font-editorial text-2xl text-ink">Delete link</h3>
+                        </div>
                     </div>
 
-                    <div className="mb-6 space-y-3">
-                        <p className="text-sm text-muted">
-                            Are you sure you want to delete this shortened link? Anyone using it will no longer
-                            be redirected, and this action cannot be undone.
-                        </p>
+                    <p className="font-grotesk text-sm text-muted">
+                        Are you sure you want to delete this short link? Any traffic to this URL will no longer
+                        be redirected. This action cannot be undone.
+                    </p>
 
-                        {linkToDelete && (
-                            <div className="border border-line bg-white/70 p-3 space-y-1.5 text-xs">
-                                <div className="flex items-center gap-2">
-                                    <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted">
-                                        Short link:
-                                    </span>
-                                    <span className="font-mono font-semibold text-ink">
-                                        {linkToDelete.shortened_url}
-                                    </span>
-                                </div>
-                                <div className="flex items-baseline gap-2">
-                                    <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted">
-                                        Target:
-                                    </span>
-                                    <span className="truncate font-grotesk text-muted">{linkToDelete.url}</span>
-                                </div>
-                            </div>
-                        )}
-                    </div>
+                    {linkToDelete && (
+                        <div className="my-4 border border-line bg-white p-3 font-mono text-xs">
+                            <div className="text-muted">Target:</div>
+                            <div className="truncate text-ink">{linkToDelete.url}</div>
+                            <div className="mt-1 text-muted">Short:</div>
+                            <div className="text-accent">{linkToDelete.shot_slug}</div>
+                        </div>
+                    )}
 
-                    <div className="flex justify-end gap-3">
-                        <SecondaryButton
-                            onClick={closeDeleteModal}
-                            disabled={deleting}
-                            className="border border-line bg-paper px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-ink hover:bg-ink hover:text-paper"
-                        >
+                    <div className="mt-6 flex justify-end gap-3">
+                        <SecondaryButton onClick={closeDeleteModal} disabled={deleting}>
                             Cancel
                         </SecondaryButton>
-
-                        <DangerButton
-                            onClick={deleteLink}
-                            disabled={deleting}
-                            className="flex items-center border border-accent bg-accent px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-paper hover:bg-accent-dark focus:ring-accent"
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="mr-1.5 h-4 w-4"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                                />
-                            </svg>
-                            {deleting ? "Deleting..." : "Delete Link"}
+                        <DangerButton onClick={deleteLink} disabled={deleting}>
+                            {deleting ? "Deleting…" : "Delete link"}
                         </DangerButton>
                     </div>
                 </div>

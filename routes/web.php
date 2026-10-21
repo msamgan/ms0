@@ -16,11 +16,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('/links', [HyperlinkController::class, 'links'])->name('links');
+    Route::inertia('/links', 'Links')->name('links');
     Route::delete('/links/{hyperlink}', [HyperlinkController::class, 'destroy'])->name('links.destroy');
 
     Route::group(['prefix' => 'service'], function () {
         Route::post('dashboard', [DashboardController::class, '__invoke'])->name('service.dashboard');
+        Route::post('links', [HyperlinkController::class, 'links'])->name('service.links');
         Route::post('regenerate-token', [HyperlinkController::class, 'regenerateToken'])->name('service.regenerate-token');
     });
 });
