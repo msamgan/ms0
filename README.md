@@ -1,10 +1,10 @@
 <p align="center">
-    <img src="https://ms0.org/ms0_logo.png" alt="ms0 logo" width="180">
+    <img src="public/301ping.svg" alt="301 Ping logo" width="360">
 </p>
 
-# ms0
+# 301 Ping
 
-ms0 (301 Ping) is a URL shortener. Create short links from the web app or the authenticated API, then manage your links and track visits from your account.
+301 Ping is a URL shortener. Create short links from the web app or authenticated API, then manage your links and track visits from your account.
 
 ## Features
 
