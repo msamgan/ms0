@@ -13,9 +13,11 @@ Route::inertia('/', 'Welcome', [
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('/dashboard', 'Dashboard')->name('dashboard');
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::inertia('/profile', 'Profile/Edit', [
+        'mustVerifyEmail' => true,
+        'status' => session('status'),
+    ])->name('profile.edit');
+
     Route::inertia('/links', 'Links')->name('links');
 
     Route::group(['prefix' => 'service'], function () {
@@ -23,6 +25,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('links', [HyperlinkController::class, 'links'])->name('service.links');
         Route::post('regenerate-token', [HyperlinkController::class, 'regenerateToken'])->name('service.regenerate-token');
         Route::delete('/links/{hyperlink}', [HyperlinkController::class, 'destroy'])->name('links.destroy');
+        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     });
 });
 
