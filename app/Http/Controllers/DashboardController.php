@@ -13,7 +13,7 @@ class DashboardController extends Controller
      */
     public function __invoke(Request $request)
     {
-        return Inertia::render('Dashboard', [
+        return response()->json([
             'token' => auth()->user()->access_token,
             'linkCount' => Hyperlink::query()->where('user_id', auth()->id())->count(),
             'visits' => Hyperlink::query()->where('user_id', auth()->id())->sum('visits'),

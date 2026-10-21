@@ -6,36 +6,29 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'isAuthenticated' => auth()->check(),
-        'user' => auth()->user() ?? null,
-    ]);
-})->name('home');
+Route::inertia('/', 'Welcome', [
+    'isAuthenticated' => auth()->check(),
+    'user' => auth()->user() ?? null,
+])->name('home');
 
-Route::get('/dashboard', [DashboardController::class, '__invoke'])
-    ->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::inertia('/dashboard', 'Dashboard')->name('dashboard');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-    Route::post('/service/regenerate-token', [HyperlinkController::class, 'regenerateToken'])->name('service.regenerate-token');
-
     Route::get('/links', [HyperlinkController::class, 'links'])->name('links');
     Route::delete('/links/{hyperlink}', [HyperlinkController::class, 'destroy'])->name('links.destroy');
+
+    Route::group(['prefix' => 'service'], function () {
+        Route::post('dashboard', [DashboardController::class, '__invoke'])->name('service.dashboard');
+        Route::post('regenerate-token', [HyperlinkController::class, 'regenerateToken'])->name('service.regenerate-token');
+    });
 });
 
 require __DIR__ . '/auth.php';
 
-Route::get('/documentation/api', function () {
-    return Inertia::render('ApiDocumentation');
-})->name('documentation.api');
-
-Route::get('/privacy', function () {
-    return Inertia::render('Privacy');
-})->name('privacy');
+Route::inertia('/documentation/api', 'ApiDocumentation')->name('documentation.api');
+Route::inertia('/privacy', 'Privacy')->name('privacy');
 
 Route::post('/service/shorten', [HyperlinkController::class, 'store'])->name('service.shorten');
 

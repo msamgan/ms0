@@ -21,14 +21,37 @@ const StatIcon = ({ type }) => {
     )
 }
 
-export default function Dashboard({ auth, token, linkCount, visits }) {
+export default function Dashboard({ auth }) {
+    const [dashboardData, setDashboardData] = useState(null)
+    const [dashboardError, setDashboardError] = useState("")
     const [notification, setNotification] = useState("Click to copy token")
     const [isTokenVisible, setIsTokenVisible] = useState(false)
     const [animateStats, setAnimateStats] = useState(false)
 
     useEffect(() => {
         setAnimateStats(true)
+
+        let isMounted = true
+
+        axios
+            .post(route("service.dashboard"), {})
+            .then(({ data }) => {
+                if (isMounted) setDashboardData(data)
+            })
+            .catch(() => {
+                if (isMounted) {
+                    setDashboardError("Dashboard data could not be loaded. Please refresh the page.")
+                }
+            })
+
+        return () => {
+            isMounted = false
+        }
     }, [])
+
+    const token = dashboardData?.token ?? ""
+    const linkCount = dashboardData?.linkCount
+    const visits = dashboardData?.visits
 
     const maskToken = (value) => {
         if (!value) return ""
@@ -55,11 +78,16 @@ export default function Dashboard({ auth, token, linkCount, visits }) {
     }
 
     const stats = [
-        { label: "Active links", value: linkCount, suffix: "total", type: "links" },
-        { label: "Total visits", value: visits, suffix: "clicks", type: "visits" },
+        { label: "Active links", value: linkCount ?? "--", suffix: "total", type: "links" },
+        { label: "Total visits", value: visits ?? "--", suffix: "clicks", type: "visits" },
         {
             label: "Average reach",
-            value: linkCount > 0 ? Math.round((visits / linkCount) * 10) / 10 : 0,
+            value:
+                linkCount === undefined || visits === undefined
+                    ? "--"
+                    : linkCount > 0
+                      ? Math.round((visits / linkCount) * 10) / 10
+                      : 0,
             suffix: "per link",
             type: "average"
         },
@@ -158,6 +186,14 @@ export default function Dashboard({ auth, token, linkCount, visits }) {
                             </div>
 
                             <div className="lg:col-span-8 border-t border-line">
+                                {dashboardError && (
+                                    <p
+                                        className="border-b border-line py-4 text-sm text-accent-dark"
+                                        role="alert"
+                                    >
+                                        {dashboardError}
+                                    </p>
+                                )}
                                 {stats.map((stat, index) => (
                                     <div
                                         key={stat.label}
@@ -212,6 +248,7 @@ export default function Dashboard({ auth, token, linkCount, visits }) {
                                     <button
                                         type="button"
                                         onClick={() => setIsTokenVisible((visible) => !visible)}
+                                        disabled={!token}
                                         className="self-start sm:self-auto font-mono text-[11px] uppercase tracking-[0.12em] text-ink hover:text-accent-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-accent transition-colors"
                                     >
                                         {isTokenVisible ? "Hide token" : "Show token"}
@@ -221,6 +258,7 @@ export default function Dashboard({ auth, token, linkCount, visits }) {
                                 <button
                                     type="button"
                                     onClick={copyToken}
+                                    disabled={!token}
                                     className="group w-full flex items-center justify-between gap-4 py-6 text-left font-mono text-sm break-all hover:text-accent-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-accent transition-colors"
                                     aria-label="Copy API token"
                                 >
