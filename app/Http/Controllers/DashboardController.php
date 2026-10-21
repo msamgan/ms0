@@ -13,10 +13,15 @@ class DashboardController extends Controller
      */
     public function __invoke(Request $request)
     {
-        return response()->json([
+        return response()->json($this->payload());
+    }
+
+    private function payload(): array
+    {
+        return [
             'token' => auth()->user()->access_token,
             'linkCount' => Hyperlink::query()->where('user_id', auth()->id())->count(),
             'visits' => Hyperlink::query()->where('user_id', auth()->id())->sum('visits'),
-        ]);
+        ];
     }
 }

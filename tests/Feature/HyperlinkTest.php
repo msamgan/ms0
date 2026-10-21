@@ -165,7 +165,7 @@ test('authenticated user can view their links ordered by created_at descending',
         );
 
     $serviceResponse = $this->actingAs($user)
-        ->postJson('/service/links');
+        ->getJson('/service/links');
 
     $serviceResponse->assertStatus(200)
         ->assertJsonCount(2, 'links.data')
@@ -187,9 +187,7 @@ test('authenticated user can search and filter their links via service endpoint'
     ]);
 
     $response = $this->actingAs($user)
-        ->postJson('/service/links', [
-            'search' => 'target',
-        ]);
+        ->getJson('/service/links?search=target');
 
     $response->assertStatus(200)
         ->assertJsonCount(1, 'links.data')

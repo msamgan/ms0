@@ -34,7 +34,7 @@ export default function Dashboard({ auth }) {
         let isMounted = true
 
         axios
-            .post(route("service.dashboard"), {})
+            .get(route("service.dashboard"))
             .then(({ data }) => {
                 if (isMounted) setDashboardData(data)
             })

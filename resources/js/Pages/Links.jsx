@@ -22,8 +22,11 @@ export default function Links({ auth }) {
     const fetchLinks = (pageNumber = 1, searchQuery = search) => {
         setLoading(true)
         axios
-            .post(route("service.links", { page: pageNumber }), {
-                search: searchQuery.trim() || undefined
+            .get(route("service.links"), {
+                params: {
+                    page: pageNumber,
+                    search: searchQuery.trim() || undefined
+                }
             })
             .then(({ data }) => {
                 setLinksData(data)
@@ -39,25 +42,7 @@ export default function Links({ auth }) {
 
     useEffect(() => {
         setAnimateTable(true)
-        let isMounted = true
-
-        axios
-            .post(route("service.links"), {})
-            .then(({ data }) => {
-                if (isMounted) {
-                    setLinksData(data)
-                    setLinksError("")
-                }
-            })
-            .catch(() => {
-                if (isMounted) {
-                    setLinksError("Links data could not be loaded. Please refresh the page.")
-                }
-            })
-
-        return () => {
-            isMounted = false
-        }
+        fetchLinks()
     }, [])
 
     const confirmLinkDeletion = (link) => {

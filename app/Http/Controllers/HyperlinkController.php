@@ -24,6 +24,11 @@ class HyperlinkController extends Controller
 
     public function links(Request $request): JsonResponse
     {
+        return response()->json($this->linksPayload($request));
+    }
+
+    private function linksPayload(Request $request): array
+    {
         $query = Hyperlink::query()->where('user_id', auth()->id());
         $search = trim((string) $request->input('search', ''));
 
@@ -32,7 +37,7 @@ class HyperlinkController extends Controller
             $q->where(fn ($w) => $w->where('url', 'like', $term)->orWhere('shot_slug', 'like', $term));
         });
 
-        return response()->json([
+        return [
             'filters' => ['search' => $search],
             'stats' => [
                 'total' => (clone $query)->count(),
@@ -49,7 +54,7 @@ class HyperlinkController extends Controller
                     'status' => 'Active',
                 ];
             }),
-        ]);
+        ];
     }
 
     /**

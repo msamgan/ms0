@@ -20,8 +20,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/links/{hyperlink}', [HyperlinkController::class, 'destroy'])->name('links.destroy');
 
     Route::group(['prefix' => 'service'], function () {
-        Route::post('dashboard', [DashboardController::class, '__invoke'])->name('service.dashboard');
-        Route::post('links', [HyperlinkController::class, 'links'])->name('service.links');
+        Route::get('dashboard', [DashboardController::class, '__invoke'])->name('service.dashboard');
+        Route::get('links', [HyperlinkController::class, 'links'])->name('service.links');
         Route::post('regenerate-token', [HyperlinkController::class, 'regenerateToken'])->name('service.regenerate-token');
     });
 });
