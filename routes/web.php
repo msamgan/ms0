@@ -16,6 +16,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     ])->name('profile.edit');
 
     Route::inertia('/links', 'Links')->name('links');
+    Route::inertia('/tags', 'Tags')->name('tags');
 });
 
 require __DIR__ . '/auth.php';
