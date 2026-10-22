@@ -16,6 +16,10 @@ const FEATURES = [
     {
         title: "Analytics",
         body: "Detailed insights and click tracking to understand your audience."
+    },
+    {
+        title: "Link tags",
+        body: "Keep related short links organized with simple, reusable tags."
     }
 ]
 
@@ -35,7 +39,7 @@ export default function Features() {
                     Built for the essentials, nothing else.
                 </Reveal>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-t border-line divide-y divide-line sm:divide-y-0 lg:divide-x">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 border-t border-line divide-y divide-line sm:divide-y-0 lg:divide-x">
                     {FEATURES.map((feature, index) => (
                         <Reveal
                             key={feature.title}
