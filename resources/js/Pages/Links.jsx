@@ -5,6 +5,7 @@ import Modal from "@/Components/Modal"
 import LinkTags from "@/Components/LinkTags"
 import DangerButton from "@/Components/DangerButton"
 import SecondaryButton from "@/Components/SecondaryButton"
+import { downloadQrCodeWithLogo } from "@/Utils/qrCode"
 import { Head } from "@inertiajs/react"
 import { useEffect, useState } from "react"
 import axios from "axios"
@@ -18,6 +19,7 @@ export default function Links({ auth }) {
     const [confirmingLinkDeletion, setConfirmingLinkDeletion] = useState(false)
     const [linkToDelete, setLinkToDelete] = useState(null)
     const [deleting, setDeleting] = useState(false)
+    const [downloadingQrId, setDownloadingQrId] = useState(null)
     const [notification, setNotification] = useState({})
     const [animateTable, setAnimateTable] = useState(false)
 
@@ -96,6 +98,19 @@ export default function Links({ auth }) {
             .finally(() => {
                 setDeleting(false)
             })
+    }
+
+    const downloadQrCode = async (link) => {
+        try {
+            setDownloadingQrId(link.id)
+            const targetUrl = link.shortened_url || link.url
+            const filename = `${link.shot_slug || "link"}-qrcode.png`
+            await downloadQrCodeWithLogo(targetUrl, filename, "/favicon.svg")
+        } catch (error) {
+            console.error("Failed to generate and download QR code", error)
+        } finally {
+            setDownloadingQrId(null)
+        }
     }
 
     const submitSearch = (e) => {
@@ -430,9 +445,42 @@ export default function Links({ auth }) {
                                                                     </Dropdown.Trigger>
                                                                     <Dropdown.Content
                                                                         align="right"
-                                                                        width="36"
-                                                                        contentClasses="bg-paper shadow-lg"
+                                                                        width="64"
+                                                                        contentClasses="bg-paper shadow-lg divide-y divide-line"
                                                                     >
+                                                                        <button
+                                                                            type="button"
+                                                                            onClick={() => downloadQrCode(link)}
+                                                                            disabled={
+                                                                                downloadingQrId === link.id
+                                                                            }
+                                                                            className="flex w-full items-center gap-2 px-4 py-2.5 text-left font-grotesk text-xs uppercase tracking-[0.08em] font-semibold text-ink transition-colors hover:bg-neutral-100 focus:bg-neutral-100 focus:outline-none disabled:opacity-50"
+                                                                        >
+                                                                            <svg
+                                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                                className="h-4 w-4 flex-shrink-0 text-ink"
+                                                                                fill="none"
+                                                                                viewBox="0 0 24 24"
+                                                                                stroke="currentColor"
+                                                                                strokeWidth={1.8}
+                                                                            >
+                                                                                <path
+                                                                                    strokeLinecap="round"
+                                                                                    strokeLinejoin="round"
+                                                                                    d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0 1 3.75 9.375v-4.5ZM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 0 1-1.125-1.125v-4.5ZM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0 1 13.5 9.375v-4.5Z"
+                                                                                />
+                                                                                <path
+                                                                                    strokeLinecap="round"
+                                                                                    strokeLinejoin="round"
+                                                                                    d="M6.75 6.75h.008v.008H6.75V6.75ZM6.75 16.5h.008v.008H6.75V16.5ZM16.5 6.75h.008v.008H16.5V6.75ZM13.5 13.5h3v3h-3v-3ZM16.5 16.5h3v3h-3v-3ZM13.5 19.5h3v.75h-3v-.75ZM19.5 13.5h.75v3h-.75v-3Z"
+                                                                                />
+                                                                            </svg>
+                                                                            <span>
+                                                                                {downloadingQrId === link.id
+                                                                                    ? "Downloading..."
+                                                                                    : "Download QR code"}
+                                                                            </span>
+                                                                        </button>
                                                                         <button
                                                                             type="button"
                                                                             onClick={() =>
