@@ -16,6 +16,7 @@ export default function Header({ isAuthenticated = false, user = null }) {
         { key: "home", href: route("home"), label: "Home", show: true },
         { key: "dashboard", href: route("dashboard"), label: "Dashboard", show: isAuthenticated },
         { key: "links", href: route("links"), label: "Links", show: isAuthenticated },
+        { key: "tags", href: route("tags"), label: "Tags", show: isAuthenticated },
         { key: "register", href: route("register"), label: "Register", show: !isAuthenticated },
         { key: "login", href: route("login"), label: "Login", show: !isAuthenticated },
         {

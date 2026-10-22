@@ -2,6 +2,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx"
 import UrlShortener from "@/Components/Home/UrlShortener"
 import Dropdown from "@/Components/Dropdown"
 import Modal from "@/Components/Modal"
+import LinkTags from "@/Components/LinkTags"
 import DangerButton from "@/Components/DangerButton"
 import SecondaryButton from "@/Components/SecondaryButton"
 import { Head } from "@inertiajs/react"
@@ -307,6 +308,7 @@ export default function Links({ auth }) {
                                                             >
                                                                 {link.url}
                                                             </a>
+                                                            <LinkTags linkId={link.id} initialTags={link.tags ?? []} />
                                                         </td>
 
                                                         <td className="px-5 py-5 align-top">

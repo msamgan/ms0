@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * @method static create(array $array)
@@ -31,4 +33,22 @@ class Hyperlink extends Model
     ];
 
     protected $keyType = 'string';
+
+    /**
+     * Get the user that owns the hyperlink.
+     *
+     * @return BelongsTo<User, Hyperlink>
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * @return BelongsToMany<Tag, Hyperlink>
+     */
+    public function tags(): BelongsToMany
+    {
+        return $this->belongsToMany(Tag::class, 'hyperlink_tag')->withTimestamps();
+    }
 }

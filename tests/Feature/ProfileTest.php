@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Hyperlink;
 use App\Models\User;
 
 test('profile page is displayed', function () {
@@ -65,6 +66,28 @@ test('user can delete their account', function () {
 
     $this->assertGuest();
     $this->assertNull($user->fresh());
+});
+
+test('deleting user deletes their hyperlinks', function () {
+    $user = User::factory()->create();
+    $hyperlink = Hyperlink::factory()->create([
+        'user_id' => $user->id,
+    ]);
+
+    $response = $this
+        ->actingAs($user)
+        ->delete('/profile', [
+            'password' => 'password',
+        ]);
+
+    $response
+        ->assertSessionHasNoErrors()
+        ->assertRedirect('/');
+
+    $this->assertNull($user->fresh());
+    $this->assertDatabaseMissing('hyperlinks', [
+        'id' => $hyperlink->id,
+    ]);
 });
 
 test('correct password must be provided to delete account', function () {
