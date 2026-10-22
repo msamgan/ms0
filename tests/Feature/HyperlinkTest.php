@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Hyperlink;
+use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia as Assert;
@@ -253,5 +254,26 @@ test('guest cannot delete a link', function () {
     $response->assertRedirect('/login');
     $this->assertDatabaseHas('hyperlinks', [
         'id' => $link->id,
+    ]);
+});
+
+test('authenticated user can detach a tag from a link using its slug', function () {
+    $user = User::factory()->create();
+    $link = Hyperlink::factory()->create(['user_id' => $user->id]);
+    $tag = Tag::factory()->create([
+        'user_id' => $user->id,
+        'name' => 'Project Alpha',
+    ]);
+    $link->tags()->attach($tag);
+
+    $response = $this->actingAs($user)
+        ->deleteJson("/service/links/{$link->id}/tags/{$tag->slug}");
+
+    $response->assertOk()
+        ->assertJson(['status' => true]);
+
+    $this->assertDatabaseMissing('hyperlink_tag', [
+        'hyperlink_id' => $link->id,
+        'tag_id' => $tag->id,
     ]);
 });

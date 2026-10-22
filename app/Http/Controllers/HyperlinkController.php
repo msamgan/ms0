@@ -6,6 +6,7 @@ use App\Http\Requests\StoreHyperlinkRequest;
 use App\Http\Requests\UpdateHyperlinkRequest;
 use App\Methods;
 use App\Models\Hyperlink;
+use App\Models\Tag;
 use App\Shortener;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -43,7 +44,7 @@ class HyperlinkController extends Controller
                 'total' => (clone $query)->count(),
                 'visits' => (int) (clone $query)->sum('visits'),
             ],
-            'links' => $listing->orderBy('created_at', 'desc')->orderBy('id', 'desc')->paginate(20)->withQueryString()->through(function ($link) {
+            'links' => $listing->with('tags')->orderBy('created_at', 'desc')->orderBy('id', 'desc')->paginate(20)->withQueryString()->through(function ($link) {
                 return [
                     'id' => $link->id,
                     'url' => $link->url,
@@ -52,6 +53,11 @@ class HyperlinkController extends Controller
                     'last_visit' => date('F, d Y', strtotime($link->last_visit)),
                     'shortened_url' => url('/' . $link->shot_slug),
                     'status' => 'Active',
+                    'tags' => $link->tags->map(fn ($tag) => [
+                        'id' => $tag->id,
+                        'name' => $tag->name,
+                        'slug' => $tag->slug,
+                    ])->values(),
                 ];
             }),
         ];
@@ -161,6 +167,36 @@ class HyperlinkController extends Controller
         }
 
         return redirect()->back();
+    }
+
+    public function attachTag(Request $request, Hyperlink $hyperlink): JsonResponse
+    {
+        if ($hyperlink->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $name = trim((string) $request->validate(['name' => ['required', 'string', 'max:255']])['name']);
+
+        $tag = Tag::query()->where('user_id', auth()->id())->where('name', $name)->first()
+            ?? Tag::create(['user_id' => auth()->id(), 'name' => $name]);
+
+        $hyperlink->tags()->syncWithoutDetaching([$tag->id]);
+
+        return response()->json([
+            'status' => true,
+            'tag' => ['id' => $tag->id, 'name' => $tag->name, 'slug' => $tag->slug],
+        ]);
+    }
+
+    public function detachTag(Hyperlink $hyperlink, Tag $tag): JsonResponse
+    {
+        if ($hyperlink->user_id !== auth()->id() || $tag->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $hyperlink->tags()->detach($tag->id);
+
+        return response()->json(['status' => true]);
     }
 
     /**
