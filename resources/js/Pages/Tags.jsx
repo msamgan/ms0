@@ -4,7 +4,7 @@ import Dropdown from "@/Components/Dropdown"
 import Modal from "@/Components/Modal"
 import DangerButton from "@/Components/DangerButton"
 import SecondaryButton from "@/Components/SecondaryButton"
-import { Head } from "@inertiajs/react"
+import { Head, Link } from "@inertiajs/react"
 import { useEffect, useState } from "react"
 import axios from "axios"
 
@@ -397,6 +397,26 @@ export default function Tags({ auth }) {
                                                                     width="36"
                                                                     contentClasses="bg-paper shadow-lg"
                                                                 >
+                                                                    <Link
+                                                                        href={`${route("links")}?tag=${encodeURIComponent(tag.slug)}`}
+                                                                        className="flex w-full items-center gap-2 px-4 py-2.5 text-left font-grotesk text-xs uppercase tracking-[0.08em] font-semibold text-ink transition-colors hover:bg-white focus:bg-white focus:outline-none"
+                                                                    >
+                                                                        <svg
+                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                            className="h-4 w-4 flex-shrink-0"
+                                                                            fill="none"
+                                                                            viewBox="0 0 24 24"
+                                                                            stroke="currentColor"
+                                                                            strokeWidth={1.8}
+                                                                        >
+                                                                            <path
+                                                                                strokeLinecap="round"
+                                                                                strokeLinejoin="round"
+                                                                                d="M10 13a5 5 0 007.07 0l3-3a5 5 0 00-7.07-7.07l-1.72 1.71M14 11a5 5 0 00-7.07 0l-3 3A5 5 0 0011 21.07l1.71-1.71"
+                                                                            />
+                                                                        </svg>
+                                                                        <span>Links</span>
+                                                                    </Link>
                                                                     <button
                                                                         type="button"
                                                                         onClick={() => openEdit(tag)}
