@@ -4,6 +4,7 @@ import Footer from "@/Components/Footer.jsx"
 import Hero from "@/Components/Home/Hero"
 import BrowserExtension from "@/Components/Home/BrowserExtension"
 import Features from "@/Components/Home/Features"
+import QRCodeFeature from "@/Components/Home/QRCodeFeature"
 import Process from "@/Components/Home/Process"
 import AccountPanel from "@/Components/Home/AccountPanel"
 
@@ -32,6 +33,7 @@ export default function Welcome() {
                 <Hero />
                 <BrowserExtension />
                 <Features />
+                <QRCodeFeature />
                 <Process />
                 <AccountPanel isAuthenticated={isAuthenticated} user={user} />
             </main>

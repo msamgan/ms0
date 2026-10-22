@@ -13,7 +13,7 @@ export default function Process() {
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-10 gap-y-12">
                     <div className="lg:col-span-4">
                         <Reveal className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted mb-8">
-                            04 / Process
+                            05 / Process
                         </Reveal>
                         <Reveal
                             as="h2"
