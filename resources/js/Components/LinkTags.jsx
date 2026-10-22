@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import axios from "axios"
 
-export default function LinkTags({ linkId, initialTags = [] }) {
+export default function LinkTags({ linkId, initialTags = [], onTagClick }) {
     const [tags, setTags] = useState(initialTags)
     const [adding, setAdding] = useState(false)
     const [value, setValue] = useState("")
@@ -83,7 +83,20 @@ export default function LinkTags({ linkId, initialTags = [] }) {
                         key={tag.id}
                         className="inline-flex items-center gap-1 border border-line bg-paper px-2 py-1 font-mono text-[11px] text-ink"
                     >
-                        {tag.name}
+                        {onTagClick ? (
+                            <a
+                                href={`/links?tag=${encodeURIComponent(tag.slug)}`}
+                                onClick={(e) => {
+                                    e.preventDefault()
+                                    onTagClick(tag)
+                                }}
+                                className="hover:text-accent"
+                            >
+                                {tag.name}
+                            </a>
+                        ) : (
+                            tag.name
+                        )}
                         <button
                             type="button"
                             onClick={() => removeTag(tag)}

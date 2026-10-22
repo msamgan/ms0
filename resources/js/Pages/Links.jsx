@@ -14,19 +14,21 @@ export default function Links({ auth }) {
     const [linksError, setLinksError] = useState("")
     const [loading, setLoading] = useState(false)
     const [search, setSearch] = useState("")
+    const [tag, setTag] = useState(() => new URLSearchParams(window.location.search).get("tag") || "")
     const [confirmingLinkDeletion, setConfirmingLinkDeletion] = useState(false)
     const [linkToDelete, setLinkToDelete] = useState(null)
     const [deleting, setDeleting] = useState(false)
     const [notification, setNotification] = useState({})
     const [animateTable, setAnimateTable] = useState(false)
 
-    const fetchLinks = (pageNumber = 1, searchQuery = search) => {
+    const fetchLinks = (pageNumber = 1, searchQuery = search, tagSlug = tag) => {
         setLoading(true)
         axios
             .get(route("service.links"), {
                 params: {
                     page: pageNumber,
-                    search: searchQuery.trim() || undefined
+                    search: searchQuery.trim() || undefined,
+                    tag: tagSlug || undefined
                 }
             })
             .then(({ data }) => {
@@ -45,6 +47,25 @@ export default function Links({ auth }) {
         setAnimateTable(true)
         fetchLinks()
     }, [])
+
+    const filterByTag = (tagSlug) => {
+        setTag(tagSlug)
+        const url = new URL(window.location.href)
+        if (tagSlug) url.searchParams.set("tag", tagSlug)
+        else url.searchParams.delete("tag")
+        window.history.pushState({}, "", url)
+        fetchLinks(1, search, tagSlug)
+    }
+
+    useEffect(() => {
+        const onPopState = () => {
+            const slug = new URLSearchParams(window.location.search).get("tag") || ""
+            setTag(slug)
+            fetchLinks(1, search, slug)
+        }
+        window.addEventListener("popstate", onPopState)
+        return () => window.removeEventListener("popstate", onPopState)
+    }, [search])
 
     const confirmLinkDeletion = (link) => {
         setLinkToDelete(link)
@@ -67,7 +88,7 @@ export default function Links({ auth }) {
             .then(() => {
                 setConfirmingLinkDeletion(false)
                 setLinkToDelete(null)
-                fetchLinks(paginator.current_page || 1, search)
+                fetchLinks(paginator.current_page || 1, search, tag)
             })
             .catch(() => {
                 setLinksError("Failed to delete link. Please try again.")
@@ -79,7 +100,7 @@ export default function Links({ auth }) {
 
     const submitSearch = (e) => {
         e.preventDefault()
-        fetchLinks(1, search)
+        fetchLinks(1, search, tag)
     }
 
     const paginator = linksData?.links ?? {}
@@ -203,7 +224,7 @@ export default function Links({ auth }) {
                                 </p>
                             </div>
 
-                            <UrlShortener onSuccess={() => fetchLinks(1, search)} />
+                            <UrlShortener onSuccess={() => fetchLinks(1, search, tag)} />
                         </div>
                     </div>
                 </section>
@@ -236,6 +257,19 @@ export default function Links({ auth }) {
                         </button>
                     </form>
 
+                    {tag && (
+                        <p className="mb-5 flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
+                            Tag: <span className="text-ink">{tag}</span>
+                            <button
+                                type="button"
+                                onClick={() => filterByTag("")}
+                                className="underline hover:text-accent"
+                            >
+                                Clear
+                            </button>
+                        </p>
+                    )}
+
                     {linksData === null ? (
                         <div className="border border-line bg-paper px-6 py-12 text-center">
                             <p className="font-grotesk text-xl text-ink">Loading links...</p>
@@ -243,10 +277,12 @@ export default function Links({ auth }) {
                     ) : links.length === 0 ? (
                         <div className="border border-line bg-paper px-6 py-12 text-center">
                             <p className="font-grotesk text-xl text-ink">
-                                {filters.search ? "No links match your search." : "No links created yet."}
+                                {filters.search || filters.tag
+                                    ? "No links match your search."
+                                    : "No links created yet."}
                             </p>
                             <p className="mt-2 text-sm text-muted">
-                                {filters.search
+                                {filters.search || filters.tag
                                     ? "Try a different URL or slug."
                                     : "Start by shortening a URL from the home page and it will appear here."}
                             </p>
@@ -308,7 +344,11 @@ export default function Links({ auth }) {
                                                             >
                                                                 {link.url}
                                                             </a>
-                                                            <LinkTags linkId={link.id} initialTags={link.tags ?? []} />
+                                                            <LinkTags
+                                                                linkId={link.id}
+                                                                initialTags={link.tags ?? []}
+                                                                onTagClick={(t) => filterByTag(t.slug)}
+                                                            />
                                                         </td>
 
                                                         <td className="px-5 py-5 align-top">
@@ -464,7 +504,7 @@ export default function Links({ auth }) {
                                                 <button
                                                     type="button"
                                                     key={i}
-                                                    onClick={() => fetchLinks(pageNum, search)}
+                                                    onClick={() => fetchLinks(pageNum, search, tag)}
                                                     className={`${base} ${
                                                         item.active
                                                             ? "border-ink bg-ink text-paper"

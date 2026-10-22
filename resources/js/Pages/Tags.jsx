@@ -95,7 +95,9 @@ export default function Tags({ auth }) {
                 setFormError(
                     errorMessage(
                         error,
-                        editing ? "Failed to update tag. Please try again." : "Something went wrong. Please try again."
+                        editing
+                            ? "Failed to update tag. Please try again."
+                            : "Something went wrong. Please try again."
                     )
                 )
             )

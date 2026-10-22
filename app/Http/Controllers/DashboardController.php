@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Hyperlink;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 
 class DashboardController extends Controller
 {

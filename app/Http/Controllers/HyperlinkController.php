@@ -33,13 +33,17 @@ class HyperlinkController extends Controller
         $query = Hyperlink::query()->where('user_id', auth()->id());
         $search = trim((string) $request->input('search', ''));
 
-        $listing = (clone $query)->when($search !== '', function ($q) use ($search) {
+        $tag = trim((string) $request->input('tag', ''));
+
+        $listing = (clone $query)->when($tag !== '', function ($q) use ($tag) {
+            $q->whereHas('tags', fn ($t) => $t->where('tags.slug', $tag)->where('tags.user_id', auth()->id()));
+        })->when($search !== '', function ($q) use ($search) {
             $term = '%' . addcslashes($search, '%_\\') . '%';
             $q->where(fn ($w) => $w->where('url', 'like', $term)->orWhere('shot_slug', 'like', $term));
         });
 
         return [
-            'filters' => ['search' => $search],
+            'filters' => ['search' => $search, 'tag' => $tag],
             'stats' => [
                 'total' => (clone $query)->count(),
                 'visits' => (int) (clone $query)->sum('visits'),
