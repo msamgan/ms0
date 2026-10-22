@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Hyperlink;
 use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -119,6 +120,9 @@ test('authenticated user can list their tags ordered by created_at descending', 
         'name' => 'Other Tag',
     ]);
 
+    $hyperlink = Hyperlink::factory()->create(['user_id' => $user->id]);
+    $hyperlink->tags()->attach($secondTag);
+
     $response = $this->actingAs($user)->getJson('/service/tags');
 
     $response->assertStatus(200)
@@ -128,7 +132,9 @@ test('authenticated user can list their tags ordered by created_at descending', 
         ])
         ->assertJsonCount(2, 'tags.data')
         ->assertJsonPath('tags.data.0.id', $secondTag->id)
-        ->assertJsonPath('tags.data.1.id', $firstTag->id);
+        ->assertJsonPath('tags.data.0.links_count', 1)
+        ->assertJsonPath('tags.data.1.id', $firstTag->id)
+        ->assertJsonPath('tags.data.1.links_count', 0);
 });
 
 test('authenticated user can search and filter their tags', function () {

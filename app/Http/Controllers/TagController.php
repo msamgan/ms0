@@ -29,7 +29,7 @@ class TagController extends Controller
         $query = Tag::query()->where('user_id', auth()->id());
         $search = trim((string) $request->input('search', ''));
 
-        $listing = (clone $query)->when($search !== '', function ($q) use ($search) {
+        $listing = (clone $query)->withCount(['hyperlinks as links_count'])->when($search !== '', function ($q) use ($search) {
             $term = '%' . addcslashes($search, '%_\\') . '%';
             $q->where(fn ($w) => $w->where('name', 'like', $term)->orWhere('slug', 'like', $term));
         });
@@ -44,6 +44,7 @@ class TagController extends Controller
                     'id' => $tag->id,
                     'name' => $tag->name,
                     'slug' => $tag->slug,
+                    'links_count' => $tag->links_count,
                     'created_at' => $tag->created_at?->format('F, d Y'),
                     'updated_at' => $tag->updated_at?->format('F, d Y'),
                 ];
