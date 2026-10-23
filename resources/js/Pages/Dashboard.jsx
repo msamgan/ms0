@@ -2,8 +2,10 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout"
 import { Head, Link } from "@inertiajs/react"
 import { useEffect, useState } from "react"
 import axios from "axios"
-import alertify from "alertifyjs"
 import ArrowIcon from "@/Components/Home/ArrowIcon"
+import Modal from "@/Components/Modal"
+import SecondaryButton from "@/Components/SecondaryButton"
+import { useToast } from "@/Components/ToastProvider"
 
 const StatIcon = ({ type }) => {
     const paths = {
@@ -24,9 +26,11 @@ const StatIcon = ({ type }) => {
 export default function Dashboard({ auth }) {
     const [dashboardData, setDashboardData] = useState(null)
     const [dashboardError, setDashboardError] = useState("")
-    const [notification, setNotification] = useState("Click to copy token")
     const [isTokenVisible, setIsTokenVisible] = useState(false)
     const [animateStats, setAnimateStats] = useState(false)
+    const [confirmingTokenRegeneration, setConfirmingTokenRegeneration] = useState(false)
+    const [regeneratingToken, setRegeneratingToken] = useState(false)
+    const showToast = useToast()
 
     useEffect(() => {
         setAnimateStats(true)
@@ -59,22 +63,40 @@ export default function Dashboard({ auth }) {
     }
 
     const copyToken = async () => {
-        await navigator.clipboard.writeText(token)
-        setNotification("Copied to clipboard")
-        window.setTimeout(() => setNotification("Click to copy token"), 2000)
+        try {
+            await navigator.clipboard.writeText(token)
+            showToast("Copied to clipboard.", "success")
+        } catch {
+            showToast("Failed to copy token to clipboard.", "error")
+        }
     }
 
     const regenerateToken = () => {
-        alertify
-            .confirm(
-                "Regenerate API token",
-                "This will invalidate the current token. Applications using it will need to be updated.",
-                () => {
-                    axios.post(route("service.regenerate-token"), {}).then(() => window.location.reload())
-                },
-                () => {}
-            )
-            .set("labels", { ok: "Regenerate", cancel: "Cancel" })
+        setConfirmingTokenRegeneration(true)
+    }
+
+    const confirmTokenRegeneration = () => {
+        setConfirmingTokenRegeneration(false)
+        setRegeneratingToken(true)
+        axios
+            .post(route("service.regenerate-token"), {})
+            .then(({ data }) => {
+                showToast(data.message || "Token regenerated successfully.", "success")
+                axios
+                    .get(route("service.dashboard"))
+                    .then(({ data: refreshedData }) => setDashboardData(refreshedData))
+                    .catch(() => {
+                        setDashboardData((current) => (current ? { ...current, token: "" } : current))
+                        setDashboardError(
+                            "Token regenerated, but the new token could not be loaded. Refresh the page to access it."
+                        )
+                        showToast("The new token could not be loaded. Refresh the page to access it.", "error")
+                    })
+            })
+            .catch((err) => {
+                showToast(err.response?.data?.message || "Failed to regenerate token.", "error")
+            })
+            .finally(() => setRegeneratingToken(false))
     }
 
     const stats = [
@@ -270,22 +292,47 @@ export default function Dashboard({ auth }) {
                                         ↗
                                     </span>
                                 </button>
-                                <p className="font-mono text-[11px] text-muted border-t border-line pt-4">
-                                    {notification}
-                                </p>
-
                                 <button
                                     type="button"
                                     onClick={regenerateToken}
-                                    className="group inline-flex items-center gap-3 mt-8 bg-ink px-5 py-3 font-grotesk text-sm font-semibold text-paper hover:bg-accent transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+                                    disabled={regeneratingToken}
+                                    className="group inline-flex items-center gap-3 mt-8 bg-ink px-5 py-3 font-grotesk text-sm font-semibold text-paper hover:bg-accent transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-paper disabled:cursor-not-allowed disabled:opacity-50"
                                 >
-                                    Regenerate token <ArrowIcon />
+                                    {regeneratingToken ? "Regenerating..." : "Regenerate token"} <ArrowIcon />
                                 </button>
                             </div>
                         </div>
                     </div>
                 </section>
             </div>
+
+            <Modal
+                show={confirmingTokenRegeneration}
+                onClose={() => setConfirmingTokenRegeneration(false)}
+                maxWidth="md"
+            >
+                <div className="border-t-4 border-accent bg-paper p-6">
+                    <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-accent">
+                        Confirm token regeneration
+                    </p>
+                    <h3 className="mt-2 font-editorial text-2xl text-ink">Regenerate API token?</h3>
+                    <p className="mb-6 mt-3 font-grotesk text-sm text-muted">
+                        This will invalidate the current token. Applications using it will need to be updated.
+                    </p>
+                    <div className="flex justify-end gap-3">
+                        <SecondaryButton onClick={() => setConfirmingTokenRegeneration(false)}>
+                            Keep Current Token
+                        </SecondaryButton>
+                        <button
+                            type="button"
+                            onClick={confirmTokenRegeneration}
+                            className="inline-flex items-center justify-center border border-accent bg-accent px-5 py-3 font-grotesk text-sm font-semibold uppercase tracking-[0.08em] text-paper transition-colors hover:border-accent-dark hover:bg-accent-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+                        >
+                            Regenerate Token
+                        </button>
+                    </div>
+                </div>
+            </Modal>
         </AuthenticatedLayout>
     )
 }

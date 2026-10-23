@@ -155,21 +155,25 @@ class SubscriptionController extends Controller
     }
 
     /**
-     * Resume a canceled subscription on grace period.
+     * Resume a canceled subscription on grace period or a paused subscription.
      */
     public function resume(Request $request): JsonResponse
     {
         $user = $request->user();
         $subscription = $user->subscription('default');
 
-        if (! $subscription || ! $subscription->onGracePeriod()) {
+        if (! $subscription || (! $subscription->onGracePeriod() && ! $subscription->paused() && ! $subscription->onPausedGracePeriod())) {
             return response()->json([
                 'message' => 'Subscription cannot be resumed because it is not on grace period.',
             ], 422);
         }
 
         try {
-            $subscription->resume();
+            if ($subscription->onGracePeriod()) {
+                $subscription->stopCancelation();
+            } else {
+                $subscription->resume();
+            }
 
             return response()->json([
                 'message' => 'Subscription has been resumed successfully.',

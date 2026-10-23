@@ -2,6 +2,7 @@
 
 use App\Models\User;
 use App\Support\Plans;
+use Illuminate\Support\Facades\Http;
 use Laravel\Paddle\Subscription;
 use Laravel\Paddle\SubscriptionItem;
 
@@ -154,4 +155,70 @@ test('user model subscription helper methods return accurate summaries and tier 
         ->and($summary['tier'])->toBe('Redirect')
         ->and($summary['plan_name'])->toBe('Redirect Monthly')
         ->and($summary['price_id'])->toBe(Plans::REDIRECT_MONTHLY);
+});
+
+test('unauthenticated user cannot resume subscription', function () {
+    $response = $this->postJson('/subscription/resume');
+
+    $response->assertUnauthorized();
+});
+
+test('resume rejects when user has no subscription or is not on grace period', function () {
+    $user = User::factory()->create();
+
+    $response = $this
+        ->actingAs($user)
+        ->postJson('/subscription/resume');
+
+    $response->assertUnprocessable()
+        ->assertJsonFragment(['message' => 'Subscription cannot be resumed because it is not on grace period.']);
+});
+
+test('user can resume subscription when on grace period', function () {
+    config()->set('cashier.api_key', 'test_api_key');
+
+    Http::fake([
+        '*/subscriptions/sub_123456' => Http::response([
+            'data' => [
+                'id' => 'sub_123456',
+                'status' => 'active',
+                'items' => [
+                    [
+                        'price' => [
+                            'id' => Plans::REDIRECT_MONTHLY,
+                        ],
+                        'quantity' => 1,
+                    ],
+                ],
+            ],
+        ], 200),
+    ]);
+
+    $user = User::factory()->create();
+
+    $subscription = Subscription::create([
+        'billable_id' => $user->id,
+        'billable_type' => $user->getMorphClass(),
+        'type' => 'default',
+        'paddle_id' => 'sub_123456',
+        'status' => Subscription::STATUS_ACTIVE,
+        'ends_at' => now()->addDays(14),
+    ]);
+
+    SubscriptionItem::create([
+        'subscription_id' => $subscription->id,
+        'product_id' => 'pro_123',
+        'price_id' => Plans::REDIRECT_MONTHLY,
+        'status' => 'active',
+        'quantity' => 1,
+    ]);
+
+    $response = $this
+        ->actingAs($user)
+        ->postJson('/subscription/resume');
+
+    $response->assertOk()
+        ->assertJsonFragment(['message' => 'Subscription has been resumed successfully.']);
+
+    expect($subscription->fresh()->ends_at)->toBeNull();
 });

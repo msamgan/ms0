@@ -1,12 +1,16 @@
 import { useState, useEffect } from "react"
 import { Link } from "@inertiajs/react"
 import axios from "axios"
-import alertify from "alertifyjs"
+import Modal from "@/Components/Modal"
+import SecondaryButton from "@/Components/SecondaryButton"
+import { useToast } from "@/Components/ToastProvider"
 
 export default function SubscriptionManager({ user, className = "" }) {
     const [subscription, setSubscription] = useState(user?.subscription || null)
     const [loading, setLoading] = useState(false)
     const [actionLoading, setActionLoading] = useState(null)
+    const [confirmingCancellation, setConfirmingCancellation] = useState(false)
+    const showToast = useToast()
 
     const fetchStatus = () => {
         setLoading(true)
@@ -31,36 +35,32 @@ export default function SubscriptionManager({ user, className = "" }) {
                 if (data.url) {
                     window.location.href = data.url
                 } else {
-                    alertify.error("Payment method update URL not available.")
+                    showToast("Payment method update URL not available.", "error")
                 }
             })
             .catch((err) => {
-                alertify.error(err.response?.data?.message || "Failed to load payment method update.")
+                showToast(err.response?.data?.message || "Failed to load payment method update.", "error")
             })
             .finally(() => setActionLoading(null))
     }
 
     const handleCancel = () => {
-        alertify
-            .confirm(
-                "Cancel Subscription",
-                "Are you sure you want to cancel your subscription? You will retain access until the end of your current billing period.",
-                () => {
-                    setActionLoading("cancel")
-                    axios
-                        .post(route("subscription.cancel"))
-                        .then(({ data }) => {
-                            setSubscription(data.subscription)
-                            alertify.success(data.message || "Subscription canceled.")
-                        })
-                        .catch((err) => {
-                            alertify.error(err.response?.data?.message || "Failed to cancel subscription.")
-                        })
-                        .finally(() => setActionLoading(null))
-                },
-                () => {}
-            )
-            .set("labels", { ok: "Cancel Subscription", cancel: "Keep Subscription" })
+        setConfirmingCancellation(true)
+    }
+
+    const confirmCancel = () => {
+        setConfirmingCancellation(false)
+        setActionLoading("cancel")
+        axios
+            .post(route("subscription.cancel"))
+            .then(({ data }) => {
+                setSubscription(data.subscription)
+                showToast(data.message || "Subscription canceled.", "success")
+            })
+            .catch((err) => {
+                showToast(err.response?.data?.message || "Failed to cancel subscription.", "error")
+            })
+            .finally(() => setActionLoading(null))
     }
 
     const handleResume = () => {
@@ -69,10 +69,10 @@ export default function SubscriptionManager({ user, className = "" }) {
             .post(route("subscription.resume"))
             .then(({ data }) => {
                 setSubscription(data.subscription)
-                alertify.success(data.message || "Subscription resumed successfully.")
+                showToast(data.message || "Subscription resumed successfully.", "success")
             })
             .catch((err) => {
-                alertify.error(err.response?.data?.message || "Failed to resume subscription.")
+                showToast(err.response?.data?.message || "Failed to resume subscription.", "error")
             })
             .finally(() => setActionLoading(null))
     }
@@ -175,7 +175,7 @@ export default function SubscriptionManager({ user, className = "" }) {
                                 type="button"
                                 onClick={handleResume}
                                 disabled={actionLoading === "resume"}
-                                className="inline-flex items-center justify-center border border-emerald-600 bg-emerald-600 px-5 py-3 font-grotesk text-sm font-semibold uppercase tracking-[0.08em] text-paper transition-colors hover:bg-emerald-700 hover:border-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="inline-flex items-center justify-center border border-green-800 bg-green-800 px-5 py-3 font-grotesk text-sm font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-green-900 hover:border-green-900 disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 {actionLoading === "resume" ? "Resuming..." : "Resume Subscription"}
                             </button>
@@ -192,6 +192,31 @@ export default function SubscriptionManager({ user, className = "" }) {
                     </div>
                 )}
             </div>
+
+            <Modal show={confirmingCancellation} onClose={() => setConfirmingCancellation(false)} maxWidth="md">
+                <div className="border-t-4 border-accent bg-paper p-6">
+                    <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-accent">
+                        Confirm cancellation
+                    </p>
+                    <h3 className="mt-2 font-editorial text-2xl text-ink">Cancel subscription?</h3>
+                    <p className="mb-6 mt-3 font-grotesk text-sm text-muted">
+                        Are you sure you want to cancel your subscription? You will retain access until the end
+                        of your current billing period.
+                    </p>
+                    <div className="flex justify-end gap-3">
+                        <SecondaryButton onClick={() => setConfirmingCancellation(false)}>
+                            Keep Subscription
+                        </SecondaryButton>
+                        <button
+                            type="button"
+                            onClick={confirmCancel}
+                            className="inline-flex items-center justify-center border border-accent bg-accent px-5 py-3 font-grotesk text-sm font-semibold uppercase tracking-[0.08em] text-paper transition-colors hover:border-accent-dark hover:bg-accent-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                        >
+                            Cancel Subscription
+                        </button>
+                    </div>
+                </div>
+            </Modal>
         </section>
     )
 }

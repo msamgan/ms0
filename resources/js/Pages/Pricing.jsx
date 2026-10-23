@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react"
 import { Head, usePage } from "@inertiajs/react"
 import axios from "axios"
-import alertify from "alertifyjs"
 import Header from "@/Components/Header.jsx"
 import Footer from "@/Components/Footer.jsx"
 import Reveal from "@/Components/Home/Reveal"
+import { useToast } from "@/Components/ToastProvider"
 
 const buildPlans = (plansData = {}) => [
     {
@@ -80,6 +80,7 @@ export default function Pricing({ plans: serverPlans = null }) {
     const [annual, setAnnual] = useState(false)
     const [loadingPlan, setLoadingPlan] = useState(null)
     const [plansData, setPlansData] = useState(serverPlans || pageProps.plans || null)
+    const showToast = useToast()
 
     useEffect(() => {
         if (!plansData) {
@@ -109,14 +110,14 @@ export default function Pricing({ plans: serverPlans = null }) {
 
         const priceId = annual ? plan.priceIds.annual : plan.priceIds.monthly
         if (!priceId) {
-            alertify.error("Plan configuration is not available.")
+            showToast("Plan configuration is not available.", "error")
             return
         }
 
         const isCurrentPlan = user?.subscription?.price_id === priceId
 
         if (isCurrentPlan) {
-            alertify.message("You are already subscribed to this plan.")
+            showToast("You are already subscribed to this plan.")
             return
         }
 
@@ -146,7 +147,7 @@ export default function Pricing({ plans: serverPlans = null }) {
                 setLoadingPlan(null)
                 const message =
                     err.response?.data?.message || "Failed to initialize checkout. Please try again."
-                alertify.error(message)
+                showToast(message, "error")
             })
     }
 
