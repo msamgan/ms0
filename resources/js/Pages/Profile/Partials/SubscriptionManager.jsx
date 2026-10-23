@@ -80,43 +80,65 @@ export default function SubscriptionManager({ user, className = "" }) {
     const isSubscribed = subscription?.is_subscribed
 
     return (
-        <section className={`border border-line bg-paper p-6 sm:p-8 ${className}`}>
-            <header className="border-b border-line pb-4">
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                    <div>
-                        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">03 / Billing</p>
-                        <h2 className="font-editorial text-2xl text-ink">Subscription & Billing</h2>
-                    </div>
-                    {isSubscribed && (
-                        <span
-                            className={`inline-flex items-center px-2.5 py-0.5 font-mono text-xs uppercase tracking-[0.14em] ${
-                                subscription?.on_grace_period
-                                    ? "bg-amber-100 text-amber-800"
-                                    : subscription?.status === "active"
-                                      ? "bg-emerald-100 text-emerald-800"
-                                      : "bg-ink/10 text-ink"
-                            }`}
-                        >
-                            {subscription?.on_grace_period ? "Cancels Soon" : subscription?.status || "Active"}
-                        </span>
-                    )}
+        <section className={className}>
+            <header className="mb-6 flex items-start gap-4">
+                <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center border border-line bg-paper">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5 text-ink"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
+                        />
+                    </svg>
                 </div>
-                <p className="mt-1 text-sm text-muted">
-                    Manage your subscription tier, billing interval, and payment details.
-                </p>
+                <div className="flex-1">
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                        <div>
+                            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
+                                Billing
+                            </p>
+                            <h2 className="mt-2 font-editorial text-3xl text-ink">Subscription & Billing</h2>
+                        </div>
+                        {isSubscribed && (
+                            <span
+                                className={`inline-flex items-center border px-2.5 py-1 font-mono text-[11px] uppercase tracking-[0.14em] ${
+                                    subscription?.on_grace_period
+                                        ? "border-amber-400 bg-amber-50 text-amber-800"
+                                        : subscription?.status === "active"
+                                          ? "border-emerald-500 bg-emerald-50 text-emerald-800"
+                                          : "border-line bg-ink/5 text-ink"
+                                }`}
+                            >
+                                {subscription?.on_grace_period
+                                    ? "Cancels Soon"
+                                    : subscription?.status || "Active"}
+                            </span>
+                        )}
+                    </div>
+                    <p className="mt-2 max-w-lg text-sm text-muted">
+                        Manage your subscription tier, billing interval, and payment details.
+                    </p>
+                </div>
             </header>
 
-            <div className="mt-6 space-y-6">
-                <div className="border border-line bg-paper-subtle p-5">
-                    <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="space-y-6">
+                <div className="border border-line bg-paper p-5 sm:p-6">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                         <div>
                             <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted">
                                 Current Plan
                             </span>
-                            <p className="font-editorial text-2xl text-ink">
+                            <p className="mt-1 font-editorial text-3xl text-ink">
                                 {subscription?.plan_name || (isSubscribed ? "Active Plan" : "Free Plan")}
                             </p>
-                            <p className="mt-1 text-xs text-muted">
+                            <p className="mt-2 max-w-md text-sm text-muted">
                                 {isSubscribed
                                     ? subscription?.on_grace_period
                                         ? `Your subscription will end on ${subscription.ends_at}.`
@@ -129,7 +151,7 @@ export default function SubscriptionManager({ user, className = "" }) {
                         <div>
                             <Link
                                 href={route("pricing")}
-                                className="inline-block border border-ink bg-ink px-4 py-2 font-mono text-xs uppercase tracking-[0.16em] text-paper transition-colors hover:bg-accent-dark hover:border-accent-dark"
+                                className="inline-flex items-center justify-center border border-ink bg-ink px-5 py-3 font-grotesk text-sm font-semibold uppercase tracking-[0.08em] text-paper transition-colors hover:border-accent hover:bg-accent hover:text-paper"
                             >
                                 {isSubscribed ? "Change Plan" : "Upgrade Plan"}
                             </Link>
@@ -143,7 +165,7 @@ export default function SubscriptionManager({ user, className = "" }) {
                             type="button"
                             onClick={handleUpdatePaymentMethod}
                             disabled={actionLoading === "payment-method"}
-                            className="border border-line px-4 py-2 font-mono text-xs uppercase tracking-[0.16em] text-ink transition-colors hover:border-ink hover:text-accent-dark disabled:opacity-50"
+                            className="inline-flex items-center justify-center border border-line bg-paper px-5 py-3 font-grotesk text-sm font-semibold uppercase tracking-[0.08em] text-ink transition-colors hover:border-ink hover:bg-ink hover:text-paper disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             {actionLoading === "payment-method" ? "Loading..." : "Update Payment Method"}
                         </button>
@@ -153,7 +175,7 @@ export default function SubscriptionManager({ user, className = "" }) {
                                 type="button"
                                 onClick={handleResume}
                                 disabled={actionLoading === "resume"}
-                                className="border border-emerald-600 bg-emerald-50 px-4 py-2 font-mono text-xs uppercase tracking-[0.16em] text-emerald-800 transition-colors hover:bg-emerald-100 disabled:opacity-50"
+                                className="inline-flex items-center justify-center border border-emerald-600 bg-emerald-600 px-5 py-3 font-grotesk text-sm font-semibold uppercase tracking-[0.08em] text-paper transition-colors hover:bg-emerald-700 hover:border-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 {actionLoading === "resume" ? "Resuming..." : "Resume Subscription"}
                             </button>
@@ -162,7 +184,7 @@ export default function SubscriptionManager({ user, className = "" }) {
                                 type="button"
                                 onClick={handleCancel}
                                 disabled={actionLoading === "cancel"}
-                                className="border border-rose-300 px-4 py-2 font-mono text-xs uppercase tracking-[0.16em] text-rose-700 transition-colors hover:bg-rose-50 disabled:opacity-50"
+                                className="inline-flex items-center justify-center border border-accent bg-transparent px-5 py-3 font-grotesk text-sm font-semibold uppercase tracking-[0.08em] text-accent transition-colors hover:bg-accent hover:text-paper disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 {actionLoading === "cancel" ? "Canceling..." : "Cancel Subscription"}
                             </button>

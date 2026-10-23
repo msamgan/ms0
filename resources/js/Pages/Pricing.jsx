@@ -144,7 +144,8 @@ export default function Pricing({ plans: serverPlans = null }) {
             })
             .catch((err) => {
                 setLoadingPlan(null)
-                const message = err.response?.data?.message || "Failed to initialize checkout. Please try again."
+                const message =
+                    err.response?.data?.message || "Failed to initialize checkout. Please try again."
                 alertify.error(message)
             })
     }
@@ -216,7 +217,9 @@ export default function Pricing({ plans: serverPlans = null }) {
                                     onClick={() => setAnnual(value)}
                                     aria-pressed={annual === value}
                                     className={`px-5 py-2 transition-colors ${
-                                        annual === value ? "bg-ink text-paper" : "text-ink hover:text-accent-dark"
+                                        annual === value
+                                            ? "bg-ink text-paper"
+                                            : "text-ink hover:text-accent-dark"
                                     }`}
                                 >
                                     {label}
@@ -247,10 +250,14 @@ export default function Pricing({ plans: serverPlans = null }) {
                                         </th>
                                         {plans.map((plan) => {
                                             const currentPriceId = plan.priceIds
-                                                ? (annual ? plan.priceIds.annual : plan.priceIds.monthly)
+                                                ? annual
+                                                    ? plan.priceIds.annual
+                                                    : plan.priceIds.monthly
                                                 : null
-                                            const isCurrent =
-                                                Boolean(currentPriceId && user?.subscription?.price_id === currentPriceId)
+                                            const isCurrent = Boolean(
+                                                currentPriceId &&
+                                                    user?.subscription?.price_id === currentPriceId
+                                            )
 
                                             return (
                                                 <th
@@ -265,14 +272,18 @@ export default function Pricing({ plans: serverPlans = null }) {
                                                         {plan.price ? (
                                                             <>
                                                                 <span className="font-editorial text-4xl">
-                                                                    {annual ? plan.price.annual : plan.price.monthly}
+                                                                    {annual
+                                                                        ? plan.price.annual
+                                                                        : plan.price.monthly}
                                                                 </span>
                                                                 <span className="ml-1 font-mono text-[10px] font-normal uppercase tracking-[0.16em] text-muted">
                                                                     {annual ? "/ yr" : "/ mo"}
                                                                 </span>
                                                             </>
                                                         ) : (
-                                                            <span className="font-editorial text-3xl">Custom</span>
+                                                            <span className="font-editorial text-3xl">
+                                                                Custom
+                                                            </span>
                                                         )}
                                                     </div>
                                                     <a

@@ -8,11 +8,25 @@ import { useState, useEffect } from "react"
 
 export default function Edit({ auth, mustVerifyEmail, status }) {
     const [animateSections, setAnimateSections] = useState(false)
-    const [activeTab, setActiveTab] = useState("profile")
+    const [activeTab, setActiveTab] = useState(() => {
+        if (typeof window !== "undefined") {
+            const savedTab = localStorage.getItem("profile_active_tab")
+            if (["profile", "subscription", "password", "danger"].includes(savedTab)) {
+                return savedTab
+            }
+        }
+        return "profile"
+    })
 
     useEffect(() => {
         setAnimateSections(true)
     }, [])
+
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            localStorage.setItem("profile_active_tab", activeTab)
+        }
+    }, [activeTab])
 
     const tabs = [
         {
@@ -211,14 +225,21 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
 
                                 {activeTab === "subscription" && (
                                     <div
-                                        className={`transition-all duration-500 ${
+                                        className={`border border-line bg-paper transition-all duration-500 ${
                                             animateSections
                                                 ? "translate-y-0 opacity-100"
                                                 : "translate-y-4 opacity-0"
                                         }`}
                                         style={{ transitionDelay: "100ms" }}
                                     >
-                                        <SubscriptionManager user={auth.user} />
+                                        <div className="border-b border-line px-6 py-4">
+                                            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
+                                                02 / Billing
+                                            </p>
+                                        </div>
+                                        <div className="p-6">
+                                            <SubscriptionManager user={auth.user} className="max-w-2xl" />
+                                        </div>
                                     </div>
                                 )}
 
@@ -233,7 +254,7 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
                                     >
                                         <div className="border-b border-line px-6 py-4">
                                             <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
-                                                02 / Security
+                                                03 / Security
                                             </p>
                                         </div>
                                         <div className="p-6">
@@ -253,7 +274,7 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
                                     >
                                         <div className="border-b border-line px-6 py-4">
                                             <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
-                                                03 / Delete
+                                                04 / Delete
                                             </p>
                                         </div>
                                         <div className="p-6">

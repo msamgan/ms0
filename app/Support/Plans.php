@@ -5,8 +5,11 @@ namespace App\Support;
 class Plans
 {
     public const string REDIRECT_MONTHLY = 'pri_01m5jg0yac8xnjkw6assdmxgga';
+
     public const string REDIRECT_ANNUAL = 'pri_01m5jg2fkxbnc0a7dzhb1gzp8z';
+
     public const string REDIRECT_PLUS_MONTHLY = 'pri_01m5jg4h9xgxbb3549cttxpws1';
+
     public const string REDIRECT_PLUS_ANNUAL = 'pri_01m5jg5fbpp64p31r1ze1t9dt2';
 
     /**
