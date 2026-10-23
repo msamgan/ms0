@@ -2,7 +2,6 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout"
 import DeleteUserForm from "./Partials/DeleteUserForm"
 import UpdatePasswordForm from "./Partials/UpdatePasswordForm"
 import UpdateProfileInformationForm from "./Partials/UpdateProfileInformationForm"
-import SubscriptionManager from "./Partials/SubscriptionManager"
 import { Head } from "@inertiajs/react"
 import { useState, useEffect } from "react"
 
@@ -11,7 +10,7 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
     const [activeTab, setActiveTab] = useState(() => {
         if (typeof window !== "undefined") {
             const savedTab = localStorage.getItem("profile_active_tab")
-            if (["profile", "subscription", "password", "danger"].includes(savedTab)) {
+            if (["profile", "password", "danger"].includes(savedTab)) {
                 return savedTab
             }
         }
@@ -51,30 +50,9 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
             )
         },
         {
-            id: "subscription",
-            name: "Subscription",
-            meta: "02 / Billing",
-            icon: (
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
-                    />
-                </svg>
-            )
-        },
-        {
             id: "password",
             name: "Password",
-            meta: "03 / Security",
+            meta: "02 / Security",
             icon: (
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -95,7 +73,7 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
         {
             id: "danger",
             name: "Danger",
-            meta: "04 / Delete",
+            meta: "03 / Delete",
             icon: (
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -223,26 +201,6 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
                                     </div>
                                 )}
 
-                                {activeTab === "subscription" && (
-                                    <div
-                                        className={`border border-line bg-paper transition-all duration-500 ${
-                                            animateSections
-                                                ? "translate-y-0 opacity-100"
-                                                : "translate-y-4 opacity-0"
-                                        }`}
-                                        style={{ transitionDelay: "100ms" }}
-                                    >
-                                        <div className="border-b border-line px-6 py-4">
-                                            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
-                                                02 / Billing
-                                            </p>
-                                        </div>
-                                        <div className="p-6">
-                                            <SubscriptionManager user={auth.user} className="max-w-2xl" />
-                                        </div>
-                                    </div>
-                                )}
-
                                 {activeTab === "password" && (
                                     <div
                                         className={`border border-line bg-paper transition-all duration-500 ${
@@ -254,7 +212,7 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
                                     >
                                         <div className="border-b border-line px-6 py-4">
                                             <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
-                                                03 / Security
+                                                02 / Security
                                             </p>
                                         </div>
                                         <div className="p-6">
@@ -274,7 +232,7 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
                                     >
                                         <div className="border-b border-line px-6 py-4">
                                             <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
-                                                04 / Delete
+                                                03 / Delete
                                             </p>
                                         </div>
                                         <div className="p-6">

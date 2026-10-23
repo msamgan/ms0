@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BillingController;
 use App\Http\Controllers\HyperlinkController;
 use App\Support\Plans;
 use Illuminate\Support\Facades\Route;
@@ -15,6 +16,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         'mustVerifyEmail' => true,
         'status' => session('status'),
     ])->name('profile.edit');
+    Route::get('/billing', [BillingController::class, 'index'])->name('billing');
+    Route::get('/billing/invoices/{transaction}/download', [BillingController::class, 'downloadInvoice'])
+        ->name('billing.invoices.download');
 
     Route::inertia('/links', 'Links')->name('links');
     Route::inertia('/tags', 'Tags')->name('tags');

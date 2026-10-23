@@ -77,6 +77,7 @@ export default function Header({ isAuthenticated = false, user = null }) {
                             </Dropdown.Trigger>
                             <Dropdown.Content contentClasses="bg-paper">
                                 <Dropdown.Link href={route("profile.edit")}>Profile</Dropdown.Link>
+                                <Dropdown.Link href={route("billing")}>Billing</Dropdown.Link>
                                 <Dropdown.Link href={route("logout")} method="post" as="button">
                                     Log out
                                 </Dropdown.Link>
@@ -148,6 +149,13 @@ export default function Header({ isAuthenticated = false, user = null }) {
                                 onClick={() => setMobileMenuOpen(false)}
                             >
                                 Profile
+                            </Link>
+                            <Link
+                                href={route("billing")}
+                                className={mobileLinkClass}
+                                onClick={() => setMobileMenuOpen(false)}
+                            >
+                                Billing
                             </Link>
                             <Link
                                 href={route("logout")}
