@@ -1,31 +1,45 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Head, usePage } from "@inertiajs/react"
+import axios from "axios"
+import alertify from "alertifyjs"
 import Header from "@/Components/Header.jsx"
 import Footer from "@/Components/Footer.jsx"
 import Reveal from "@/Components/Home/Reveal"
 
-const plans = [
+const buildPlans = (plansData = {}) => [
     {
         name: "Free",
+        tier: "Free",
         price: { monthly: "$0", annual: "$0" },
         cta: "Get started",
         href: "register"
     },
     {
         name: "Redirect",
+        tier: "Redirect",
         price: { monthly: "$5", annual: "$50" },
+        priceIds: {
+            monthly: plansData?.redirect_monthly?.price_id || plansData?.redirect_monthly || "",
+            annual: plansData?.redirect_annual?.price_id || plansData?.redirect_annual || ""
+        },
         cta: "Choose Redirect",
         href: "register"
     },
     {
         name: "Redirect Plus",
+        tier: "Redirect Plus",
         price: { monthly: "$10", annual: "$100" },
+        priceIds: {
+            monthly: plansData?.redirect_plus_monthly?.price_id || plansData?.redirect_plus_monthly || "",
+            annual: plansData?.redirect_plus_annual?.price_id || plansData?.redirect_plus_annual || ""
+        },
         cta: "Choose Plus",
         href: "register",
         highlight: true
     },
     {
         name: "Talk to us",
+        tier: "Enterprise",
         price: null,
         cta: "Contact us",
         href: "mailto:support@ms0.io"
@@ -60,12 +74,113 @@ function Cell({ value }) {
     return <span className="font-semibold">{value}</span>
 }
 
-export default function Pricing() {
-    const { auth } = usePage().props
-    const user = auth.user
+export default function Pricing({ plans: serverPlans = null }) {
+    const pageProps = usePage().props
+    const user = pageProps.auth?.user
     const [annual, setAnnual] = useState(false)
+    const [loadingPlan, setLoadingPlan] = useState(null)
+    const [plansData, setPlansData] = useState(serverPlans || pageProps.plans || null)
 
-    const ctaHref = (plan) => (plan.href.startsWith("mailto:") ? plan.href : route(plan.href))
+    useEffect(() => {
+        if (!plansData) {
+            axios
+                .get(route("service.plans"))
+                .then(({ data }) => {
+                    if (data?.plans) {
+                        setPlansData(data.plans)
+                    }
+                })
+                .catch(() => {})
+        }
+    }, [plansData])
+
+    const plans = buildPlans(plansData)
+
+    const handlePlanAction = (e, plan) => {
+        if (!plan.priceIds) {
+            return
+        }
+
+        if (!user) {
+            return
+        }
+
+        e.preventDefault()
+
+        const priceId = annual ? plan.priceIds.annual : plan.priceIds.monthly
+        if (!priceId) {
+            alertify.error("Plan configuration is not available.")
+            return
+        }
+
+        const isCurrentPlan = user?.subscription?.price_id === priceId
+
+        if (isCurrentPlan) {
+            alertify.message("You are already subscribed to this plan.")
+            return
+        }
+
+        setLoadingPlan(plan.name)
+
+        axios
+            .post(route("subscription.checkout"), { price_id: priceId })
+            .then(({ data }) => {
+                setLoadingPlan(null)
+                if (data.checkout) {
+                    if (window.Paddle?.Checkout) {
+                        // Cashier defaults to inline mode (needs a frame container); force the overlay.
+                        window.Paddle.Checkout.open({
+                            ...data.checkout,
+                            settings: {
+                                ...data.checkout.settings,
+                                displayMode: "overlay",
+                                variant: "one-page"
+                            }
+                        })
+                    } else if (data.checkout.url) {
+                        window.location.href = data.checkout.url
+                    }
+                }
+            })
+            .catch((err) => {
+                setLoadingPlan(null)
+                const message = err.response?.data?.message || "Failed to initialize checkout. Please try again."
+                alertify.error(message)
+            })
+    }
+
+    const getPlanCtaLabel = (plan) => {
+        if (loadingPlan === plan.name) {
+            return "Loading..."
+        }
+
+        if (plan.name === "Free") {
+            if (!user) return plan.cta
+            return !user?.subscription?.is_subscribed ? "Current Plan" : "Free Tier"
+        }
+
+        if (plan.priceIds && user) {
+            const currentPriceId = annual ? plan.priceIds.annual : plan.priceIds.monthly
+            if (currentPriceId && user?.subscription?.price_id === currentPriceId) {
+                return "Current Plan"
+            }
+            if (user?.subscription?.is_subscribed) {
+                return `Switch to ${plan.name}`
+            }
+        }
+
+        return plan.cta
+    }
+
+    const getPlanHref = (plan) => {
+        if (plan.href.startsWith("mailto:")) {
+            return plan.href
+        }
+        if (user && plan.name === "Free") {
+            return route("dashboard")
+        }
+        return route(plan.href)
+    }
 
     return (
         <>
@@ -130,41 +245,52 @@ export default function Pricing() {
                                                 Compare plans
                                             </span>
                                         </th>
-                                        {plans.map((plan) => (
-                                            <th
-                                                key={plan.name}
-                                                scope="col"
-                                                className={`border-b border-ink p-4 pb-6 ${
-                                                    plan.highlight ? "bg-ink/5" : ""
-                                                }`}
-                                            >
-                                                <div className="text-xl font-extrabold">{plan.name}</div>
-                                                <div className="mt-3 min-h-[3rem]">
-                                                    {plan.price ? (
-                                                        <>
-                                                            <span className="font-editorial text-4xl">
-                                                                {annual ? plan.price.annual : plan.price.monthly}
-                                                            </span>
-                                                            <span className="ml-1 font-mono text-[10px] font-normal uppercase tracking-[0.16em] text-muted">
-                                                                {annual ? "/ yr" : "/ mo"}
-                                                            </span>
-                                                        </>
-                                                    ) : (
-                                                        <span className="font-editorial text-3xl">Custom</span>
-                                                    )}
-                                                </div>
-                                                <a
-                                                    href={ctaHref(plan)}
-                                                    className={`mt-4 block border px-3 py-2 text-center font-mono text-[10px] font-normal uppercase tracking-[0.16em] transition-colors ${
-                                                        plan.highlight
-                                                            ? "border-ink bg-ink text-paper hover:bg-accent-dark"
-                                                            : "border-line text-ink hover:text-accent-dark"
+                                        {plans.map((plan) => {
+                                            const currentPriceId = plan.priceIds
+                                                ? (annual ? plan.priceIds.annual : plan.priceIds.monthly)
+                                                : null
+                                            const isCurrent =
+                                                Boolean(currentPriceId && user?.subscription?.price_id === currentPriceId)
+
+                                            return (
+                                                <th
+                                                    key={plan.name}
+                                                    scope="col"
+                                                    className={`border-b border-ink p-4 pb-6 ${
+                                                        plan.highlight ? "bg-ink/5" : ""
                                                     }`}
                                                 >
-                                                    {plan.cta}
-                                                </a>
-                                            </th>
-                                        ))}
+                                                    <div className="text-xl font-extrabold">{plan.name}</div>
+                                                    <div className="mt-3 min-h-[3rem]">
+                                                        {plan.price ? (
+                                                            <>
+                                                                <span className="font-editorial text-4xl">
+                                                                    {annual ? plan.price.annual : plan.price.monthly}
+                                                                </span>
+                                                                <span className="ml-1 font-mono text-[10px] font-normal uppercase tracking-[0.16em] text-muted">
+                                                                    {annual ? "/ yr" : "/ mo"}
+                                                                </span>
+                                                            </>
+                                                        ) : (
+                                                            <span className="font-editorial text-3xl">Custom</span>
+                                                        )}
+                                                    </div>
+                                                    <a
+                                                        href={getPlanHref(plan)}
+                                                        onClick={(e) => handlePlanAction(e, plan)}
+                                                        className={`mt-4 block border px-3 py-2 text-center font-mono text-[10px] font-normal uppercase tracking-[0.16em] transition-colors ${
+                                                            isCurrent
+                                                                ? "border-accent-dark bg-accent-dark/10 text-accent-dark font-semibold"
+                                                                : plan.highlight
+                                                                  ? "border-ink bg-ink text-paper hover:bg-accent-dark hover:border-accent-dark"
+                                                                  : "border-line text-ink hover:text-accent-dark hover:border-accent-dark"
+                                                        }`}
+                                                    >
+                                                        {getPlanCtaLabel(plan)}
+                                                    </a>
+                                                </th>
+                                            )
+                                        })}
                                     </tr>
                                 </thead>
                                 <tbody className="text-sm">

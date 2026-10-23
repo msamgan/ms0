@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Paddle\Billable;
+use Laravel\Paddle\Subscription;
+use App\Support\Plans;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -45,6 +47,94 @@ class User extends Authenticatable implements MustVerifyEmail
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+        ];
+    }
+
+    /**
+     * Determine if the user has an active or valid subscription.
+     */
+    public function isSubscribed(): bool
+    {
+        return $this->subscribed();
+    }
+
+    /**
+     * Determine if the user is subscribed to the Redirect tier (or higher).
+     */
+    public function subscribedToRedirect(): bool
+    {
+        return $this->subscribedToPrice([
+            Plans::REDIRECT_MONTHLY,
+            Plans::REDIRECT_ANNUAL,
+            Plans::REDIRECT_PLUS_MONTHLY,
+            Plans::REDIRECT_PLUS_ANNUAL,
+        ]);
+    }
+
+    /**
+     * Determine if the user is subscribed specifically to the Redirect Plus tier.
+     */
+    public function subscribedToRedirectPlus(): bool
+    {
+        return $this->subscribedToPrice([
+            Plans::REDIRECT_PLUS_MONTHLY,
+            Plans::REDIRECT_PLUS_ANNUAL,
+        ]);
+    }
+
+    /**
+     * Get the active or on-grace-period subscription instance.
+     */
+    public function activeSubscription(): ?Subscription
+    {
+        $subscription = $this->subscription('default');
+
+        if ($subscription && $subscription->valid()) {
+            return $subscription;
+        }
+
+        return null;
+    }
+
+    /**
+     * Get a comprehensive summary of the user's subscription for frontend consumption.
+     *
+     * @return array<string, mixed>
+     */
+    public function subscriptionSummary(): array
+    {
+        $subscription = $this->activeSubscription();
+
+        if (! $subscription) {
+            return [
+                'is_subscribed' => false,
+                'tier' => 'Free',
+                'plan_name' => 'Free Plan',
+                'price_id' => null,
+                'interval' => null,
+                'status' => 'inactive',
+                'on_grace_period' => false,
+                'ends_at' => null,
+                'paddle_id' => null,
+            ];
+        }
+
+        $firstItem = $subscription->items->first();
+        $priceId = $firstItem ? $firstItem->price_id : null;
+        $plan = Plans::findByPriceId($priceId);
+
+        return [
+            'is_subscribed' => true,
+            'tier' => $plan['tier'] ?? 'Subscriber',
+            'plan_name' => $plan['name'] ?? 'Active Subscription',
+            'price_id' => $priceId,
+            'interval' => $plan['interval'] ?? null,
+            'status' => $subscription->status,
+            'on_grace_period' => $subscription->onGracePeriod(),
+            'ends_at' => $subscription->ends_at?->toFormattedDateString(),
+            'paddle_id' => $subscription->paddle_id,
+            'paused' => $subscription->paused(),
+            'past_due' => $subscription->pastDue(),
         ];
     }
 

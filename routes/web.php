@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HyperlinkController;
+use App\Support\Plans;
 use Illuminate\Support\Facades\Route;
 
 Route::inertia('/', 'Welcome', [
@@ -22,7 +23,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 require __DIR__ . '/auth.php';
 
 Route::inertia('/documentation/api', 'ApiDocumentation')->name('documentation.api');
-Route::inertia('/pricing', 'Pricing')->name('pricing');
+Route::inertia('/pricing', 'Pricing', [
+    'plans' => fn () => Plans::all(),
+])->name('pricing');
 Route::inertia('/privacy', 'Privacy')->name('privacy');
 
 // this is the route that redirects the user to the original URL; this has to be the last route

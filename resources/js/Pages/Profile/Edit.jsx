@@ -2,6 +2,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout"
 import DeleteUserForm from "./Partials/DeleteUserForm"
 import UpdatePasswordForm from "./Partials/UpdatePasswordForm"
 import UpdateProfileInformationForm from "./Partials/UpdateProfileInformationForm"
+import SubscriptionManager from "./Partials/SubscriptionManager"
 import { Head } from "@inertiajs/react"
 import { useState, useEffect } from "react"
 
@@ -36,9 +37,30 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
             )
         },
         {
+            id: "subscription",
+            name: "Subscription",
+            meta: "02 / Billing",
+            icon: (
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                >
+                    <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
+                    />
+                </svg>
+            )
+        },
+        {
             id: "password",
             name: "Password",
-            meta: "02 / Security",
+            meta: "03 / Security",
             icon: (
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -59,7 +81,7 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
         {
             id: "danger",
             name: "Danger",
-            meta: "03 / Delete",
+            meta: "04 / Delete",
             icon: (
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -184,6 +206,19 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
                                                 className="max-w-2xl"
                                             />
                                         </div>
+                                    </div>
+                                )}
+
+                                {activeTab === "subscription" && (
+                                    <div
+                                        className={`transition-all duration-500 ${
+                                            animateSections
+                                                ? "translate-y-0 opacity-100"
+                                                : "translate-y-4 opacity-0"
+                                        }`}
+                                        style={{ transitionDelay: "100ms" }}
+                                    >
+                                        <SubscriptionManager user={auth.user} />
                                     </div>
                                 )}
 
