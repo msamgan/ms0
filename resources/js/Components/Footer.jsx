@@ -34,6 +34,14 @@ export default function Footer() {
                             </li>
                             <li>
                                 <a
+                                    href={route("pricing")}
+                                    className="text-ink hover:text-accent-dark transition-colors"
+                                >
+                                    Pricing
+                                </a>
+                            </li>
+                            <li>
+                                <a
                                     href={route("privacy")}
                                     className="text-ink hover:text-accent-dark transition-colors"
                                 >
