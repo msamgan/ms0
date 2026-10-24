@@ -4,7 +4,7 @@
     "scripts": {
         "dev": "vite",
         "build": "vite build",
-        "lint": "prettier --write . && ./vendor/bin/pint"
+        "lint": "prettier --write . && ./vendor/bin/pint && php artisan env:keys-check --auto-add && php artisan env:sync-keys"
     },
     "devDependencies": {
         "@headlessui/react": "^2.0.0",
